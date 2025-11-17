@@ -7,24 +7,52 @@ from typing import Dict, List, Optional
 
 class FirebaseService:
     def __init__(self):
-        # Set Google Cloud Project environment variable
-        project_id = os.getenv('FIREBASE_PROJECT_ID', 'agenda-44f53')
-        os.environ['GOOGLE_CLOUD_PROJECT'] = project_id
+        self._db = None
+        self._bucket = None
+        self._initialized = False
+    
+    def _initialize(self):
+        """Lazy initialization of Firebase"""
+        if self._initialized:
+            return
         
-        # Initialize Firebase Admin SDK
-        if not firebase_admin._apps:
-            # Initialize with project ID from environment
-            firebase_admin.initialize_app(options={
-                'projectId': project_id,
-                'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET', 'agenda-44f53.firebasestorage.app')
-            })
-        
-        self.db = firestore.client()
         try:
-            self.bucket = storage.bucket()
+            # Set Google Cloud Project environment variable
+            project_id = os.getenv('FIREBASE_PROJECT_ID', 'agenda-44f53')
+            os.environ['GOOGLE_CLOUD_PROJECT'] = project_id
+            
+            # Initialize Firebase Admin SDK
+            if not firebase_admin._apps:
+                firebase_admin.initialize_app(options={
+                    'projectId': project_id,
+                    'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET', 'agenda-44f53.firebasestorage.app')
+                })
+            
+            self._db = firestore.client()
+            try:
+                self._bucket = storage.bucket()
+            except Exception as e:
+                print(f'Storage bucket not available: {e}')
+                self._bucket = None
+            
+            self._initialized = True
         except Exception as e:
-            print(f'Storage bucket not available: {e}')
-            self.bucket = None
+            print(f'Firebase initialization error: {e}')
+            # Mock implementation for development
+            self._db = None
+            self._bucket = None
+    
+    @property
+    def db(self):
+        if not self._initialized:
+            self._initialize()
+        return self._db
+    
+    @property
+    def bucket(self):
+        if not self._initialized:
+            self._initialize()
+        return self._bucket
     
     # Session Methods
     async def create_session(self, user_id: str = None) -> Dict:
