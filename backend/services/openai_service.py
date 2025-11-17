@@ -7,15 +7,6 @@ class OpenAIService:
     def __init__(self):
         self._client = None
         self.model = 'gpt-4o-mini'  # Using GPT-4o-mini for cost efficiency
-    
-    @property
-    def client(self):
-        if not self._client:
-            api_key = os.getenv('OPENAI_API_KEY')
-            if not api_key:
-                raise ValueError('OPENAI_API_KEY not set in environment')
-            self._client = OpenAI(api_key=api_key)
-        return self._client
         
         # System prompts por departamento
         self.system_prompts = {
