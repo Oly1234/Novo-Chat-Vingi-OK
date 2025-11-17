@@ -44,7 +44,7 @@ export const ChatContainer = () => {
           <div className="vingi-chat-header">
             <div className="vingi-chat-header__left">
               <div className="vingi-chat-header__logo">
-                <MessageCircle size={20} />
+                <img src="/logo.png" alt="Vingi" />
               </div>
               <div className="vingi-chat-header__info">
                 <h3 className="vingi-chat-header__title">Vingi Têxtil</h3>
