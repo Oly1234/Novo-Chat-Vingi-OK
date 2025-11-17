@@ -25,16 +25,20 @@ export const ChatInput = () => {
 
     addMessage(message);
     setInputValue('');
-    // Files will be cleared after API response
+    
+    // Clear files immediately for better UX
+    uploadedFiles.forEach(f => removeFile(f.id));
 
-    // TODO: Send to API
-    // Simulate AI response
+    // TODO: Send to API - will be integrated with backend
+    // Simulate AI response for now
+    setIsLoading(true);
     setTimeout(() => {
+      setIsLoading(false);
       addMessage({
         sender: 'ai',
         text: 'Obrigado pela sua mensagem! Estou processando sua solicitação...'
       });
-    }, 1000);
+    }, 1500);
   };
 
   const handleKeyPress = (e) => {
