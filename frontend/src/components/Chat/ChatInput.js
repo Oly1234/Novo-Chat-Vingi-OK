@@ -33,14 +33,14 @@ export const ChatInput = () => {
     }
   };
 
-  const handleFileSelect = (e) => {
+  const handleFileSelect = async (e) => {
     const files = Array.from(e.target.files);
     
-    files.forEach(file => {
+    for (const file of files) {
       // Validate file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
         alert(`Arquivo ${file.name} é muito grande. Máximo: 5MB`);
-        return;
+        continue;
       }
 
       // Validate file type
@@ -55,17 +55,25 @@ export const ChatInput = () => {
 
       if (!validTypes.includes(file.type)) {
         alert(`Tipo de arquivo ${file.name} não suportado`);
-        return;
+        continue;
       }
 
-      addFile({
-        id: Date.now() + Math.random(),
-        file,
-        name: file.name,
-        type: file.type,
-        size: file.size
-      });
-    });
+      // Upload file
+      const uploadedFile = await uploadFile(file);
+      
+      if (uploadedFile) {
+        addFile({
+          id: Date.now() + Math.random(),
+          file,
+          name: uploadedFile.filename,
+          type: uploadedFile.contentType,
+          size: uploadedFile.size,
+          url: uploadedFile.url
+        });
+      } else {
+        alert(`Falha ao fazer upload de ${file.name}`);
+      }
+    }
 
     e.target.value = null;
   };
