@@ -101,10 +101,15 @@ class FirebaseService:
             'sender': sender,  # user, ai, agent, system
             'text': text,
             'attachments': attachments or [],
-            'timestamp': firestore.SERVER_TIMESTAMP
+            'timestamp': datetime.now(datetime.timezone.utc if hasattr(datetime, 'timezone') else None)
         }
         
-        self.db.collection('messages').document(message_id).set(message_data)
+        try:
+            if self.db:
+                self.db.collection('messages').document(message_id).set(message_data)
+        except Exception as e:
+            print(f'Firebase message creation skipped: {e}')
+        
         return {**message_data, 'id': message_id}
     
     async def get_messages(self, session_id: str, limit: int = 50) -> List[Dict]:
