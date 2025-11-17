@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ChatProvider } from './contexts/ChatContext';
 import { ChatContainer } from './components/Chat/ChatContainer';
+import { DeveloperCredit } from './components/UI/DeveloperCredit';
 import '@/App.css';
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
       </div>
       
       <ChatContainer />
+      <DeveloperCredit />
     </div>
   );
 };
