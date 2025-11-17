@@ -1,0 +1,164 @@
+.vingi-message {
+  display: flex;
+  gap: 0.75rem;
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vingi-message--user {
+  flex-direction: row-reverse;
+}
+
+.vingi-message--system {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.vingi-message__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.vingi-message--ai .vingi-message__avatar {
+  background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+  color: white;
+}
+
+.vingi-message--user .vingi-message__avatar {
+  background: var(--surface-secondary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.vingi-message__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 75%;
+}
+
+.vingi-message--user .vingi-message__content {
+  align-items: flex-end;
+}
+
+.vingi-message__bubble {
+  padding: 0.875rem 1.125rem;
+  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.vingi-message--ai .vingi-message__bubble {
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+}
+
+.vingi-message--user .vingi-message__bubble {
+  background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+[data-theme="dark"] .vingi-message--user .vingi-message__bubble {
+  background: linear-gradient(135deg, #4CC2FF 0%, #0078D4 100%);
+}
+
+.vingi-message--system .vingi-message__text {
+  padding: 0.5rem 1rem;
+  background: var(--surface-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.vingi-message__text {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.9375rem;
+}
+
+.vingi-message__time {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  padding: 0 0.5rem;
+}
+
+.vingi-message__attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.vingi-message__attachment {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.vingi-message__image-preview {
+  max-width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.vingi-message__image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.vingi-message__file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.vingi-message--user .vingi-message__file {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.vingi-message__file:hover {
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+.vingi-message__file span {
+  flex: 1;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .vingi-message__content {
+    max-width: 85%;
+  }
+}

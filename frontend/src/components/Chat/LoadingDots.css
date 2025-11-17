@@ -1,0 +1,57 @@
+.vingi-loading {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.vingi-loading__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+  color: white;
+  flex-shrink: 0;
+}
+
+.vingi-loading__bubble {
+  padding: 0.875rem 1.125rem;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
+}
+
+.vingi-loading__dots {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.vingi-loading__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  animation: dotBounce 1.4s infinite ease-in-out;
+}
+
+.vingi-loading__dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.vingi-loading__dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotBounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
