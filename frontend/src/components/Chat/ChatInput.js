@@ -4,7 +4,7 @@ import { useChat } from '../../contexts/ChatContext';
 import './ChatInput.css';
 
 export const ChatInput = () => {
-  const { addMessage, uploadedFiles, addFile, removeFile, isLoading, chatMode } = useChat();
+  const { addMessage, uploadedFiles, addFile, removeFile, isLoading, setIsLoading, chatMode } = useChat();
   const [inputValue, setInputValue] = useState('');
   const fileInputRef = useRef(null);
 
