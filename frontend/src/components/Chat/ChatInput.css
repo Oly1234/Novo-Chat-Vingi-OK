@@ -1,0 +1,168 @@
+.vingi-chat-input {
+  background: var(--surface-primary);
+  border-top: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.vingi-chat-input__files {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.vingi-chat-input__file {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.vingi-chat-input__file-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.vingi-chat-input__file-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.vingi-chat-input__file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vingi-chat-input__file-size {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.vingi-chat-input__file-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.vingi-chat-input__file-remove:hover {
+  background: rgba(209, 52, 56, 0.1);
+  color: #D13438;
+}
+
+.vingi-chat-input__container {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.vingi-chat-input__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.vingi-chat-input__button:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.vingi-chat-input__textarea {
+  flex: 1;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.vingi-chat-input__textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+[data-theme="dark"] .vingi-chat-input__textarea:focus {
+  border-color: #4CC2FF;
+  box-shadow: 0 0 0 3px rgba(76, 194, 255, 0.1);
+}
+
+.vingi-chat-input__textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.vingi-chat-input__textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vingi-chat-input__send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.vingi-chat-input__send:hover:not(:disabled) {
+  background: linear-gradient(135deg, #005A9E 0%, #004578 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+}
+
+.vingi-chat-input__send:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.vingi-chat-input__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
