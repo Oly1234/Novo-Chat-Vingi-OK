@@ -1,8 +1,22 @@
 import React from 'react';
 import { Bot, MessageSquare, Zap, Shield } from 'lucide-react';
+import { useChat } from '../../contexts/ChatContext';
 import './WelcomeScreen.css';
 
 export const WelcomeScreen = () => {
+  const { sendMessage } = useChat();
+
+  const suggestions = [
+    'Quero fazer um orçamento',
+    'Como funcionam as amostras?',
+    'Quero trabalhar na empresa',
+    'Falar sobre estampas'
+  ];
+
+  const handleSuggestionClick = (text) => {
+    sendMessage(text);
+  };
+
   return (
     <div className="vingi-welcome" data-testid="welcome-screen">
       <div className="vingi-welcome__hero">
@@ -38,10 +52,15 @@ export const WelcomeScreen = () => {
       <div className="vingi-welcome__suggestions">
         <p className="vingi-welcome__suggestions-title">Tente perguntar:</p>
         <div className="vingi-welcome__suggestion-chips">
-          <button className="vingi-welcome__chip">Quero fazer um orçamento</button>
-          <button className="vingi-welcome__chip">Como funcionam as amostras?</button>
-          <button className="vingi-welcome__chip">Quero trabalhar na empresa</button>
-          <button className="vingi-welcome__chip">Falar sobre estampas</button>
+          {suggestions.map((suggestion, index) => (
+            <button 
+              key={index}
+              className="vingi-welcome__chip"
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              {suggestion}
+            </button>
+          ))}
         </div>
       </div>
     </div>
