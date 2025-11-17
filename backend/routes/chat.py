@@ -60,12 +60,12 @@ async def send_message(request: SendMessageRequest):
     """Send a message and get AI response"""
     try:
         # Get session
-        session = await firebase_service.get_session(request.sessionId)
+        session = await storage_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Add user message to Firestore
-        user_message = await firebase_service.add_message(
+        user_message = await storage_service.add_message(
             session_id=request.sessionId,
             sender='user',
             text=request.text,
@@ -73,7 +73,7 @@ async def send_message(request: SendMessageRequest):
         )
         
         # Get conversation history
-        messages = await firebase_service.get_messages(request.sessionId)
+        messages = await storage_service.get_messages(request.sessionId)
         
         # Get AI response
         ai_response = await openai_service.chat(
@@ -82,7 +82,7 @@ async def send_message(request: SendMessageRequest):
         )
         
         # Save AI response
-        ai_message = await firebase_service.add_message(
+        ai_message = await storage_service.add_message(
             session_id=request.sessionId,
             sender='ai',
             text=ai_response['text'],
@@ -91,7 +91,7 @@ async def send_message(request: SendMessageRequest):
         
         # Update session with detected department
         if ai_response.get('department') and not session.get('department'):
-            await firebase_service.update_session(
+            await storage_service.update_session(
                 request.sessionId,
                 {'department': ai_response['department']}
             )
@@ -133,7 +133,7 @@ async def upload_file(
             raise HTTPException(status_code=400, detail="File type not allowed")
         
         # Upload to Firebase Storage
-        url = await firebase_service.upload_file(
+        url = await storage_service.upload_file(
             file_data=file_content,
             filename=file.filename,
             content_type=file.content_type
@@ -160,26 +160,26 @@ async def request_handoff(request: HandoffRequest):
     """Request human handoff"""
     try:
         # Get session
-        session = await firebase_service.get_session(request.sessionId)
+        session = await storage_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Update session status
-        await firebase_service.update_session(
+        await storage_service.update_session(
             request.sessionId,
             {'status': 'waiting'}
         )
         
         # Add to queue
         department = session.get('department', 'SUPORTE')
-        queue_item = await firebase_service.add_to_queue(
+        queue_item = await storage_service.add_to_queue(
             session_id=request.sessionId,
             department=department,
             priority=1
         )
         
         # Add system message
-        await firebase_service.add_message(
+        await storage_service.add_message(
             session_id=request.sessionId,
             sender='system',
             text='Você foi adicionado à fila de atendimento. Em breve um atendente entrará em contato.',
@@ -203,12 +203,12 @@ async def get_whatsapp_url(request: GetWhatsAppURLRequest):
     """Get WhatsApp URL for specific department"""
     try:
         # Get session
-        session = await firebase_service.get_session(request.sessionId)
+        session = await storage_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Get WhatsApp config
-        whatsapp_config = await firebase_service.get_whatsapp_config()
+        whatsapp_config = await storage_service.get_whatsapp_config()
         
         # Find department
         department_config = next(
@@ -244,11 +244,11 @@ async def get_whatsapp_url(request: GetWhatsAppURLRequest):
 async def get_session(session_id: str):
     """Get session details"""
     try:
-        session = await firebase_service.get_session(session_id)
+        session = await storage_service.get_session(session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
-        messages = await firebase_service.get_messages(session_id)
+        messages = await storage_service.get_messages(session_id)
         
         return {
             "session": session,
