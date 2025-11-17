@@ -4,7 +4,7 @@ import { useChat } from '../../contexts/ChatContext';
 import './ChatInput.css';
 
 export const ChatInput = () => {
-  const { addMessage, uploadedFiles, addFile, removeFile, isLoading, setIsLoading, chatMode } = useChat();
+  const { sendMessage, uploadedFiles, addFile, removeFile, isLoading, chatMode, uploadFile } = useChat();
   const [inputValue, setInputValue] = useState('');
   const fileInputRef = useRef(null);
 
@@ -12,33 +12,18 @@ export const ChatInput = () => {
     if (!inputValue.trim() && uploadedFiles.length === 0) return;
     if (isLoading) return;
 
-    const message = {
-      sender: 'user',
-      text: inputValue.trim(),
-      attachments: uploadedFiles.map(f => ({
-        id: f.id,
-        name: f.name,
-        type: f.type,
-        url: f.url || URL.createObjectURL(f.file)
-      }))
-    };
+    const text = inputValue.trim();
+    const attachments = uploadedFiles.map(f => ({
+      id: f.id,
+      name: f.name,
+      type: f.type,
+      url: f.url || URL.createObjectURL(f.file)
+    }));
 
-    addMessage(message);
     setInputValue('');
     
-    // Clear files immediately for better UX
-    uploadedFiles.forEach(f => removeFile(f.id));
-
-    // TODO: Send to API - will be integrated with backend
-    // Simulate AI response for now
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      addMessage({
-        sender: 'ai',
-        text: 'Obrigado pela sua mensagem! Estou processando sua solicitação...'
-      });
-    }, 1500);
+    // Send message with attachments
+    await sendMessage(text, attachments);
   };
 
   const handleKeyPress = (e) => {
