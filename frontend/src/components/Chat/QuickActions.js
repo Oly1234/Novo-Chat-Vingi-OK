@@ -4,11 +4,19 @@ import { useChat } from '../../contexts/ChatContext';
 import './QuickActions.css';
 
 export const QuickActions = () => {
-  const { setChatMode, currentDepartment } = useChat();
+  const { requestHandoff, getWhatsAppURL, currentDepartment } = useChat();
 
-  const handleHumanHandoff = () => {
-    setChatMode('human');
-    // TODO: Send handoff request to API
+  const handleHumanHandoff = async () => {
+    await requestHandoff();
+  };
+
+  const handleWhatsApp = async () => {
+    if (currentDepartment) {
+      const url = await getWhatsAppURL(currentDepartment);
+      if (url) {
+        window.open(url, '_blank');
+      }
+    }
   };
 
   return (
@@ -25,6 +33,7 @@ export const QuickActions = () => {
       {currentDepartment && (
         <button 
           className="vingi-quick-action vingi-quick-action--success"
+          onClick={handleWhatsApp}
           data-testid="whatsapp-button"
         >
           <PhoneCall size={18} />
