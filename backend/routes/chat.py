@@ -1,7 +1,9 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from pydantic import BaseModel
 from typing import List, Optional, Dict
-from services import firebase_service, openai_service, whatsapp_service
+from services.storage_service import storage_service
+from services.openai_service import openai_service
+from services.whatsapp_service import whatsapp_service
 import logging
 
 logger = logging.getLogger(__name__)
