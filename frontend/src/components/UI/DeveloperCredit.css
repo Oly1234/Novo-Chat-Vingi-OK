@@ -1,0 +1,63 @@
+.developer-credit {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 9998;
+  
+  font-size: 0.75rem;
+  font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  color: var(--text-tertiary);
+  
+  background: transparent;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  
+  opacity: 0.5;
+  transition: all 0.2s ease;
+}
+
+.developer-credit:hover {
+  opacity: 1;
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .developer-credit {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    font-size: 0.6875rem;
+  }
+}
+
+/* Modal Content */
+.developer-credit-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.developer-credit-modal__text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.developer-credit-modal__subtext {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.developer-credit-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
