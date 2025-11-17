@@ -61,14 +61,19 @@ class FirebaseService:
         session_data = {
             'id': session_id,
             'userId': user_id or f'anon_{uuid.uuid4().hex[:8]}',
-            'startedAt': firestore.SERVER_TIMESTAMP,
+            'startedAt': datetime.now(datetime.timezone.utc if hasattr(datetime, 'timezone') else None),
             'status': 'ai',  # ai, waiting, active, closed
             'department': None,
             'currentAgentId': None,
             'metadata': {}
         }
         
-        self.db.collection('sessions').document(session_id).set(session_data)
+        try:
+            if self.db:
+                self.db.collection('sessions').document(session_id).set(session_data)
+        except Exception as e:
+            print(f'Firebase session creation skipped: {e}')
+        
         return {**session_data, 'id': session_id}
     
     async def get_session(self, session_id: str) -> Optional[Dict]:
