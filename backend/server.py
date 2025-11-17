@@ -67,7 +67,11 @@ async def get_status_checks():
     
     return status_checks
 
-# Include the router in the main app
+# Include chat and config routers
+api_router.include_router(chat_router)
+api_router.include_router(config_router)
+
+# Include the main router in the app
 app.include_router(api_router)
 
 app.add_middleware(
