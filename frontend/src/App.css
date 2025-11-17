@@ -107,3 +107,14 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-tertiary);
 }
+
+/* Hide Emergent badge if it appears dynamically */
+#emergent-badge,
+[id*="emergent-badge"],
+[class*="emergent-badge"],
+a[href*="emergent.sh"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
