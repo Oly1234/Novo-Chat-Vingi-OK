@@ -1,0 +1,102 @@
+.vingi-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vingi-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.vingi-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.vingi-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Sizes */
+.vingi-button--small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.vingi-button--medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.vingi-button--large {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+/* Variants */
+.vingi-button--primary {
+  background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+  color: white;
+}
+
+.vingi-button--primary:hover {
+  background: linear-gradient(135deg, #005A9E 0%, #004578 100%);
+}
+
+.vingi-button--secondary {
+  background: rgba(0, 120, 212, 0.1);
+  color: #0078D4;
+  border: 1px solid rgba(0, 120, 212, 0.3);
+}
+
+[data-theme="dark"] .vingi-button--secondary {
+  background: rgba(0, 120, 212, 0.2);
+  color: #4CC2FF;
+  border-color: rgba(76, 194, 255, 0.3);
+}
+
+.vingi-button--secondary:hover {
+  background: rgba(0, 120, 212, 0.2);
+}
+
+.vingi-button--success {
+  background: linear-gradient(135deg, #10893E 0%, #0B6A2F 100%);
+  color: white;
+}
+
+.vingi-button--danger {
+  background: linear-gradient(135deg, #D13438 0%, #A52729 100%);
+  color: white;
+}
+
+.vingi-button--ghost {
+  background: transparent;
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.vingi-button--ghost:hover {
+  background: var(--surface-hover);
+}
+
+.vingi-button--full {
+  width: 100%;
+}
+
+.vingi-button__icon {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,44 @@
+.vingi-card {
+  background: var(--surface-primary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+[data-theme="dark"] .vingi-card {
+  background: var(--surface-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.vingi-card--hover {
+  cursor: pointer;
+}
+
+.vingi-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .vingi-card--hover:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.vingi-card__header {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.vingi-card__body {
+  color: var(--text-secondary);
+}
+
+.vingi-card__footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
