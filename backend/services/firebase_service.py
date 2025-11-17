@@ -9,27 +9,17 @@ class FirebaseService:
     def __init__(self):
         # Initialize Firebase Admin SDK
         if not firebase_admin._apps:
-            # Use application default credentials or service account
-            try:
-                cred = credentials.ApplicationDefault()
-            except:
-                # If no service account, initialize with project ID only
-                firebase_admin.initialize_app(options={
-                    'projectId': os.getenv('FIREBASE_PROJECT_ID'),
-                    'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET')
-                })
-                self.db = firestore.client()
-                self.bucket = None
-                return
-            
-            firebase_admin.initialize_app(cred, {
+            # Initialize with project ID from environment
+            firebase_admin.initialize_app(options={
+                'projectId': os.getenv('FIREBASE_PROJECT_ID'),
                 'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET')
             })
         
         self.db = firestore.client()
         try:
             self.bucket = storage.bucket()
-        except:
+        except Exception as e:
+            print(f'Storage bucket not available: {e}')
             self.bucket = None
     
     # Session Methods
