@@ -114,12 +114,16 @@ class FirebaseService:
     
     async def get_messages(self, session_id: str, limit: int = 50) -> List[Dict]:
         """Get messages for a session"""
-        messages_ref = self.db.collection('messages')
-        query = messages_ref.where('sessionId', '==', session_id).order_by('timestamp').limit(limit)
-        
         messages = []
-        for doc in query.stream():
-            messages.append({**doc.to_dict(), 'id': doc.id})
+        try:
+            if self.db:
+                messages_ref = self.db.collection('messages')
+                query = messages_ref.where('sessionId', '==', session_id).order_by('timestamp').limit(limit)
+                
+                for doc in query.stream():
+                    messages.append({**doc.to_dict(), 'id': doc.id})
+        except Exception as e:
+            print(f'Firebase get messages skipped: {e}')
         
         return messages
     
