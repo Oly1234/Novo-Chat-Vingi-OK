@@ -7,12 +7,16 @@ from typing import Dict, List, Optional
 
 class FirebaseService:
     def __init__(self):
+        # Set Google Cloud Project environment variable
+        project_id = os.getenv('FIREBASE_PROJECT_ID', 'agenda-44f53')
+        os.environ['GOOGLE_CLOUD_PROJECT'] = project_id
+        
         # Initialize Firebase Admin SDK
         if not firebase_admin._apps:
             # Initialize with project ID from environment
             firebase_admin.initialize_app(options={
-                'projectId': os.getenv('FIREBASE_PROJECT_ID'),
-                'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET')
+                'projectId': project_id,
+                'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET', 'agenda-44f53.firebasestorage.app')
             })
         
         self.db = firestore.client()
