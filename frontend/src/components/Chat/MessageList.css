@@ -1,0 +1,10 @@
+.vingi-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vingi-message-list__loading {
+  display: flex;
+  justify-content: flex-start;
+}
