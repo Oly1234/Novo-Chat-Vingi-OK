@@ -1,0 +1,77 @@
+.vingi-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.vingi-input-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.vingi-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.vingi-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.vingi-input--with-icon {
+  padding-left: 2.75rem;
+}
+
+.vingi-input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.vingi-input:focus {
+  border-color: #0078D4;
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+[data-theme="dark"] .vingi-input:focus {
+  border-color: #4CC2FF;
+  box-shadow: 0 0 0 3px rgba(76, 194, 255, 0.1);
+}
+
+.vingi-input--error {
+  border-color: #D13438;
+}
+
+.vingi-input--error:focus {
+  box-shadow: 0 0 0 3px rgba(209, 52, 56, 0.1);
+}
+
+.vingi-input-error {
+  font-size: 0.75rem;
+  color: #D13438;
+}
+
+.vingi-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.vingi-input::placeholder {
+  color: var(--text-tertiary);
+}
