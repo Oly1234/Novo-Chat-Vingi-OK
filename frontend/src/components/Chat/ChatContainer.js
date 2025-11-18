@@ -116,6 +116,20 @@ export const ChatContainer = () => {
           )}
         </div>
       )}
+
+      {/* Modals */}
+      <FileUploadModal
+        isOpen={showFileUpload}
+        onClose={() => setShowFileUpload(false)}
+        onUpload={uploadResume}
+        candidateData={candidateData}
+      />
+
+      <RatingModal
+        isOpen={showRating}
+        onClose={() => setShowRating(false)}
+        onSubmit={submitRating}
+      />
     </>
   );
 };
