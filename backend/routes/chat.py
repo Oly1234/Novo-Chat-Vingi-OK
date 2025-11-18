@@ -117,7 +117,7 @@ async def send_message(request: SendMessageRequest):
         return SendMessageResponse(
             messageId=ai_message['id'],
             aiResponse={'text': ai_response['text']},
-            department=ai_response.get('department')
+            department=current_department
         )
         
     except HTTPException:
