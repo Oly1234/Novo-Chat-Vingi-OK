@@ -168,6 +168,59 @@ export const ChatProvider = ({ children }) => {
     setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
   }, []);
 
+  const uploadResume = useCallback(async (file) => {
+    if (!sessionId || !candidateData) return;
+
+    try {
+      const formData = new FormData();
+      formData.append('candidateId', candidateData.id);
+      formData.append('file', file);
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/candidates/upload-resume`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+
+      addMessage({
+        sender: 'system',
+        text: 'Currículo recebido com sucesso! Nossa equipe de RH analisará seu perfil e entrará em contato em breve.',
+        timestamp: new Date()
+      });
+
+      setShowFileUpload(false);
+      return true;
+    } catch (error) {
+      console.error('Failed to upload resume:', error);
+      throw error;
+    }
+  }, [sessionId, candidateData, addMessage]);
+
+  const submitRating = useCallback(async (ratingData) => {
+    if (!sessionId) return;
+
+    try {
+      // Save rating to backend (you can create endpoint for this)
+      console.log('Rating submitted:', ratingData);
+      
+      addMessage({
+        sender: 'system',
+        text: 'Obrigado pela sua avaliação! Seu feedback é muito importante para nós.',
+        timestamp: new Date()
+      });
+
+      setShowRating(false);
+    } catch (error) {
+      console.error('Failed to submit rating:', error);
+    }
+  }, [sessionId, addMessage]);
+
+  // Request notification permission on mount
+  useEffect(() => {
+    notificationService.requestPermission();
+  }, []);
+
   return (
     <ChatContext.Provider value={{
       messages,
@@ -177,10 +230,16 @@ export const ChatProvider = ({ children }) => {
       chatMode,
       uploadedFiles,
       queuePosition,
+      showFileUpload,
+      showRating,
+      candidateData,
       setIsLoading,
       setSessionId,
       setCurrentDepartment,
       setChatMode,
+      setShowFileUpload,
+      setShowRating,
+      setCandidateData,
       addMessage,
       sendMessage,
       uploadFile,
@@ -188,7 +247,9 @@ export const ChatProvider = ({ children }) => {
       getWhatsAppURL,
       clearChat,
       addFile,
-      removeFile
+      removeFile,
+      uploadResume,
+      submitRating
     }}>
       {children}
     </ChatContext.Provider>
