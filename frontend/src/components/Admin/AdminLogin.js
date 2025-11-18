@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Lock, LogIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lock, LogIn, AlertTriangle } from 'lucide-react';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import { Card, CardBody } from '../UI/Card';
 import './AdminLogin.css';
 
+const LOCK_DURATION = 30 * 60 * 1000; // 30 minutes
+const MAX_ATTEMPTS = 3;
+
 export const AdminLogin = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [attempts, setAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockEndTime, setLockEndTime] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
