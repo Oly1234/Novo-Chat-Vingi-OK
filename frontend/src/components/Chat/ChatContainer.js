@@ -93,7 +93,8 @@ export const ChatContainer = () => {
                 )}
               </div>
 
-              {chatMode === 'ai' && messages.length > 0 && (
+              {/* QuickActions sempre visível quando há mensagens */}
+              {messages.length > 0 && (
                 <QuickActions />
               )}
 
