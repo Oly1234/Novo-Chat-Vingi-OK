@@ -78,10 +78,23 @@ async def send_message(request: SendMessageRequest):
         # Get knowledge base
         knowledge_base = await storage_service.get_knowledge_base()
         
-        # Get AI response with knowledge base
+        # Detect department if not already set
+        current_department = session.get('department')
+        if not current_department and len(messages) > 0:
+            # Try to detect from the first user message
+            detected = await openai_service._detect_department(messages[-1]['text'])
+            if detected:
+                current_department = detected
+                # Save to session immediately
+                await storage_service.update_session(
+                    request.sessionId,
+                    {'department': detected}
+                )
+        
+        # Get AI response with knowledge base and correct department
         ai_response = await openai_service.chat(
             messages=[{'sender': msg['sender'], 'text': msg['text']} for msg in messages],
-            department=session.get('department'),
+            department=current_department,
             knowledge_base=knowledge_base
         )
         
@@ -93,12 +106,13 @@ async def send_message(request: SendMessageRequest):
             attachments=[]
         )
         
-        # Update session with detected department
-        if ai_response.get('department') and not session.get('department'):
+        # Update department if detected during conversation (fallback)
+        if ai_response.get('department') and not current_department:
             await storage_service.update_session(
                 request.sessionId,
                 {'department': ai_response['department']}
             )
+            current_department = ai_response['department']
         
         return SendMessageResponse(
             messageId=ai_message['id'],
