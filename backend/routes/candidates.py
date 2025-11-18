@@ -71,14 +71,14 @@ async def upload_resume(
         
         # Save file (simplified - in production use proper storage)
         file_content = await file.read()
-        file_url = await storage_service.upload_file(
+        file_url = await firebase_service.upload_file(
             file_content, 
             file.filename, 
             file.content_type
         )
         
         # Update candidate
-        await storage_service.update_candidate(candidateId, {
+        await firebase_service.update_candidate(candidateId, {
             'resumeUrl': file_url,
             'status': 'submitted'
         })
