@@ -24,6 +24,58 @@ def verify_admin(x_admin_password: str = Header(...)):
         raise HTTPException(status_code=401, detail="Unauthorized")
     return True
 
+# Login endpoint with rate limiting
+@router.post("/login", response_model=LoginResponse)
+async def admin_login(request: LoginRequest, req: Request):
+    """Admin login with attempt tracking and rate limiting"""
+    client_ip = req.client.host
+    current_time = datetime.utcnow()
+    
+    # Check if IP is blocked
+    if client_ip in login_attempts:
+        attempt_data = login_attempts[client_ip]
+        
+        # Check if still locked
+        if attempt_data.get('locked_until') and attempt_data['locked_until'] > current_time:
+            remaining = (attempt_data['locked_until'] - current_time).total_seconds()
+            return LoginResponse(
+                success=False,
+                message=f"Bloqueado. Aguarde {int(remaining/60)} minutos"
+            )
+        
+        # Reset if lock expired
+        if attempt_data.get('locked_until') and attempt_data['locked_until'] <= current_time:
+            login_attempts[client_ip] = {'attempts': 0, 'last_attempt': current_time}
+    
+    # Verify password
+    if request.password == os.getenv('ADMIN_PASSWORD'):
+        # Success - reset attempts
+        if client_ip in login_attempts:
+            del login_attempts[client_ip]
+        
+        return LoginResponse(success=True, message="Login successful")
+    
+    # Failed attempt
+    if client_ip not in login_attempts:
+        login_attempts[client_ip] = {'attempts': 0, 'last_attempt': current_time}
+    
+    login_attempts[client_ip]['attempts'] += 1
+    login_attempts[client_ip]['last_attempt'] = current_time
+    
+    # Lock after 3 failed attempts
+    if login_attempts[client_ip]['attempts'] >= 3:
+        login_attempts[client_ip]['locked_until'] = current_time + timedelta(minutes=30)
+        return LoginResponse(
+            success=False,
+            message="Bloqueado por 30 minutos após 3 tentativas incorretas"
+        )
+    
+    attempts_left = 3 - login_attempts[client_ip]['attempts']
+    return LoginResponse(
+        success=False,
+        message=f"Senha incorreta. {attempts_left} tentativas restantes"
+    )
+
 # Models
 class KnowledgeBaseItem(BaseModel):
     category: str
