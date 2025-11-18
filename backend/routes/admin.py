@@ -93,7 +93,7 @@ class KnowledgeBaseUpdate(BaseModel):
 async def get_knowledge_base(authorized: bool = Depends(verify_admin)):
     """Get all knowledge base items"""
     try:
-        kb = await storage_service.get_knowledge_base()
+        kb = await firebase_service.get_knowledge_base()
         return {"items": kb}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -105,7 +105,7 @@ async def update_knowledge_base(
 ):
     """Update knowledge base"""
     try:
-        success = await storage_service.update_knowledge_base([item.model_dump() for item in data.items])
+        success = await firebase_service.update_knowledge_base([item.model_dump() for item in data.items])
         if not success:
             raise HTTPException(status_code=500, detail="Failed to update")
         return {"success": True, "message": "Knowledge base updated"}
@@ -119,7 +119,7 @@ async def update_knowledge_base(
 async def get_queue(authorized: bool = Depends(verify_admin)):
     """Get current queue"""
     try:
-        queue = await storage_service.get_queue()
+        queue = await firebase_service.get_queue()
         return {"queue": queue}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
