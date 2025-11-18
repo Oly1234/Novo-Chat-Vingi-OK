@@ -102,7 +102,176 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "TESTE COMPLETO - TODAS AS NOVAS FUNCIONALIDADES: Voice-to-Text (Microfone), Typing Indicator, Botões de Controle Completos, Modal de Avaliação, Fluxo VAGAS com Upload, Responsividade Mobile, Visual Geral"
+user_problem_statement: "Testar a migração completa do MongoDB para Firebase. Validar todos os endpoints críticos: Chat Session & Messages, Knowledge Base, Candidates Flow, WhatsApp Config, Ratings, Sessions Admin - todos devem usar Firebase/Firestore"
+
+backend:
+  - task: "Chat Session Start (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/chat.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/chat/start successfully creates new chat sessions in Firebase. Session ID d8a52509-d9bf-4140-bcb1-f02e9eee3205 created and returned correctly."
+
+  - task: "Chat Messages (Firebase)"
+    implemented: true
+    working: false
+    file: "/app/backend/routes/chat.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL - POST /api/chat/message fails with HTTP 500. Root cause: Firebase requires composite index for query filtering by sessionId and ordering by timestamp. Error: 'The query requires an index' - this is normal for Firebase migration but needs index creation."
+
+  - task: "Get Session (Firebase)"
+    implemented: true
+    working: false
+    file: "/app/backend/routes/chat.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL - GET /api/chat/session/{session_id} fails with HTTP 500. Same root cause as chat messages - requires Firebase composite index for sessionId + timestamp queries. Created firestore.indexes.json to define required indexes."
+
+  - task: "Admin Login (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/admin.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/admin/login with password 'v1ng1t3x' works perfectly. Admin authentication successful, login attempts recorded in Firebase."
+
+  - task: "Knowledge Base Add (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/admin.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/admin/knowledge-base successfully adds items to Firebase. Test item 'Teste Firebase' added to knowledge base collection."
+
+  - task: "Knowledge Base Get (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/admin.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/admin/knowledge-base retrieves 1 knowledge base item from Firebase. Data persistence confirmed."
+
+  - task: "Candidate Submit (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/candidates.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/candidates/submit creates candidate in Firebase. Candidate ID 9f270dfe-f16d-4ab9-a3b6-e50bb87614fe created with name 'João Silva Firebase'."
+
+  - task: "Candidates List (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/candidates.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/candidates/list (admin) retrieves 1 candidate from Firebase. Admin authentication and data retrieval working correctly."
+
+  - task: "WhatsApp Config Save (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/config.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/config/whatsapp saves department configuration to Firebase. 2 departments (SUPORTE, VENDAS) saved successfully."
+
+  - task: "WhatsApp Config Get (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/config.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/config/whatsapp retrieves 2 departments from Firebase. Configuration persistence confirmed."
+
+  - task: "Rating Submit (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/ratings.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/ratings/submit saves 5-star rating with feedback to Firebase. Rating submission working correctly."
+
+  - task: "Rating Stats (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/ratings.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/ratings/stats returns statistics: 1 rating, average 5.0. Firebase aggregation working correctly."
+
+  - task: "Admin Sessions (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/admin.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/admin/sessions retrieves 5 sessions from Firebase. Admin session management working correctly."
+
+  - task: "Admin Stats (Firebase)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/admin.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/admin/stats returns system statistics: 5 sessions, 1 message. Firebase data aggregation working correctly."
 
 frontend:
   - task: "Voice-to-Text (Microfone)"
