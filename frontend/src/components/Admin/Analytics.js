@@ -82,11 +82,11 @@ export const Analytics = () => {
   };
 
   if (loading) {
-    return <div className=\"analytics-loading\">Carregando analytics...</div>;
+    return <div className="analytics-loading">Carregando analytics...</div>;
   }
 
   if (!analytics) {
-    return <div className=\"analytics-error\">Erro ao carregar dados</div>;
+    return <div className="analytics-error">Erro ao carregar dados</div>;
   }
 
   return (
