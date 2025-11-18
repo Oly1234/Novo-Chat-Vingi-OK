@@ -151,7 +151,7 @@ async def upload_file(
             raise HTTPException(status_code=400, detail="File type not allowed")
         
         # Upload to Firebase Storage
-        url = await storage_service.upload_file(
+        url = await firebase_service.upload_file(
             file_data=file_content,
             filename=file.filename,
             content_type=file.content_type
