@@ -32,7 +32,7 @@ class CandidateResponse(BaseModel):
 async def submit_candidate(data: CandidateData):
     """Submit candidate information"""
     try:
-        candidate = await storage_service.create_candidate({
+        candidate = await firebase_service.create_candidate({
             'sessionId': data.sessionId,
             'name': data.name,
             'phone': data.phone,
@@ -41,7 +41,6 @@ async def submit_candidate(data: CandidateData):
             'experience': data.experience,
             'availability': data.availability,
             'status': 'new',
-            'submittedAt': datetime.utcnow(),
             'resumeUrl': None,
             'notes': []
         })
