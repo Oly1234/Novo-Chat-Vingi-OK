@@ -67,9 +67,19 @@ async def get_status_checks():
     
     return status_checks
 
-# Include chat and config routers
+# Import admin router
+from routes import chat_router, config_router
+try:
+    from routes.admin import router as admin_router
+    HAS_ADMIN = True
+except:
+    HAS_ADMIN = False
+
+# Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
+if HAS_ADMIN:
+    api_router.include_router(admin_router)
 
 # Include the main router in the app
 app.include_router(api_router)
