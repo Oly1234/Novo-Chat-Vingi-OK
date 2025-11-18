@@ -119,6 +119,23 @@ class StorageService:
         # For now, return a placeholder URL
         # In production, this would use GridFS or external storage
         return f'/uploads/{uuid.uuid4()}_{filename}'
+    
+    # Knowledge Base Methods
+    async def get_knowledge_base(self) -> List[Dict]:
+        """Get knowledge base items"""
+        kb_doc = await self.config.find_one({'type': 'knowledge_base'})
+        if kb_doc:
+            return kb_doc.get('items', [])
+        return []
+    
+    async def update_knowledge_base(self, items: List[Dict]) -> bool:
+        """Update knowledge base"""
+        result = await self.config.update_one(
+            {'type': 'knowledge_base'},
+            {'$set': {'items': items, 'updatedAt': datetime.utcnow()}},
+            upsert=True
+        )
+        return result.acknowledged
 
 # Singleton instance
 storage_service = StorageService()
