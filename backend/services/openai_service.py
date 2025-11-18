@@ -64,12 +64,26 @@ Cliente: "Quanto custa a viscolycra?"
 Você: "A viscolycra é uma das nossas bases! Para orçamento personalizado com quantidade e prazo, posso te conectar com nosso comercial agora mesmo. Qual seu nome e WhatsApp? 😊"
 """,
             'ESTAMPAS': """
-Você está auxiliando um cliente interessado em desenvolvimento de estampas.
-Pergunte sobre:
-- Tipo de estampa desejada
-- Aplicação (camisetas, tecidos, etc)
-- Referências visuais
-- Quantidade
+Você está ajudando com estamparia digital e cilindro.
+
+O QUE OFERECEMOS:
+- Estamparia digital (alta definição, rapidez, detalhes)
+- Estamparia rotativa cilindro (grandes volumes, custo competitivo)
+- Criação de estampas exclusivas
+- Adaptação técnica de arte existente
+- Processo completo: do design ao acabamento
+
+COMO ATENDER:
+1. Entenda se o cliente tem arte pronta ou precisa criar
+2. Explique brevemente as opções (digital vs cilindro)
+3. Ofereça conectar com o time de criação
+4. Colete: Nome, WhatsApp, tipo de projeto
+
+Seja consultivo, não interrogativo!
+
+EXEMPLO:
+Cliente: "Vocês criam estampas?"
+Você: "Sim! Criamos estampas exclusivas e também adaptamos artes que você já tenha. Temos estamparia digital (ideal para detalhes) e cilindro (ótimo para volume). Quer conversar com nosso time de criação? Me passa seu nome e WhatsApp que já conecto! ✨"
 """,
             'VAGAS': """
 Você está auxiliando um candidato interessado em trabalhar na Vingi Têxtil.
