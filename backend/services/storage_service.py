@@ -136,6 +136,34 @@ class StorageService:
             upsert=True
         )
         return result.acknowledged
+    
+    # Candidate Methods
+    async def create_candidate(self, data: Dict) -> Dict:
+        """Create candidate record"""
+        candidate_id = str(uuid.uuid4())
+        candidate_data = {**data, 'id': candidate_id}
+        await self.db['candidates'].insert_one(candidate_data)
+        return candidate_data
+    
+    async def get_candidate(self, candidate_id: str) -> Optional[Dict]:
+        """Get candidate by ID"""
+        return await self.db['candidates'].find_one({'id': candidate_id})
+    
+    async def get_candidates(self, status: str = None, limit: int = 50) -> List[Dict]:
+        """Get candidates list"""
+        query = {}
+        if status:
+            query['status'] = status
+        cursor = self.db['candidates'].find(query).sort('submittedAt', -1).limit(limit)
+        return await cursor.to_list(length=limit)
+    
+    async def update_candidate(self, candidate_id: str, data: Dict) -> bool:
+        """Update candidate"""
+        result = await self.db['candidates'].update_one(
+            {'id': candidate_id},
+            {'$set': data}
+        )
+        return result.modified_count > 0
 
 # Singleton instance
 storage_service = StorageService()
