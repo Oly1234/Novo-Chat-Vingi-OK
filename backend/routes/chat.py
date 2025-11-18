@@ -46,7 +46,7 @@ class GetWhatsAppURLResponse(BaseModel):
 async def start_session(request: StartSessionRequest):
     """Start a new chat session"""
     try:
-        session = await storage_service.create_session(request.userId)
+        session = await firebase_service.create_session(request.userId)
         return StartSessionResponse(
             sessionId=session['id'],
             userId=session['userId']
