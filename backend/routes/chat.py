@@ -75,10 +75,14 @@ async def send_message(request: SendMessageRequest):
         # Get conversation history
         messages = await storage_service.get_messages(request.sessionId)
         
-        # Get AI response
+        # Get knowledge base
+        knowledge_base = await storage_service.get_knowledge_base()
+        
+        # Get AI response with knowledge base
         ai_response = await openai_service.chat(
             messages=[{'sender': msg['sender'], 'text': msg['text']} for msg in messages],
-            department=session.get('department')
+            department=session.get('department'),
+            knowledge_base=knowledge_base
         )
         
         # Save AI response
