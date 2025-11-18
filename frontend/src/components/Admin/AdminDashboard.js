@@ -5,10 +5,11 @@ import { QueueManagement } from './QueueManagement';
 import { Statistics } from './Statistics';
 import { WhatsAppConfig } from './WhatsAppConfig';
 import { SessionHistory } from './SessionHistory';
+import { Analytics } from './Analytics';
 import './AdminDashboard.css';
 
 export const AdminDashboard = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState('stats');
+  const [activeTab, setActiveTab] = useState('analytics');
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
