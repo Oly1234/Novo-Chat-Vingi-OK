@@ -150,9 +150,35 @@ Seja atencioso e resolva dúvidas de forma clara.
     async def _detect_department(self, message: str) -> Optional[str]:
         """Detect user intent/department from message"""
         try:
+            # Check keywords for quick detection
+            message_lower = message.lower()
+            
+            # VAGAS keywords
+            vagas_keywords = ['trabalh', 'emprego', 'vaga', 'curriculo', 'currícul', 'carreira', 'contrata', 'rh']
+            if any(keyword in message_lower for keyword in vagas_keywords):
+                return 'VAGAS'
+            
+            # AMOSTRAS keywords
+            amostras_keywords = ['amostra', 'orçamento', 'comprar', 'preço', 'valor', 'pedido', 'produto']
+            if any(keyword in message_lower for keyword in amostras_keywords):
+                return 'AMOSTRAS'
+            
+            # ESTAMPAS keywords
+            estampas_keywords = ['estampa', 'design', 'criar', 'desenho', 'arte', 'personaliza']
+            if any(keyword in message_lower for keyword in estampas_keywords):
+                return 'ESTAMPAS'
+            
+            # Use AI for ambiguous cases
             prompt = f"""
-Analise a mensagem do cliente e identifique a intenção.
-Retorne APENAS uma das opções: AMOSTRAS, ESTAMPAS, VAGAS, SUPORTE ou NONE
+Analise a mensagem do cliente e identifique a intenção principal.
+Retorne APENAS uma palavra: AMOSTRAS, ESTAMPAS, VAGAS, SUPORTE ou NONE
+
+Contexto:
+- VAGAS: candidatura, emprego, trabalhar na empresa, enviar currículo
+- AMOSTRAS: pedir amostras, fazer orçamento, comprar produtos
+- ESTAMPAS: criar/desenvolver estampas ou designs personalizados
+- SUPORTE: dúvidas gerais, reclamações, informações
+- NONE: saudações iniciais ou mensagens genéricas
 
 Mensagem: "{message}"
 
@@ -162,7 +188,7 @@ Categoria:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[{'role': 'user', 'content': prompt}],
-                temperature=0.3,
+                temperature=0.2,
                 max_tokens=10
             )
             
@@ -173,7 +199,8 @@ Categoria:
             
             return None
             
-        except:
+        except Exception as e:
+            print(f"Department detection error: {e}")
             return None
 
 # Singleton instance
