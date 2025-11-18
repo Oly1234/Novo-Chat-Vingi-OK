@@ -18,13 +18,17 @@ export const KnowledgeBase = () => {
 
   const fetchKnowledgeBase = async () => {
     try {
-      const response = await fetch('/api/admin/knowledge-base', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge-base`, {
         headers: { 'X-Admin-Password': localStorage.getItem('adminPassword') }
       });
+      if (!response.ok) {
+        throw new Error('Failed to fetch');
+      }
       const data = await response.json();
       setItems(data.items || []);
     } catch (error) {
       console.error('Failed to fetch knowledge base:', error);
+      setItems([]);
     }
   };
 
