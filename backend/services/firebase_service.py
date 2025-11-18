@@ -128,14 +128,18 @@ class FirebaseService:
     async def get_messages(self, session_id: str, limit: int = 50) -> List[Dict]:
         """Get messages for a session"""
         messages = []
-        query = self.db.collection('messages').where('sessionId', '==', session_id).order_by('timestamp').limit(limit)
+        # Query without order_by to avoid composite index requirement
+        query = self.db.collection('messages').where('sessionId', '==', session_id).limit(limit * 2)
         
         for doc in query.stream():
             data = doc.to_dict()
             data['id'] = doc.id
             messages.append(data)
         
-        return messages
+        # Sort in Python instead of Firestore to avoid composite index
+        messages.sort(key=lambda x: x.get('timestamp') or datetime.min.replace(tzinfo=timezone.utc))
+        
+        return messages[:limit]
     
     # WhatsApp Config Methods
     async def get_whatsapp_config(self) -> List[Dict]:
