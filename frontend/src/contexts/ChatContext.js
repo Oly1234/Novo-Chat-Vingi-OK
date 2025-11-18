@@ -172,6 +172,7 @@ export const ChatProvider = ({ children }) => {
       currentDepartment,
       chatMode,
       uploadedFiles,
+      queuePosition,
       setIsLoading,
       setSessionId,
       setCurrentDepartment,
