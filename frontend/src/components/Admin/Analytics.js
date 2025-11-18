@@ -90,90 +90,90 @@ export const Analytics = () => {
   }
 
   return (
-    <div className=\"analytics-container\">
-      <div className=\"analytics-header\">
+    <div className="analytics-container">
+      <div className="analytics-header">
         <h2>Analytics & Relatórios</h2>
-        <div className=\"analytics-actions\">
-          <button onClick={exportSessions} disabled={exporting} className=\"export-btn\">
+        <div className="analytics-actions">
+          <button onClick={exportSessions} disabled={exporting} className="export-btn">
             <Download size={16} />
             Exportar Sessões
           </button>
-          <button onClick={exportCandidates} disabled={exporting} className=\"export-btn\">
+          <button onClick={exportCandidates} disabled={exporting} className="export-btn">
             <Download size={16} />
             Exportar Candidatos
           </button>
         </div>
       </div>
 
-      <div className=\"analytics-grid\">
-        <div className=\"analytics-card\">
-          <div className=\"analytics-card-icon\" style={{ background: '#3b82f6' }}>
+      <div className="analytics-grid">
+        <div className="analytics-card">
+          <div className="analytics-card-icon" style={{ background: '#3b82f6' }}>
             <Users size={24} />
           </div>
-          <div className=\"analytics-card-content\">
+          <div className="analytics-card-content">
             <h3>Total de Sessões</h3>
-            <p className=\"analytics-value\">{analytics.totalSessions}</p>
+            <p className="analytics-value">{analytics.totalSessions}</p>
           </div>
         </div>
 
-        <div className=\"analytics-card\">
-          <div className=\"analytics-card-icon\" style={{ background: '#10b981' }}>
+        <div className="analytics-card">
+          <div className="analytics-card-icon" style={{ background: '#10b981' }}>
             <MessageSquare size={24} />
           </div>
-          <div className=\"analytics-card-content\">
+          <div className="analytics-card-content">
             <h3>Total de Mensagens</h3>
-            <p className=\"analytics-value\">{analytics.totalMessages}</p>
+            <p className="analytics-value">{analytics.totalMessages}</p>
           </div>
         </div>
 
-        <div className=\"analytics-card\">
-          <div className=\"analytics-card-icon\" style={{ background: '#f59e0b' }}>
+        <div className="analytics-card">
+          <div className="analytics-card-icon" style={{ background: '#f59e0b' }}>
             <TrendingUp size={24} />
           </div>
-          <div className=\"analytics-card-content\">
+          <div className="analytics-card-content">
             <h3>Média Msg/Sessão</h3>
-            <p className=\"analytics-value\">{analytics.avgMessagesPerSession}</p>
+            <p className="analytics-value">{analytics.avgMessagesPerSession}</p>
           </div>
         </div>
 
-        <div className=\"analytics-card\">
-          <div className=\"analytics-card-icon\" style={{ background: '#fbbf24' }}>
+        <div className="analytics-card">
+          <div className="analytics-card-icon" style={{ background: '#fbbf24' }}>
             <Star size={24} />
           </div>
-          <div className=\"analytics-card-content\">
+          <div className="analytics-card-content">
             <h3>Avaliação Média</h3>
-            <p className=\"analytics-value\">{analytics.avgRating.toFixed(1)} ⭐</p>
+            <p className="analytics-value">{analytics.avgRating.toFixed(1)} ⭐</p>
           </div>
         </div>
       </div>
 
-      <div className=\"analytics-section\">
+      <div className="analytics-section">
         <h3>Departamentos Mais Procurados</h3>
-        <div className=\"analytics-chart\">
+        <div className="analytics-chart">
           {Object.entries(analytics.topDepartments).map(([dept, count]) => (
-            <div key={dept} className=\"analytics-bar\">
-              <span className=\"analytics-bar-label\">{dept}</span>
-              <div className=\"analytics-bar-container\">
+            <div key={dept} className="analytics-bar">
+              <span className="analytics-bar-label">{dept}</span>
+              <div className="analytics-bar-container">
                 <div 
-                  className=\"analytics-bar-fill\" 
+                  className="analytics-bar-fill" 
                   style={{ 
                     width: `${(count / Math.max(...Object.values(analytics.topDepartments))) * 100}%` 
                   }}
                 />
-                <span className=\"analytics-bar-value\">{count}</span>
+                <span className="analytics-bar-value">{count}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className=\"analytics-section\">
+      <div className="analytics-section">
         <h3>Sessões por Dia (Últimos 7 dias)</h3>
-        <div className=\"analytics-timeline\">
+        <div className="analytics-timeline">
           {analytics.sessionsByDay.map((day) => (
-            <div key={day.date} className=\"analytics-timeline-item\">
-              <div className=\"analytics-timeline-date\">{new Date(day.date).toLocaleDateString('pt-BR')}</div>
-              <div className=\"analytics-timeline-bar\" style={{ height: `${(day.count / 10) * 100}px` }}>
+            <div key={day.date} className="analytics-timeline-item">
+              <div className="analytics-timeline-date">{new Date(day.date).toLocaleDateString('pt-BR')}</div>
+              <div className="analytics-timeline-bar" style={{ height: `${(day.count / 10) * 100}px` }}>
                 <span>{day.count}</span>
               </div>
             </div>
