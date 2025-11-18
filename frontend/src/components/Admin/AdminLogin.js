@@ -124,12 +124,22 @@ export const AdminLogin = ({ onLogin }) => {
       <Card className="admin-login-card">
         <CardBody>
           <div className="admin-login-header">
-            <div className="admin-login-icon">
-              <Lock size={32} />
+            <div className={`admin-login-icon ${isLocked ? 'admin-login-icon--locked' : ''}`}>
+              {isLocked ? <AlertTriangle size={32} /> : <Lock size={32} />}
             </div>
             <h1>Área Administrativa</h1>
             <p>Vingi Têxtil - Sistema de Atendimento</p>
           </div>
+
+          {isLocked && (
+            <div className="admin-login-warning">
+              <AlertTriangle size={20} />
+              <div>
+                <strong>Acesso Temporariamente Bloqueado</strong>
+                <p>Tempo restante: {timeRemaining}</p>
+              </div>
+            </div>
+          )}
           
           <form onSubmit={handleSubmit} className="admin-login-form">
             <Input
@@ -138,19 +148,27 @@ export const AdminLogin = ({ onLogin }) => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                setError('');
+                if (!isLocked) setError('');
               }}
               error={error}
               icon={<Lock size={18} />}
+              disabled={isLocked}
             />
+
+            {attempts > 0 && attempts < MAX_ATTEMPTS && !isLocked && (
+              <div className="admin-login-attempts">
+                Tentativas restantes: {MAX_ATTEMPTS - attempts}
+              </div>
+            )}
             
             <Button
               type="submit"
               variant="primary"
               icon={<LogIn size={18} />}
               fullWidth
+              disabled={isLocked}
             >
-              Entrar
+              {isLocked ? 'Bloqueado' : 'Entrar'}
             </Button>
           </form>
         </CardBody>
