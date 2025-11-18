@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Header
 from pydantic import BaseModel
 from typing import List, Dict, Optional
-from services import storage_service
+from services.firebase_service import firebase_service
 import os
 import logging
 
@@ -34,7 +34,7 @@ def verify_admin_password(x_admin_password: str = Header(...)):
 async def get_whatsapp_config():
     """Get WhatsApp departments configuration (public)"""
     try:
-        departments = await storage_service.get_whatsapp_config()
+        departments = await firebase_service.get_whatsapp_config()
         return WhatsAppConfigResponse(departments=departments)
     except Exception as e:
         logger.error(f"Error getting WhatsApp config: {e}")
@@ -48,7 +48,7 @@ async def update_whatsapp_config(
     """Update WhatsApp departments configuration (admin only)"""
     try:
         departments_data = [dept.model_dump() for dept in request.departments]
-        success = await storage_service.update_whatsapp_config(departments_data)
+        success = await firebase_service.update_whatsapp_config(departments_data)
         
         if not success:
             raise HTTPException(status_code=500, detail="Failed to update configuration")

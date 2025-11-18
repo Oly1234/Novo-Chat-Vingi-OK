@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
-from services.storage_service import storage_service
+from datetime import datetime, timezone
+from services.firebase_service import firebase_service
 import logging
 
 logger = logging.getLogger(__name__)
@@ -28,21 +28,20 @@ async def submit_rating(data: RatingSubmit):
             raise HTTPException(status_code=400, detail="Rating must be between 1 and 5")
         
         # Get session to verify it exists
-        session = await storage_service.get_session(data.sessionId)
+        session = await firebase_service.get_session(data.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
-        # Save rating to MongoDB
+        # Save rating to Firestore
         rating_doc = {
             'sessionId': data.sessionId,
             'userId': session.get('userId'),
             'rating': data.rating,
             'feedback': data.feedback,
-            'department': session.get('department'),
-            'createdAt': datetime.utcnow()
+            'department': session.get('department')
         }
         
-        await storage_service.save_rating(rating_doc)
+        await firebase_service.save_rating(rating_doc)
         
         logger.info(f"Rating submitted: {data.rating} stars for session {data.sessionId}")
         
@@ -61,7 +60,7 @@ async def submit_rating(data: RatingSubmit):
 async def get_rating_stats():
     """Get rating statistics (admin only)"""
     try:
-        stats = await storage_service.get_rating_stats()
+        stats = await firebase_service.get_rating_stats()
         return stats
     except Exception as e:
         logger.error(f"Error getting rating stats: {e}")

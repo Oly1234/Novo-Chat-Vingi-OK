@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Header, Depends
 from pydantic import BaseModel
 from typing import List, Optional, Dict
-from datetime import datetime, timedelta
-from services.storage_service import storage_service
+from datetime import datetime, timedelta, timezone
+from services.firebase_service import firebase_service
 import os
 import csv
 import io
@@ -30,45 +30,46 @@ class AnalyticsResponse(BaseModel):
 async def get_dashboard_analytics(authorized: bool = Depends(verify_admin)):
     """Get dashboard analytics"""
     try:
-        # Get sessions count
-        total_sessions = await storage_service.db['sessions'].count_documents({})
+        # Get all sessions
+        all_sessions = await firebase_service.get_all_sessions(limit=1000)
+        total_sessions = len(all_sessions)
         
-        # Get messages count
-        total_messages = await storage_service.db['messages'].count_documents({})
+        # Count messages
+        total_messages = 0
+        messages_ref = firebase_service.db.collection('messages').limit(1000).stream()
+        for _ in messages_ref:
+            total_messages += 1
         
         # Calculate average
         avg_messages = total_messages / total_sessions if total_sessions > 0 else 0
         
         # Top departments
-        pipeline = [
-            {'$match': {'department': {'$ne': None}}},
-            {'$group': {'_id': '$department', 'count': {'$sum': 1}}},
-            {'$sort': {'count': -1}}
-        ]
-        dept_results = await storage_service.db['sessions'].aggregate(pipeline).to_list(10)
-        top_departments = {r['_id']: r['count'] for r in dept_results}
+        dept_counts = {}
+        for session in all_sessions:
+            dept = session.get('department')
+            if dept:
+                dept_counts[dept] = dept_counts.get(dept, 0) + 1
         
         # Get rating stats
-        rating_stats = await storage_service.get_rating_stats()
+        rating_stats = await firebase_service.get_rating_stats()
         
         # Sessions by day (last 7 days)
-        seven_days_ago = datetime.utcnow() - timedelta(days=7)
-        pipeline = [
-            {'$match': {'startedAt': {'$gte': seven_days_ago}}},
-            {'$group': {
-                '_id': {'$dateToString': {'format': '%Y-%m-%d', 'date': '$startedAt'}},
-                'count': {'$sum': 1}
-            }},
-            {'$sort': {'_id': 1}}
-        ]
-        daily_results = await storage_service.db['sessions'].aggregate(pipeline).to_list(7)
-        sessions_by_day = [{'date': r['_id'], 'count': r['count']} for r in daily_results]
+        seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
+        daily_counts = {}
+        for session in all_sessions:
+            started_at = session.get('startedAt')
+            if started_at and hasattr(started_at, 'date'):
+                date_str = started_at.date().isoformat()
+                if started_at > seven_days_ago:
+                    daily_counts[date_str] = daily_counts.get(date_str, 0) + 1
+        
+        sessions_by_day = [{'date': k, 'count': v} for k, v in sorted(daily_counts.items())]
         
         return AnalyticsResponse(
             totalSessions=total_sessions,
             totalMessages=total_messages,
             avgMessagesPerSession=round(avg_messages, 2),
-            topDepartments=top_departments,
+            topDepartments=dept_counts,
             avgRating=rating_stats.get('averageRating', 0),
             sessionsByDay=sessions_by_day
         )
@@ -84,16 +85,15 @@ async def export_sessions(
 ):
     """Export sessions to CSV"""
     try:
-        query = {}
-        if start_date:
-            query['startedAt'] = {'$gte': datetime.fromisoformat(start_date)}
-        if end_date:
-            if 'startedAt' in query:
-                query['startedAt']['$lte'] = datetime.fromisoformat(end_date)
-            else:
-                query['startedAt'] = {'$lte': datetime.fromisoformat(end_date)}
+        sessions = await firebase_service.get_all_sessions(limit=1000)
         
-        sessions = await storage_service.db['sessions'].find(query, {'_id': 0}).to_list(1000)
+        # Filter by date if provided
+        if start_date:
+            start = datetime.fromisoformat(start_date)
+            sessions = [s for s in sessions if s.get('startedAt') and s['startedAt'] >= start]
+        if end_date:
+            end = datetime.fromisoformat(end_date)
+            sessions = [s for s in sessions if s.get('startedAt') and s['startedAt'] <= end]
         
         # Create CSV
         output = io.StringIO()
@@ -116,7 +116,7 @@ async def export_sessions(
 async def export_candidates(authorized: bool = Depends(verify_admin)):
     """Export candidates to CSV"""
     try:
-        candidates = await storage_service.db['candidates'].find({}, {'_id': 0}).to_list(1000)
+        candidates = await firebase_service.get_candidates(limit=1000)
         
         # Create CSV
         output = io.StringIO()
