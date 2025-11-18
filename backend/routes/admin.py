@@ -147,19 +147,6 @@ async def get_stats(authorized: bool = Depends(verify_admin)):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-@router.get("/queue")
-async def get_queue(authorized: bool = Depends(verify_admin)):
-    """Get waiting queue"""
-    try:
-        # Get sessions waiting for human agent
-        queue = await storage_service.db['sessions'].find(
-            {'status': 'waiting'},
-            {'_id': 0}
-        ).sort('startedAt', 1).to_list(100)
-        
-        return {"queue": queue}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/queue/assign")
 async def assign_to_agent(
