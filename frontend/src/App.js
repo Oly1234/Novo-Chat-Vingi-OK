@@ -10,12 +10,10 @@ import { DeveloperCredit } from './components/UI/DeveloperCredit';
 import '@/App.css';
 
 const Home = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-
   return (
     <div className="vingi-app">
-      {!isChatOpen && <HeroPage onOpenChat={() => setIsChatOpen(true)} />}
-      {isChatOpen && <ChatContainer />}
+      <HeroPage />
+      <ChatContainer />
       <DeveloperCredit />
     </div>
   );
