@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useChat } from '../../contexts/ChatContext';
 import { MessageBubble } from './MessageBubble';
-import { LoadingDots } from './LoadingDots';
+import { TypingIndicator } from './TypingIndicator';
 import './MessageList.css';
 
 export const MessageList = () => {
@@ -21,11 +21,7 @@ export const MessageList = () => {
       {messages.map((message) => (
         <MessageBubble key={message.id} message={message} />
       ))}
-      {isLoading && (
-        <div className="vingi-message-list__loading">
-          <LoadingDots />
-        </div>
-      )}
+      {isLoading && <TypingIndicator />}
       <div ref={messagesEndRef} />
     </div>
   );
