@@ -79,6 +79,65 @@ export const ChatProvider = ({ children }) => {
       // Update department if detected
       if (response.department && !currentDepartment) {
         setCurrentDepartment(response.department);
+        
+        // If VAGAS department, start collecting candidate data
+        if (response.department === 'VAGAS' && !candidateData) {
+          setCandidateData({ sessionId, messages: [] });
+        }
+      }
+
+      // If VAGAS flow, collect data progressively
+      if (currentDepartment === 'VAGAS' && candidateData) {
+        const updatedCandidate = { ...candidateData };
+        const lowerText = text.toLowerCase();
+
+        // Collect name (if not set and response asks for name)
+        if (!updatedCandidate.name && aiMessage.text.toLowerCase().includes('nome completo')) {
+          // Name will be collected in next message
+        } else if (!updatedCandidate.name && text.trim().length > 3) {
+          updatedCandidate.name = text.trim();
+        }
+
+        // Collect phone (if name exists and not phone set yet)
+        if (updatedCandidate.name && !updatedCandidate.phone && 
+            (text.includes('(') || text.match(/\d{10,11}/))) {
+          updatedCandidate.phone = text.trim();
+        }
+
+        // Collect email
+        if (updatedCandidate.name && updatedCandidate.phone && !updatedCandidate.email &&
+            text.includes('@')) {
+          updatedCandidate.email = text.trim();
+        }
+
+        setCandidateData(updatedCandidate);
+
+        // If we have name and phone, submit candidate
+        if (updatedCandidate.name && updatedCandidate.phone && !updatedCandidate.id) {
+          try {
+            const candidateSubmit = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/candidates/submit`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                sessionId,
+                name: updatedCandidate.name,
+                phone: updatedCandidate.phone,
+                email: updatedCandidate.email || '',
+                position: updatedCandidate.position || '',
+                experience: updatedCandidate.experience || '',
+                availability: updatedCandidate.availability || ''
+              })
+            });
+
+            if (candidateSubmit.ok) {
+              const result = await candidateSubmit.json();
+              setCandidateData({ ...updatedCandidate, id: result.candidateId });
+              console.log('Candidate created:', result.candidateId);
+            }
+          } catch (err) {
+            console.error('Failed to create candidate:', err);
+          }
+        }
       }
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -90,7 +149,7 @@ export const ChatProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [sessionId, addMessage, currentDepartment]);
+  }, [sessionId, addMessage, currentDepartment, candidateData]);
 
   const uploadFile = useCallback(async (file) => {
     if (!sessionId) return null;
