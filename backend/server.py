@@ -88,6 +88,20 @@ try:
 except:
     HAS_RATINGS = False
 
+# Try to import analytics router
+try:
+    from routes.analytics import router as analytics_router
+    HAS_ANALYTICS = True
+except:
+    HAS_ANALYTICS = False
+
+# Try to import tags router
+try:
+    from routes.tags import router as tags_router
+    HAS_TAGS = True
+except:
+    HAS_TAGS = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
@@ -97,6 +111,10 @@ if HAS_CANDIDATES:
     api_router.include_router(candidates_router)
 if HAS_RATINGS:
     api_router.include_router(ratings_router)
+if HAS_ANALYTICS:
+    api_router.include_router(analytics_router)
+if HAS_TAGS:
+    api_router.include_router(tags_router)
 
 # Include the main router in the app
 app.include_router(api_router)
