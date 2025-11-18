@@ -92,3 +92,27 @@
 .vingi-quick-action--info:hover {
   transform: none;
 }
+
+.vingi-quick-action--warning {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #f59e0b;
+}
+
+.vingi-quick-action--warning:hover {
+  background: rgba(255, 193, 7, 0.2);
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+}
+
+.vingi-quick-action--primary {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+.vingi-quick-action--primary:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
