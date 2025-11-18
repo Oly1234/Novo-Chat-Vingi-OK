@@ -201,8 +201,7 @@ export const ChatProvider = ({ children }) => {
     if (!sessionId) return;
 
     try {
-      // Save rating to backend (you can create endpoint for this)
-      console.log('Rating submitted:', ratingData);
+      await ratingsAPI.submitRating(sessionId, ratingData.rating, ratingData.feedback);
       
       addMessage({
         sender: 'system',
@@ -213,6 +212,7 @@ export const ChatProvider = ({ children }) => {
       setShowRating(false);
     } catch (error) {
       console.error('Failed to submit rating:', error);
+      throw error;
     }
   }, [sessionId, addMessage]);
 
