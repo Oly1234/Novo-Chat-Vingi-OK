@@ -1,31 +1,45 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ChatProvider } from './contexts/ChatContext';
+import { HeroPage } from './components/HeroPage';
 import { ChatContainer } from './components/Chat/ChatContainer';
+import { AdminLogin } from './components/Admin/AdminLogin';
+import { AdminDashboard } from './components/Admin/AdminDashboard';
 import { DeveloperCredit } from './components/UI/DeveloperCredit';
 import '@/App.css';
 
 const Home = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <div className="vingi-app">
-      <div className="vingi-app__hero">
-        <div className="vingi-app__container">
-          <h1 className="vingi-app__title">Vingi Têxtil</h1>
-          <p className="vingi-app__subtitle">
-            Bem-vindo ao nosso sistema de atendimento inteligente
-          </p>
-          <p className="vingi-app__description">
-            Clique no botão de chat para iniciar uma conversa com nosso assistente virtual
-            ou falar diretamente com nossa equipe.
-          </p>
-        </div>
-      </div>
-      
-      <ChatContainer />
+      {!isChatOpen && <HeroPage onOpenChat={() => setIsChatOpen(true)} />}
+      {isChatOpen && <ChatContainer />}
       <DeveloperCredit />
     </div>
   );
+};
+
+const AdminRoute = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem('adminPassword');
+  });
+
+  const handleLogin = (password) => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminPassword');
+    setIsAuthenticated(false);
+  };
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={handleLogin} />;
+  }
+
+  return <AdminDashboard onLogout={handleLogout} />;
 };
 
 function App() {
@@ -35,6 +49,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<AdminRoute />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </ChatProvider>
