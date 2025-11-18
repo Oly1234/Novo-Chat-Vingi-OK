@@ -384,14 +384,19 @@ frontend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "2.0"
+  test_sequence: 2
+  run_ui: false
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
-  test_all: true
-  test_priority: "completed"
+  current_focus:
+    - "Chat Messages (Firebase)"
+    - "Get Session (Firebase)"
+  stuck_tasks:
+    - "Chat Messages (Firebase)"
+    - "Get Session (Firebase)"
+  test_all: false
+  test_priority: "stuck_first"
 
 agent_communication:
   - agent: "testing"
