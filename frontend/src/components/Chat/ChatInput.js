@@ -138,9 +138,14 @@ export const ChatInput = () => {
           multiple
         />
 
+        <VoiceInput
+          onTranscript={(text) => setInputValue(prev => prev + (prev ? ' ' : '') + text)}
+          disabled={isLoading}
+        />
+
         <textarea
           className="vingi-chat-input__textarea"
-          placeholder="Digite sua mensagem..."
+          placeholder="Digite ou use o microfone..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
