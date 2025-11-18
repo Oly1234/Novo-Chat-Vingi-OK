@@ -147,6 +147,75 @@ async def get_stats(authorized: bool = Depends(verify_admin)):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+@router.get("/queue")
+async def get_queue(authorized: bool = Depends(verify_admin)):
+    """Get waiting queue"""
+    try:
+        # Get sessions waiting for human agent
+        queue = await storage_service.db['sessions'].find(
+            {'status': 'waiting'},
+            {'_id': 0}
+        ).sort('startedAt', 1).to_list(100)
+        
+        return {"queue": queue}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/queue/assign")
+async def assign_to_agent(
+    request: dict,
+    authorized: bool = Depends(verify_admin)
+):
+    """Assign session to agent"""
+    try:
+        session_id = request.get('sessionId')
+        agent_id = request.get('agentId')
+        
+        await storage_service.db['sessions'].update_one(
+            {'id': session_id},
+            {'$set': {'status': 'human', 'currentAgentId': agent_id}}
+        )
+        
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/sessions")
+async def get_all_sessions(authorized: bool = Depends(verify_admin)):
+    """Get all sessions"""
+    try:
+        sessions = await storage_service.db['sessions'].find(
+            {},
+            {'_id': 0}
+        ).sort('startedAt', -1).to_list(1000)
+        
+        return {"sessions": sessions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/session/{session_id}")
+async def get_session_details(
+    session_id: str,
+    authorized: bool = Depends(verify_admin)
+):
+    """Get session details with messages"""
+    try:
+        session = await storage_service.db['sessions'].find_one(
+            {'id': session_id},
+            {'_id': 0}
+        )
+        
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        messages = await storage_service.get_messages(session_id)
+        
+        return {
+            "session": session,
+            "messages": messages
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Chat History
 @router.get("/sessions")
