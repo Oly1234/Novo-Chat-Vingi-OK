@@ -217,17 +217,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Voice-to-Text (Microfone)"
-    - "Typing Indicator"
-    - "Complete Control Buttons"
-    - "Rating Modal"
     - "VAGAS Flow with Upload"
-    - "Mobile Responsiveness"
-    - "Visual General"
-  stuck_tasks: []
-  test_all: true
-  test_priority: "high_first"
+  stuck_tasks:
+    - "VAGAS Flow with Upload"
+  test_all: false
+  test_priority: "stuck_first"
 
 agent_communication:
   - agent: "testing"
     message: "Starting comprehensive testing of ALL NEW FUNCTIONALITIES as requested. Will test Voice-to-Text, Typing Indicator, Complete Control Buttons, Rating Modal, VAGAS Flow with Upload, Mobile Responsiveness, and Visual General aspects."
+  - agent: "testing"
+    message: "✅ COMPREHENSIVE TESTING COMPLETED - 6/7 features working perfectly. CRITICAL ISSUE FOUND: VAGAS Flow with Upload has integration problem. Frontend doesn't call /candidates/submit API to create candidateData, so 'Enviar Currículo' button never appears. All other features (Voice-to-Text, Typing Indicator, Control Buttons, Rating Modal, Mobile Responsiveness, Visual) are working excellently."
