@@ -94,22 +94,22 @@ export const HeroPage = ({ onOpenChat }) => {
           ))}
         </div>
 
-        {/* CTA Button */}
-        <button 
-          className="hero-cta"
-          onClick={onOpenChat}
-          data-testid="hero-cta-button"
-        >
-          <Sparkles size={20} />
-          <span>Iniciar Conversa</span>
-          <div className="hero-cta__shine"></div>
-        </button>
-
         {/* Trust Badge */}
         <div className="hero-trust">
           <Shield size={16} />
           <span>Sistema Seguro e Confiável • Desenvolvido por Rafael Olival</span>
         </div>
+      </div>
+
+      {/* Discrete Admin Access */}
+      <div className="hero-footer">
+        <button 
+          className="admin-access-btn"
+          onClick={() => window.location.href = '/admin'}
+          title="Acesso Administrativo"
+        >
+          <Shield size={14} />
+        </button>
       </div>
     </div>
   );
