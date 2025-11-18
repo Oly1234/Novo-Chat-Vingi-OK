@@ -87,4 +87,22 @@ export const configAPI = {
   }
 };
 
+export const ratingsAPI = {
+  // Submit rating
+  submitRating: async (sessionId, rating, feedback) => {
+    const response = await api.post('/ratings/submit', {
+      sessionId,
+      rating,
+      feedback
+    });
+    return response.data;
+  },
+
+  // Get rating stats (admin only)
+  getRatingStats: async () => {
+    const response = await api.get('/ratings/stats');
+    return response.data;
+  }
+};
+
 export default api;
