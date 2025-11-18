@@ -6,6 +6,8 @@ import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { QuickActions } from './QuickActions';
 import { WelcomeScreen } from './WelcomeScreen';
+import { FileUploadModal } from './FileUploadModal';
+import { RatingModal } from './RatingModal';
 import './ChatContainer.css';
 
 export const ChatContainer = () => {
