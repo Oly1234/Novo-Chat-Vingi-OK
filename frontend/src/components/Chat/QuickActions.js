@@ -65,8 +65,8 @@ export const QuickActions = () => {
         </button>
       )}
       
-      {/* Botão WhatsApp - aparece quando departamento é identificado */}
-      {currentDepartment && (
+      {/* Botão WhatsApp - aparece APENAS quando usuário forneceu WhatsApp */}
+      {currentDepartment && candidateData && candidateData.phone && (
         <button 
           className="vingi-quick-action vingi-quick-action--success"
           onClick={handleWhatsApp}
