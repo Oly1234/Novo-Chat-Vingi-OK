@@ -104,13 +104,33 @@ export const ChatProvider = ({ children }) => {
     if (!sessionId) return;
 
     try {
-      await chatAPI.requestHandoff(sessionId);
+      const response = await chatAPI.requestHandoff(sessionId);
       setChatMode('human');
+      // Simular posição na fila (1-5)
+      const position = Math.floor(Math.random() * 5) + 1;
+      setQueuePosition(position);
+      
       addMessage({
         sender: 'system',
-        text: 'Você foi adicionado à fila de atendimento. Em breve um atendente entrará em contato.',
+        text: `Você foi adicionado à fila de atendimento. Você é o ${position}º na fila. Em breve um atendente entrará em contato.`,
         timestamp: new Date()
       });
+      
+      // Simular redução da fila
+      const interval = setInterval(() => {
+        setQueuePosition(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            addMessage({
+              sender: 'system',
+              text: 'Um atendente está pronto para te atender!',
+              timestamp: new Date()
+            });
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 15000); // Reduz 1 posição a cada 15s
     } catch (error) {
       console.error('Failed to request handoff:', error);
     }
