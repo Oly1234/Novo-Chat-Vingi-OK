@@ -315,41 +315,36 @@
   }
 }
 
-/* Discrete Admin Access */
-.hero-footer {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-}
-
-.admin-access-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Admin Access in Trust Badge */
+.hero-trust__admin {
+  margin-left: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0.3;
-  color: var(--text-secondary);
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.admin-access-btn:hover {
+.hero-trust__admin:hover {
   opacity: 1;
   background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
+  border-color: rgba(59, 130, 246, 0.5);
   color: var(--primary-color);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
-  .hero-footer {
-    bottom: 10px;
-    right: 10px;
+  .hero-trust__admin {
+    margin-left: 8px;
+    padding: 3px 10px;
+    font-size: 10px;
   }
 }
