@@ -94,22 +94,18 @@ export const HeroPage = ({ onOpenChat }) => {
           ))}
         </div>
 
-        {/* Trust Badge */}
+        {/* Trust Badge with Admin Access */}
         <div className="hero-trust">
           <Shield size={16} />
           <span>Sistema Seguro e Confiável • Desenvolvido por Rafael Olival</span>
+          <button 
+            className="hero-trust__admin"
+            onClick={() => window.location.href = '/admin'}
+            title="Acesso Administrativo"
+          >
+            Admin
+          </button>
         </div>
-      </div>
-
-      {/* Discrete Admin Access */}
-      <div className="hero-footer">
-        <button 
-          className="admin-access-btn"
-          onClick={() => window.location.href = '/admin'}
-          title="Acesso Administrativo"
-        >
-          <Shield size={14} />
-        </button>
       </div>
     </div>
   );
