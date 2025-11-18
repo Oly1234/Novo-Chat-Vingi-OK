@@ -18,6 +18,7 @@ export const ChatProvider = ({ children }) => {
   const [currentDepartment, setCurrentDepartment] = useState(null);
   const [chatMode, setChatMode] = useState('ai'); // 'ai' | 'human' | 'whatsapp'
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [queuePosition, setQueuePosition] = useState(0);
 
   // Initialize session on mount
   useEffect(() => {
