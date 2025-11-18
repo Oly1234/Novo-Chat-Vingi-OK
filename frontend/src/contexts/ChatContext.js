@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { chatAPI } from '../services/api';
+import { notificationService } from '../services/notification';
 
 const ChatContext = createContext();
 
@@ -19,6 +20,9 @@ export const ChatProvider = ({ children }) => {
   const [chatMode, setChatMode] = useState('ai'); // 'ai' | 'human' | 'whatsapp'
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [queuePosition, setQueuePosition] = useState(0);
+  const [showFileUpload, setShowFileUpload] = useState(false);
+  const [showRating, setShowRating] = useState(false);
+  const [candidateData, setCandidateData] = useState(null);
 
   // Initialize session on mount
   useEffect(() => {
