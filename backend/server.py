@@ -51,22 +51,22 @@ async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
     status_obj = StatusCheck(**status_dict)
     
-    # Convert to dict and serialize datetime to ISO string for MongoDB
+    # Save to Firestore
     doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
+    doc_id = doc['id']
+    firebase_service.db.collection('status_checks').document(doc_id).set(doc)
     
-    _ = await db.status_checks.insert_one(doc)
     return status_obj
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
+    # Get from Firestore
+    status_checks = []
+    docs = firebase_service.db.collection('status_checks').limit(1000).stream()
     
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
+    for doc in docs:
+        data = doc.to_dict()
+        status_checks.append(StatusCheck(**data))
     
     return status_checks
 
