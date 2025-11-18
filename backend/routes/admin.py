@@ -29,7 +29,7 @@ def verify_admin(x_admin_password: str = Header(...)):
 async def admin_login(request: LoginRequest, req: Request):
     """Admin login with attempt tracking and rate limiting"""
     client_ip = req.client.host
-    current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
     
     # Check if IP is blocked
     if client_ip in login_attempts:
@@ -49,13 +49,16 @@ async def admin_login(request: LoginRequest, req: Request):
     
     # Verify password
     if request.password == os.getenv('ADMIN_PASSWORD'):
-        # Success - reset attempts
+        # Success - reset attempts and record in Firebase
         if client_ip in login_attempts:
             del login_attempts[client_ip]
+        await firebase_service.record_login_attempt(success=True)
         
         return LoginResponse(success=True, message="Login successful")
     
-    # Failed attempt
+    # Failed attempt - record in Firebase
+    await firebase_service.record_login_attempt(success=False)
+    
     if client_ip not in login_attempts:
         login_attempts[client_ip] = {'attempts': 0, 'last_attempt': current_time}
     
