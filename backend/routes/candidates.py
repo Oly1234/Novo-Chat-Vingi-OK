@@ -99,7 +99,7 @@ async def list_candidates(
 ):
     """Get candidates list (admin)"""
     try:
-        candidates = await storage_service.get_candidates(status, limit)
+        candidates = await firebase_service.get_candidates(status, limit)
         return {"candidates": candidates}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -112,7 +112,7 @@ async def get_candidate(
 ):
     """Get candidate details"""
     try:
-        candidate = await storage_service.get_candidate(candidate_id)
+        candidate = await firebase_service.get_candidate(candidate_id)
         if not candidate:
             raise HTTPException(status_code=404, detail="Candidate not found")
         return candidate
@@ -133,7 +133,7 @@ async def update_candidate_status(
         if notes:
             update_data['notes'] = notes
         
-        success = await storage_service.update_candidate(candidate_id, update_data)
+        success = await firebase_service.update_candidate(candidate_id, update_data)
         if not success:
             raise HTTPException(status_code=500, detail="Failed to update")
         
