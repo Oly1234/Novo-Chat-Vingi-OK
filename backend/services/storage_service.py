@@ -164,6 +164,49 @@ class StorageService:
             {'$set': data}
         )
         return result.modified_count > 0
+    
+    # Rating Methods
+    async def save_rating(self, rating_data: Dict) -> Dict:
+        """Save user rating"""
+        rating_id = str(uuid.uuid4())
+        rating_data['id'] = rating_id
+        await self.db['ratings'].insert_one(rating_data)
+        return rating_data
+    
+    async def get_rating_stats(self) -> Dict:
+        """Get rating statistics"""
+        pipeline = [
+            {
+                '$group': {
+                    '_id': None,
+                    'averageRating': {'$avg': '$rating'},
+                    'totalRatings': {'$sum': 1},
+                    'ratingCounts': {
+                        '$push': '$rating'
+                    }
+                }
+            }
+        ]
+        
+        result = await self.db['ratings'].aggregate(pipeline).to_list(1)
+        
+        if not result:
+            return {
+                'averageRating': 0,
+                'totalRatings': 0,
+                'distribution': {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+            }
+        
+        stats = result[0]
+        rating_counts = stats.get('ratingCounts', [])
+        
+        distribution = {i: rating_counts.count(i) for i in range(1, 6)}
+        
+        return {
+            'averageRating': round(stats.get('averageRating', 0), 2),
+            'totalRatings': stats.get('totalRatings', 0),
+            'distribution': distribution
+        }
 
 # Singleton instance
 storage_service = StorageService()
