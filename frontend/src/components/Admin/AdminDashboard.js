@@ -88,6 +88,7 @@ export const AdminDashboard = ({ onLogout }) => {
 
       {/* Content */}
       <div className="admin-content">
+        {activeTab === 'analytics' && <Analytics />}
         {activeTab === 'stats' && <Statistics stats={stats} />}
         {activeTab === 'queue' && <QueueManagement />}
         {activeTab === 'knowledge' && <KnowledgeBase />}
