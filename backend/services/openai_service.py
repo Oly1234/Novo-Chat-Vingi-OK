@@ -65,7 +65,7 @@ Seja atencioso e resolva dúvidas de forma clara.
             self._client = OpenAI(api_key=api_key)
         return self._client
     
-    async def chat(self, messages: List[Dict], department: str = None) -> Dict:
+    async def chat(self, messages: List[Dict], department: str = None, knowledge_base: List[Dict] = None) -> Dict:
         """
         Send messages to OpenAI and get response
         Returns: {text: str, department: str (if detected)}
@@ -73,6 +73,16 @@ Seja atencioso e resolva dúvidas de forma clara.
         try:
             # Select system prompt
             system_prompt = self.system_prompts.get(department or 'default', self.system_prompts['default'])
+            
+            # Add knowledge base to system prompt if available
+            if knowledge_base and len(knowledge_base) > 0:
+                kb_text = "\n\nINFORMAÇÕES DA EMPRESA (use quando relevante):\n"
+                for item in knowledge_base:
+                    kb_text += f"\n[{item.get('category', 'Info')}] {item.get('title', '')}: {item.get('content', '')}"
+                system_prompt += kb_text
+            
+            # Add instructions for focused responses
+            system_prompt += "\n\nIMPORTANTE: Responda APENAS o que foi perguntado. Seja direto e objetivo. Não mencione nomes de pessoas, emails ou documentos a menos que seja estritamente necessário."
             
             # Build messages for API
             api_messages = [
