@@ -60,12 +60,12 @@ async def send_message(request: SendMessageRequest):
     """Send a message and get AI response"""
     try:
         # Get session
-        session = await storage_service.get_session(request.sessionId)
+        session = await firebase_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Add user message to Firestore
-        user_message = await storage_service.add_message(
+        user_message = await firebase_service.add_message(
             session_id=request.sessionId,
             sender='user',
             text=request.text,
@@ -73,10 +73,10 @@ async def send_message(request: SendMessageRequest):
         )
         
         # Get conversation history
-        messages = await storage_service.get_messages(request.sessionId)
+        messages = await firebase_service.get_messages(request.sessionId)
         
         # Get knowledge base
-        knowledge_base = await storage_service.get_knowledge_base()
+        knowledge_base = await firebase_service.get_knowledge_base()
         
         # Detect department if not already set
         current_department = session.get('department')
@@ -86,7 +86,7 @@ async def send_message(request: SendMessageRequest):
             if detected:
                 current_department = detected
                 # Save to session immediately
-                await storage_service.update_session(
+                await firebase_service.update_session(
                     request.sessionId,
                     {'department': detected}
                 )
@@ -99,7 +99,7 @@ async def send_message(request: SendMessageRequest):
         )
         
         # Save AI response
-        ai_message = await storage_service.add_message(
+        ai_message = await firebase_service.add_message(
             session_id=request.sessionId,
             sender='ai',
             text=ai_response['text'],
@@ -108,7 +108,7 @@ async def send_message(request: SendMessageRequest):
         
         # Update department if detected during conversation (fallback)
         if ai_response.get('department') and not current_department:
-            await storage_service.update_session(
+            await firebase_service.update_session(
                 request.sessionId,
                 {'department': ai_response['department']}
             )
