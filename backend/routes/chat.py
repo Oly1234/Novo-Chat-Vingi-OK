@@ -178,26 +178,26 @@ async def request_handoff(request: HandoffRequest):
     """Request human handoff"""
     try:
         # Get session
-        session = await storage_service.get_session(request.sessionId)
+        session = await firebase_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Update session status
-        await storage_service.update_session(
+        await firebase_service.update_session(
             request.sessionId,
             {'status': 'waiting'}
         )
         
         # Add to queue
         department = session.get('department', 'SUPORTE')
-        queue_item = await storage_service.add_to_queue(
+        queue_item = await firebase_service.add_to_queue(
             session_id=request.sessionId,
             department=department,
             priority=1
         )
         
         # Add system message
-        await storage_service.add_message(
+        await firebase_service.add_message(
             session_id=request.sessionId,
             sender='system',
             text='Você foi adicionado à fila de atendimento. Em breve um atendente entrará em contato.',
