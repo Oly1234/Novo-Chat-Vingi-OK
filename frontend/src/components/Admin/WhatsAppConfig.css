@@ -1,0 +1,89 @@
+.whatsapp-config {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.wac-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.wac-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.wac-subtitle {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.wac-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.wac-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wac-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.wac-item-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.wac-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wac-remove:hover {
+  background: rgba(209, 52, 56, 0.1);
+  color: #D13438;
+}
+
+.wac-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .wac-header {
+    flex-direction: column;
+  }
+  
+  .wac-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .wac-form {
+    grid-template-columns: 1fr;
+  }
+}
