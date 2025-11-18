@@ -89,6 +89,30 @@ export const QuickActions = () => {
         <span>Cancelar</span>
       </button>
       
+      {/* Botão Upload Currículo - apenas para VAGAS */}
+      {currentDepartment === 'VAGAS' && candidateData && (
+        <button 
+          className="vingi-quick-action vingi-quick-action--primary"
+          onClick={() => setShowFileUpload(true)}
+          data-testid="upload-resume-button"
+          title="Enviar currículo"
+        >
+          <Upload size={18} />
+          <span>Enviar Currículo</span>
+        </button>
+      )}
+
+      {/* Botão Avaliar - sempre visível */}
+      <button 
+        className="vingi-quick-action vingi-quick-action--warning"
+        onClick={() => setShowRating(true)}
+        data-testid="rating-button"
+        title="Avaliar atendimento"
+      >
+        <Star size={18} />
+        <span>Avaliar</span>
+      </button>
+      
       {/* Botão Sair - sempre visível */}
       <button 
         className="vingi-quick-action vingi-quick-action--danger"
