@@ -35,7 +35,7 @@ export const KnowledgeBase = () => {
   const saveKnowledgeBase = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch('/api/admin/knowledge-base', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge-base`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,8 +45,11 @@ export const KnowledgeBase = () => {
       });
       if (response.ok) {
         alert('✅ Base de conhecimento atualizada!');
+      } else {
+        alert('❌ Erro ao salvar');
       }
     } catch (error) {
+      console.error('Error saving KB:', error);
       alert('❌ Erro ao salvar');
     } finally {
       setIsSaving(false);
