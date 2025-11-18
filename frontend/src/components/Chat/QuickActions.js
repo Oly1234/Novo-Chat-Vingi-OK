@@ -1,10 +1,20 @@
 import React from 'react';
-import { MessageSquarePlus, PhoneCall, X, RefreshCw } from 'lucide-react';
+import { MessageSquarePlus, PhoneCall, X, RefreshCw, Star, Upload } from 'lucide-react';
 import { useChat } from '../../contexts/ChatContext';
 import './QuickActions.css';
 
 export const QuickActions = () => {
-  const { requestHandoff, getWhatsAppURL, currentDepartment, clearChat, chatMode, queuePosition } = useChat();
+  const { 
+    requestHandoff, 
+    getWhatsAppURL, 
+    currentDepartment, 
+    clearChat, 
+    chatMode, 
+    queuePosition,
+    setShowRating,
+    setShowFileUpload,
+    candidateData
+  } = useChat();
 
   const handleHumanHandoff = async () => {
     await requestHandoff();
