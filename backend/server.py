@@ -81,6 +81,13 @@ try:
 except:
     HAS_CANDIDATES = False
 
+# Try to import ratings router
+try:
+    from routes.ratings import router as ratings_router
+    HAS_RATINGS = True
+except:
+    HAS_RATINGS = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
@@ -88,6 +95,8 @@ if HAS_ADMIN:
     api_router.include_router(admin_router)
 if HAS_CANDIDATES:
     api_router.include_router(candidates_router)
+if HAS_RATINGS:
+    api_router.include_router(ratings_router)
 
 # Include the main router in the app
 app.include_router(api_router)
