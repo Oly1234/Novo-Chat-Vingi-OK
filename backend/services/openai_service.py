@@ -143,7 +143,15 @@ Seja atencioso e resolva dúvidas de forma clara.
                 system_prompt += kb_text
             
             # Add instructions for focused responses
-            system_prompt += "\n\nIMPORTANTE: Responda APENAS o que foi perguntado. Seja direto e objetivo. Não mencione nomes de pessoas, emails ou documentos a menos que seja estritamente necessário."
+            system_prompt += """
+
+IMPORTANTE: 
+- Responda de forma conversacional e natural
+- Use a Knowledge Base disponível sempre que possível
+- Se já tiver o contexto da conversa, não repita perguntas
+- Varie suas respostas, não seja repetitivo
+- Só peça dados de contato quando REALMENTE for encaminhar para especialista
+- Forneça informações úteis antes de pedir contato"""
             
             # Build messages for API
             api_messages = [
