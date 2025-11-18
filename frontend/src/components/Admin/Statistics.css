@@ -1,0 +1,122 @@
+.statistics {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stats-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2rem 0;
+}
+
+.stats-loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--text-secondary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.stat-change {
+  padding: 0.25rem 0.75rem;
+  background: var(--surface-secondary);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.stat-title {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Department Stats */
+.department-stats {
+  margin-top: 2rem;
+}
+
+.dept-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dept-item {
+  display: grid;
+  grid-template-columns: 150px 1fr 60px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dept-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.dept-bar {
+  height: 8px;
+  background: var(--surface-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dept-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.dept-count {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dept-item {
+    grid-template-columns: 1fr 2fr 50px;
+  }
+}
