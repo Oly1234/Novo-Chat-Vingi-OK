@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { chatAPI } from '../services/api';
+import { chatAPI, ratingsAPI } from '../services/api';
 import { notificationService } from '../services/notification';
 
 const ChatContext = createContext();
