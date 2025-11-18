@@ -7,6 +7,17 @@ import os
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
+# Login attempt tracking (in-memory for simplicity, use Redis in production)
+login_attempts = {}
+
+# Models
+class LoginRequest(BaseModel):
+    password: str
+
+class LoginResponse(BaseModel):
+    success: bool
+    message: str
+
 # Auth dependency
 def verify_admin(x_admin_password: str = Header(...)):
     if x_admin_password != os.getenv('ADMIN_PASSWORD'):
