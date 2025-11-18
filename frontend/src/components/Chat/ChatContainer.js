@@ -12,7 +12,18 @@ import './ChatContainer.css';
 
 export const ChatContainer = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { messages, chatMode, clearChat } = useChat();
+  const { 
+    messages, 
+    chatMode, 
+    clearChat,
+    showFileUpload,
+    showRating,
+    candidateData,
+    setShowFileUpload,
+    setShowRating,
+    uploadResume,
+    submitRating
+  } = useChat();
   const [isMinimized, setIsMinimized] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
