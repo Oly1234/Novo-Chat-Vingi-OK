@@ -33,6 +33,7 @@ export const AdminDashboard = ({ onLogout }) => {
   };
 
   const tabs = [
+    { id: 'analytics', label: 'Analytics', icon: <TrendingUp size={20} /> },
     { id: 'stats', label: 'Dashboard', icon: <BarChart3 size={20} /> },
     { id: 'queue', label: 'Fila', icon: <Users size={20} /> },
     { id: 'knowledge', label: 'Base de Conhecimento', icon: <Database size={20} /> },
