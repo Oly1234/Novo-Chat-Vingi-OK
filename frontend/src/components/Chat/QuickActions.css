@@ -55,3 +55,40 @@
   border-color: #10893E;
   transform: translateY(-1px);
 }
+
+.vingi-quick-action--secondary {
+  background: var(--surface-secondary);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.vingi-quick-action--secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.vingi-quick-action--danger {
+  background: rgba(209, 52, 56, 0.1);
+  border-color: rgba(209, 52, 56, 0.3);
+  color: #D13438;
+}
+
+.vingi-quick-action--danger:hover {
+  background: rgba(209, 52, 56, 0.2);
+  border-color: #D13438;
+  transform: translateY(-1px);
+}
+
+.vingi-quick-action--info {
+  background: rgba(0, 120, 212, 0.1);
+  border-color: rgba(0, 120, 212, 0.3);
+  color: #0078D4;
+  cursor: default;
+  font-weight: 600;
+}
+
+.vingi-quick-action--info:hover {
+  transform: none;
+}
