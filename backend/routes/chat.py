@@ -221,12 +221,12 @@ async def get_whatsapp_url(request: GetWhatsAppURLRequest):
     """Get WhatsApp URL for specific department"""
     try:
         # Get session
-        session = await storage_service.get_session(request.sessionId)
+        session = await firebase_service.get_session(request.sessionId)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
         # Get WhatsApp config
-        whatsapp_config = await storage_service.get_whatsapp_config()
+        whatsapp_config = await firebase_service.get_whatsapp_config()
         
         # Find department
         department_config = next(
@@ -262,11 +262,11 @@ async def get_whatsapp_url(request: GetWhatsAppURLRequest):
 async def get_session(session_id: str):
     """Get session details"""
     try:
-        session = await storage_service.get_session(session_id)
+        session = await firebase_service.get_session(session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
-        messages = await storage_service.get_messages(session_id)
+        messages = await firebase_service.get_messages(session_id)
         
         return {
             "session": session,
