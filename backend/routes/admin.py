@@ -203,28 +203,3 @@ async def get_session_details(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-# Chat History
-@router.get("/sessions")
-async def get_sessions(
-    limit: int = 50,
-    authorized: bool = Depends(verify_admin)
-):
-    """Get recent sessions"""
-    try:
-        sessions = await storage_service.sessions.find().sort("startedAt", -1).limit(limit).to_list(length=limit)
-        return {"sessions": sessions}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.get("/session/{session_id}/messages")
-async def get_session_messages(
-    session_id: str,
-    authorized: bool = Depends(verify_admin)
-):
-    """Get messages for a session"""
-    try:
-        messages = await storage_service.get_messages(session_id)
-        return {"messages": messages}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
