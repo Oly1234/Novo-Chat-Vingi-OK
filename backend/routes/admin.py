@@ -129,24 +129,36 @@ async def get_queue(authorized: bool = Depends(verify_admin)):
 async def get_stats(authorized: bool = Depends(verify_admin)):
     """Get system statistics"""
     try:
-        # Get stats from MongoDB
-        total_sessions = await storage_service.sessions.count_documents({})
-        total_messages = await storage_service.messages.count_documents({})
-        active_sessions = await storage_service.sessions.count_documents({"status": "ai"})
-        waiting_queue = await storage_service.queue.count_documents({"status": "waiting"})
+        # Get stats from Firestore
+        all_sessions = await firebase_service.get_all_sessions(limit=1000)
+        total_sessions = len(all_sessions)
+        active_sessions = len([s for s in all_sessions if s.get('status') == 'ai'])
+        
+        # Count messages (simplified)
+        total_messages = 0
+        messages_ref = firebase_service.db.collection('messages').limit(1000).stream()
+        for _ in messages_ref:
+            total_messages += 1
+        
+        # Count queue
+        queue = await firebase_service.get_queue()
+        waiting_queue = len(queue)
         
         # Department distribution
-        dept_stats = await storage_service.sessions.aggregate([
-            {"$match": {"department": {"$ne": None}}},
-            {"$group": {"_id": "$department", "count": {"$sum": 1}}}
-        ]).to_list(length=100)
+        dept_stats = {}
+        for session in all_sessions:
+            dept = session.get('department')
+            if dept:
+                dept_stats[dept] = dept_stats.get(dept, 0) + 1
+        
+        dept_list = [{"_id": k, "count": v} for k, v in dept_stats.items()]
         
         return {
             "totalSessions": total_sessions,
             "totalMessages": total_messages,
             "activeSessions": active_sessions,
             "waitingQueue": waiting_queue,
-            "departmentStats": dept_stats
+            "departmentStats": dept_list
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -161,9 +173,9 @@ async def assign_to_agent(
         session_id = request.get('sessionId')
         agent_id = request.get('agentId')
         
-        await storage_service.db['sessions'].update_one(
-            {'id': session_id},
-            {'$set': {'status': 'human', 'currentAgentId': agent_id}}
+        await firebase_service.update_session(
+            session_id,
+            {'status': 'human', 'currentAgentId': agent_id}
         )
         
         return {"success": True}
@@ -174,11 +186,7 @@ async def assign_to_agent(
 async def get_all_sessions(authorized: bool = Depends(verify_admin)):
     """Get all sessions"""
     try:
-        sessions = await storage_service.db['sessions'].find(
-            {},
-            {'_id': 0}
-        ).sort('startedAt', -1).to_list(1000)
-        
+        sessions = await firebase_service.get_all_sessions(limit=1000)
         return {"sessions": sessions}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -190,15 +198,12 @@ async def get_session_details(
 ):
     """Get session details with messages"""
     try:
-        session = await storage_service.db['sessions'].find_one(
-            {'id': session_id},
-            {'_id': 0}
-        )
+        session = await firebase_service.get_session(session_id)
         
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
         
-        messages = await storage_service.get_messages(session_id)
+        messages = await firebase_service.get_messages(session_id)
         
         return {
             "session": session,
