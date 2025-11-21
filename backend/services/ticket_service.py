@@ -167,7 +167,15 @@ class TicketService:
         if not ticket:
             return False
         
-        historico = ticket.historico.copy()
+        # Convert all history entries to dict format
+        historico = []
+        for entry in ticket.historico:
+            if isinstance(entry, dict):
+                historico.append(entry)
+            else:
+                historico.append(entry.dict())
+        
+        # Add new comment entry
         historico.append(HistoryEntry(
             tipo=HistoryEntryType.COMENTARIO,
             usuario=usuario,
