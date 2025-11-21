@@ -468,13 +468,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Chat Messages (Firebase)"
-    - "Get Session (Firebase)"
-  stuck_tasks:
-    - "Chat Messages (Firebase)"
-    - "Get Session (Firebase)"
-  test_all: false
-  test_priority: "stuck_first"
+    - "Create Ticket"
+    - "List Tickets (Admin)"
+    - "Get Ticket Details"
+    - "Update Ticket Status"
+    - "Add Comment to Ticket"
+    - "Ticket Statistics"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
