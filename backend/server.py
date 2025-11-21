@@ -72,6 +72,7 @@ async def get_status_checks():
 
 # Import all routers
 from routes import chat_router, config_router
+from routes.tickets import router as tickets_router
 try:
     from routes.admin import router as admin_router
     HAS_ADMIN = True
