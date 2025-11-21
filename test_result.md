@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Testar a migração completa do MongoDB para Firebase. Validar todos os endpoints críticos: Chat Session & Messages, Knowledge Base, Candidates Flow, WhatsApp Config, Ratings, Sessions Admin - todos devem usar Firebase/Firestore"
+user_problem_statement: "TESTE COMPLETO DO SISTEMA VINGI COM TICKETS - Validação Final para Produção. Testar sistema completo incluindo: PARTE 1 - Sistema de Tickets (NOVO - PRIORIDADE MÁXIMA): Create, List, Get, Update Status, Add Comment, Statistics. PARTE 2 - Chat e Funcionalidades Existentes: Chat Sessions, Messages, Admin Login, Knowledge Base. PARTE 3 - Persistência Firebase: Validar que todos os dados persistem corretamente no Firebase/Firestore."
 
 backend:
   - task: "Chat Session Start (Firebase)"
