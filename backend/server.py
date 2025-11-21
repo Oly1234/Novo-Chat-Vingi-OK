@@ -8,7 +8,6 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import List
 import uuid
 from datetime import datetime, timezone
-from routes import chat_router, config_router
 from services.firebase_service import firebase_service
 
 
