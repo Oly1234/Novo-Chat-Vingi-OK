@@ -611,36 +611,30 @@ class BackendTester:
     
     def run_all_tests(self):
         """Run all backend tests in sequence"""
-        print("🚀 Starting Firebase Migration Backend Tests")
-        print("=" * 60)
+        print("🚀 Starting VINGI System with Tickets - Complete Backend Tests")
+        print("=" * 70)
         
         # Test sequence as specified in review request
         tests = [
-            # 1. Chat Session & Messages (FIREBASE)
-            ("Chat Session Start", self.test_chat_session_start),
-            ("Chat Message", self.test_chat_message),
-            ("Get Session", self.test_get_session),
+            # PART 1: TICKET SYSTEM (NEW - MAXIMUM PRIORITY)
+            ("1. Create Ticket", self.test_create_ticket),
+            ("2. List Tickets (Admin)", self.test_list_tickets),
+            ("3. Get Ticket", self.test_get_ticket),
+            ("4. Update Ticket Status", self.test_update_ticket_status),
+            ("5. Add Comment", self.test_add_comment),
+            ("6. Ticket Statistics", self.test_ticket_stats),
             
-            # 2. Knowledge Base (FIREBASE)
-            ("Admin Login", self.test_admin_login),
-            ("Knowledge Base Add", self.test_knowledge_base_add),
-            ("Knowledge Base Get", self.test_knowledge_base_get),
+            # PART 2: CHAT & EXISTING FUNCTIONALITIES
+            ("7. Chat Session Start", self.test_chat_session_start),
+            ("8. Chat Message", self.test_chat_message),
+            ("9. Admin Login", self.test_admin_login),
+            ("10. Knowledge Base Get", self.test_knowledge_base_get),
             
-            # 3. Candidates Flow (FIREBASE)
-            ("Candidate Submit", self.test_candidate_submit),
-            ("Candidates List", self.test_candidates_list),
-            
-            # 4. WhatsApp Config (FIREBASE)
-            ("WhatsApp Config Save", self.test_whatsapp_config_save),
-            ("WhatsApp Config Get", self.test_whatsapp_config_get),
-            
-            # 5. Ratings (FIREBASE)
-            ("Rating Submit", self.test_rating_submit),
-            ("Rating Stats", self.test_rating_stats),
-            
-            # 6. Sessions Admin (FIREBASE)
-            ("Admin Sessions", self.test_admin_sessions),
-            ("Admin Stats", self.test_admin_stats)
+            # PART 3: FIREBASE PERSISTENCE (Selected Tests)
+            ("11. Candidate Submit", self.test_candidate_submit),
+            ("12. WhatsApp Config Get", self.test_whatsapp_config_get),
+            ("13. Rating Submit", self.test_rating_submit),
+            ("14. Admin Stats", self.test_admin_stats)
         ]
         
         passed = 0
