@@ -6,6 +6,7 @@ import { Statistics } from './Statistics';
 import { WhatsAppConfig } from './WhatsAppConfig';
 import { SessionHistory } from './SessionHistory';
 import { Analytics } from './Analytics';
+import TicketsDashboard from './Tickets/TicketsDashboard';
 import './AdminDashboard.css';
 
 export const AdminDashboard = ({ onLogout }) => {
