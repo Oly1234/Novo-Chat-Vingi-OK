@@ -272,6 +272,84 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - GET /api/admin/stats returns system statistics: 5 sessions, 1 message. Firebase data aggregation working correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ RE-VERIFIED - GET /api/admin/stats returns updated statistics: 34 sessions, 11 messages. Firebase data aggregation continues working correctly."
+
+  - task: "Create Ticket"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/tickets/ successfully creates new tickets with ID, sequential number, and calculated SLA. Ticket #3 created with proper Firebase persistence."
+
+  - task: "List Tickets (Admin)"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - POST /api/tickets/list with admin authentication successfully retrieves tickets array. Retrieved 3 tickets with proper filtering and admin authorization."
+
+  - task: "Get Ticket Details"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/tickets/{ticket_id} returns complete ticket details including title, status, SLA, and history. Data retrieval working perfectly."
+
+  - task: "Update Ticket Status"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - PATCH /api/tickets/{ticket_id} successfully updates ticket status to 'em_andamento' with proper admin authentication and history tracking."
+
+  - task: "Add Comment to Ticket"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ FAILED - POST /api/tickets/comment failed with HTTP 500. Root cause: Firebase serialization issue with HistoryEntry objects in historico array."
+      - working: true
+        agent: "testing"
+        comment: "✅ FIXED - POST /api/tickets/comment now working perfectly. Fixed Firebase serialization issue by properly converting HistoryEntry objects to dict format before database update."
+
+  - task: "Ticket Statistics"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/tickets.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - GET /api/tickets/stats/overview returns comprehensive statistics: total, novos, emAndamento, resolvidos, vencidos. Statistics calculation working correctly."
 
 frontend:
   - task: "Voice-to-Text (Microfone)"
