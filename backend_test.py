@@ -32,6 +32,189 @@ class BackendTester:
         self.test_results.append(result)
         status = "✅ PASS" if success else "❌ FAIL"
         print(f"{status} - {test_name}: {details}")
+    
+    # ========== TICKET SYSTEM TESTS (NEW - PRIORITY) ==========
+    
+    def test_create_ticket(self):
+        """Test POST /api/tickets/ - Create new ticket"""
+        try:
+            ticket_data = {
+                "titulo": "Problema com estamparia digital",
+                "descricao": "Precisamos de suporte técnico para impressora",
+                "departamento": "Técnico",
+                "assunto": "Suporte Técnico",
+                "prioridade": "alta",
+                "tipo": "tecnico",
+                "solicitante": {
+                    "nome": "João Silva",
+                    "email": "joao@vingi.com.br",
+                    "telefone": "(11) 98765-4321"
+                },
+                "tags": ["urgente", "impressora"],
+                "prazoHoras": 4
+            }
+            
+            response = requests.post(f"{BASE_URL}/tickets/", json=ticket_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if 'id' in data and 'numero' in data and 'sla' in data:
+                    self.ticket_id = data['id']
+                    self.log_test("Create Ticket", True, 
+                                f"Ticket #{data['numero']} created with ID: {self.ticket_id}")
+                    return True
+                else:
+                    self.log_test("Create Ticket", False, 
+                                "Missing id, numero or sla in response")
+            else:
+                self.log_test("Create Ticket", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Create Ticket", False, f"Exception: {str(e)}")
+        return False
+    
+    def test_list_tickets(self):
+        """Test POST /api/tickets/list - List tickets (Admin)"""
+        try:
+            headers = {"x-admin-password": ADMIN_PASSWORD}
+            response = requests.post(f"{BASE_URL}/tickets/list", 
+                                   json={}, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, list):
+                    self.log_test("List Tickets", True, 
+                                f"Retrieved {len(data)} tickets")
+                    return True
+                else:
+                    self.log_test("List Tickets", False, 
+                                "Response is not a list")
+            else:
+                self.log_test("List Tickets", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("List Tickets", False, f"Exception: {str(e)}")
+        return False
+    
+    def test_get_ticket(self):
+        """Test GET /api/tickets/{ticket_id} - Get ticket details"""
+        if not self.ticket_id:
+            self.log_test("Get Ticket", False, "No ticket ID available")
+            return False
+            
+        try:
+            response = requests.get(f"{BASE_URL}/tickets/{self.ticket_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                if 'id' in data and 'titulo' in data and 'status' in data:
+                    self.log_test("Get Ticket", True, 
+                                f"Ticket details retrieved: {data['titulo']}")
+                    return True
+                else:
+                    self.log_test("Get Ticket", False, 
+                                "Missing required fields in response")
+            else:
+                self.log_test("Get Ticket", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Get Ticket", False, f"Exception: {str(e)}")
+        return False
+    
+    def test_update_ticket_status(self):
+        """Test PATCH /api/tickets/{ticket_id} - Update ticket status"""
+        if not self.ticket_id:
+            self.log_test("Update Ticket Status", False, "No ticket ID available")
+            return False
+            
+        try:
+            headers = {"x-admin-password": ADMIN_PASSWORD}
+            update_data = {"status": "em_andamento"}
+            
+            response = requests.patch(f"{BASE_URL}/tickets/{self.ticket_id}", 
+                                    json=update_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('status') == 'em_andamento':
+                    self.log_test("Update Ticket Status", True, 
+                                "Status updated to 'em_andamento'")
+                    return True
+                else:
+                    self.log_test("Update Ticket Status", False, 
+                                f"Status not updated correctly: {data.get('status')}")
+            else:
+                self.log_test("Update Ticket Status", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Update Ticket Status", False, f"Exception: {str(e)}")
+        return False
+    
+    def test_add_comment(self):
+        """Test POST /api/tickets/comment - Add comment to ticket"""
+        if not self.ticket_id:
+            self.log_test("Add Comment", False, "No ticket ID available")
+            return False
+            
+        try:
+            headers = {"x-admin-password": ADMIN_PASSWORD}
+            comment_data = {
+                "ticketId": self.ticket_id,
+                "texto": "Estamos analisando o problema",
+                "interno": False
+            }
+            
+            response = requests.post(f"{BASE_URL}/tickets/comment", 
+                                   json=comment_data, headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success') == True:
+                    self.log_test("Add Comment", True, 
+                                "Comment added successfully")
+                    return True
+                else:
+                    self.log_test("Add Comment", False, 
+                                f"Comment not added: {data}")
+            else:
+                self.log_test("Add Comment", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Add Comment", False, f"Exception: {str(e)}")
+        return False
+    
+    def test_ticket_stats(self):
+        """Test GET /api/tickets/stats/overview - Get ticket statistics"""
+        try:
+            headers = {"x-admin-password": ADMIN_PASSWORD}
+            response = requests.get(f"{BASE_URL}/tickets/stats/overview", 
+                                  headers=headers)
+            
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ['total', 'novos', 'emAndamento', 'resolvidos', 'vencidos']
+                if all(field in data for field in required_fields):
+                    self.log_test("Ticket Stats", True, 
+                                f"Stats: {data['total']} total, {data['novos']} novos, {data['vencidos']} vencidos")
+                    return True
+                else:
+                    missing = [f for f in required_fields if f not in data]
+                    self.log_test("Ticket Stats", False, 
+                                f"Missing fields: {missing}")
+            else:
+                self.log_test("Ticket Stats", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Ticket Stats", False, f"Exception: {str(e)}")
+        return False
+        
+    # ========== EXISTING CHAT & FIREBASE TESTS ==========
         
     def test_chat_session_start(self):
         """Test POST /api/chat/start - Create new chat session"""
