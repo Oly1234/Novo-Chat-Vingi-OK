@@ -129,6 +129,51 @@ export const ChatProvider = ({ children }) => {
     }
   }, [currentDepartment, addMessage]);
 
+  const submitRating = useCallback(async (ratingData) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ratings/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionId: sessionIdRef.current,
+          rating: ratingData.rating,
+          feedback: ratingData.feedback || ''
+        })
+      });
+
+      if (response.ok) {
+        console.log('Rating submitted successfully');
+        return true;
+      } else {
+        console.error('Failed to submit rating');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      return false;
+    }
+  }, []);
+
+  const addFile = useCallback((file) => {
+    setUploadedFiles(prev => [...prev, file]);
+  }, []);
+
+  const removeFile = useCallback((fileId) => {
+    setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
+  }, []);
+
+  const uploadFile = useCallback(async (file) => {
+    // Mock implementation - in real app would upload to server
+    return {
+      filename: file.name,
+      contentType: file.type,
+      size: file.size,
+      url: URL.createObjectURL(file)
+    };
+  }, []);
+
   const value = {
     sessionId,
     messages,
@@ -139,19 +184,23 @@ export const ChatProvider = ({ children }) => {
     addMessage,
     // Compatibilidade com ChatContainer
     chatMode: 'ai',
-    showFileUpload: false,
-    showRating: false,
-    candidateData: null,
-    setShowFileUpload: () => {},
-    setShowRating: () => {},
+    showFileUpload,
+    showRating,
+    candidateData,
+    setShowFileUpload,
+    setShowRating,
     uploadResume: async () => {},
-    submitRating: async () => {},
+    submitRating,
     clearChat: () => setMessages([]),
     // Compatibilidade com ChatInput
-    uploadedFiles: [],
-    addFile: () => {},
-    removeFile: () => {},
-    uploadFile: async () => null
+    uploadedFiles,
+    addFile,
+    removeFile,
+    uploadFile,
+    // Compatibilidade com QuickActions
+    requestHandoff: async () => {},
+    getWhatsAppURL: async () => null,
+    queuePosition: 0
   };
 
   return (
