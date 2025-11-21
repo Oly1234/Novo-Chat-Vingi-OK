@@ -31,6 +31,7 @@ export const AdminDashboard = ({ onLogout }) => {
   };
 
   const tabs = [
+    { id: 'tickets', label: 'Chamados', icon: <Bell size={20} /> },
     { id: 'analytics', label: 'Analytics', icon: <TrendingUp size={20} /> },
     { id: 'stats', label: 'Dashboard', icon: <BarChart3 size={20} /> },
     { id: 'queue', label: 'Fila', icon: <Users size={20} /> },
