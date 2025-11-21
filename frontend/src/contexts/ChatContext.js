@@ -142,7 +142,12 @@ export const ChatProvider = ({ children }) => {
     setShowRating: () => {},
     uploadResume: async () => {},
     submitRating: async () => {},
-    clearChat: () => setMessages([])
+    clearChat: () => setMessages([]),
+    // Compatibilidade com ChatInput
+    uploadedFiles: [],
+    addFile: () => {},
+    removeFile: () => {},
+    uploadFile: async () => null
   };
 
   return (
