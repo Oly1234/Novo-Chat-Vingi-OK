@@ -84,8 +84,8 @@ export const ChatProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      // Send to backend
-      const response = await chatAPI.sendMessage(sessionId, text, attachments);
+      // Send to backend with the confirmed sessionId
+      const response = await chatAPI.sendMessage(currentSessionId, text, attachments);
       
       // Add AI response
       const aiMessage = {
