@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for Firebase Migration
-Tests all critical endpoints to validate MongoDB to Firebase migration
+Backend Test Suite for VINGI System with Tickets
+Tests complete system including new ticket functionality and existing Firebase features
 """
 
 import requests
@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Configuration
-BASE_URL = "https://chatservice-hub.preview.emergentagent.com/api"
+BASE_URL = "http://localhost:8001/api"
 ADMIN_PASSWORD = "v1ng1t3x"
 
 class BackendTester:
