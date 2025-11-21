@@ -17,6 +17,10 @@ export const ChatProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentDepartment, setCurrentDepartment] = useState(null);
   const [sessionInitialized, setSessionInitialized] = useState(false);
+  const [showRating, setShowRating] = useState(false);
+  const [showFileUpload, setShowFileUpload] = useState(false);
+  const [candidateData, setCandidateData] = useState(null);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   
   // Use ref para ter acesso ao valor mais recente
   const sessionIdRef = useRef(null);
