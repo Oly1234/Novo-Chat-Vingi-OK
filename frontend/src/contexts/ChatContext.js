@@ -46,12 +46,7 @@ export const ChatProvider = ({ children }) => {
   }, []);
 
   const sendMessage = useCallback(async (text, attachments = []) => {
-    if (!sessionId) {
-      console.error('No session ID');
-      return;
-    }
-
-    // Add user message
+    // Add user message immediately for better UX
     const userMessage = {
       sender: 'user',
       text,
@@ -59,6 +54,30 @@ export const ChatProvider = ({ children }) => {
       timestamp: new Date()
     };
     addMessage(userMessage);
+    
+    // Wait for sessionId if not ready yet
+    let currentSessionId = sessionId;
+    if (!currentSessionId) {
+      console.log('Waiting for session to initialize...');
+      // Wait up to 3 seconds for session
+      for (let i = 0; i < 30; i++) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        if (sessionId) {
+          currentSessionId = sessionId;
+          break;
+        }
+      }
+      
+      if (!currentSessionId) {
+        console.error('Session failed to initialize');
+        addMessage({
+          sender: 'ai',
+          text: 'Desculpe, houve um problema ao iniciar a conversa. Por favor, recarregue a página.',
+          timestamp: new Date()
+        });
+        return;
+      }
+    }
 
     // Clear uploaded files
     setUploadedFiles([]);
