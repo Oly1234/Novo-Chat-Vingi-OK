@@ -109,6 +109,7 @@ except:
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
+api_router.include_router(tickets_router)
 if HAS_ADMIN:
     api_router.include_router(admin_router)
 if HAS_CANDIDATES:
