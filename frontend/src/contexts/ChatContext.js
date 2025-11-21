@@ -132,7 +132,17 @@ export const ChatProvider = ({ children }) => {
     currentDepartment,
     sessionInitialized,
     sendMessage,
-    addMessage
+    addMessage,
+    // Compatibilidade com ChatContainer
+    chatMode: 'ai',
+    showFileUpload: false,
+    showRating: false,
+    candidateData: null,
+    setShowFileUpload: () => {},
+    setShowRating: () => {},
+    uploadResume: async () => {},
+    submitRating: async () => {},
+    clearChat: () => setMessages([])
   };
 
   return (
