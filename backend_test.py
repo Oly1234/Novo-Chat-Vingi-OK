@@ -18,6 +18,7 @@ class BackendTester:
     def __init__(self):
         self.session_id = None
         self.candidate_id = None
+        self.ticket_id = None
         self.test_results = []
         
     def log_test(self, test_name, success, details=""):
