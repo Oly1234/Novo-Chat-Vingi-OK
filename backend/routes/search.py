@@ -22,10 +22,12 @@ async def global_search(q: str = Query(..., min_length=2), x_admin_password: str
                 query_lower in ticket.get('descricao', '').lower() or
                 query_lower in str(ticket.get('numero', '')).lower()
             ):
+                titulo = ticket.get('titulo', 'Sem título')
+                descricao = ticket.get('descricao', '')[:100] + '...'
                 results.append({
                     'type': 'ticket',
-                    'title': f"#{ticket.get('numero')} - {ticket.get('titulo', 'Sem t\u00edtulo')}",
-                    'subtitle': ticket.get('descricao', '')[:100] + '...',
+                    'title': f"#{ticket.get('numero')} - {titulo}",
+                    'subtitle': descricao,
                     'id': ticket.get('id'),
                     'data': ticket
                 })
