@@ -8,13 +8,15 @@ import Card from '../shared/Card';
 import Button from '../shared/Button';
 import StatCard from '../shared/StatCard';
 import { ticketAPI } from '../../../services/ticketAPI';
+import TicketModal from '../modals/TicketModal';
 import './TicketsDashboard.css';
 
-const TicketsDashboard = () => {
+const TicketsDashboard = ({ adminUser }) => {
   const [tickets, setTickets] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadData();
