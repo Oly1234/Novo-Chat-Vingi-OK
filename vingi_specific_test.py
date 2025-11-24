@@ -165,12 +165,12 @@ class VingiSpecificTester:
             elif response.status_code == 200:
                 # Endpoint exists, try to create a client
                 client_data = {
-                    "nome": "Cliente Teste",
+                    "name": "Cliente Teste",
                     "email": "cliente@teste.com",
-                    "telefone": "(11) 99999-9999",
-                    "empresa": "Empresa Teste",
+                    "phone": "(11) 99999-9999",
+                    "company": "Empresa Teste",
                     "status": "ativo",
-                    "segmento": "textil"
+                    "segment": "textil"
                 }
                 
                 create_response = requests.post(f"{BASE_URL}/customers/", 
