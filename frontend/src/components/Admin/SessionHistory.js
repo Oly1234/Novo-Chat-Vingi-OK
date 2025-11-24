@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import Card from './shared/Card';
 import Button from './shared/Button';
-import Pagination from './shared/Pagination';
+import Pagination from '../shared/Pagination';
 import './SessionHistory.css';
 
 export const SessionHistory = () => {
