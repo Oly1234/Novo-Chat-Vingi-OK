@@ -240,6 +240,12 @@ const TicketsDashboard = ({ adminUser }) => {
           </div>
         )}
       </Card>
+      
+      <TicketModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleCreateTicket}
+      />
     </div>
   );
 };
