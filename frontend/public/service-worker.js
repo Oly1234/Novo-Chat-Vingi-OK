@@ -28,15 +28,26 @@ self.addEventListener('install', (event) => {
 // Fetch event - Network first para API, cache first para assets
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  
+  // Ignorar requisições chrome-extension e esquemas não-http
+  if (!request.url.startsWith('http')) {
+    return;
+  }
+
   const url = new URL(request.url);
 
   // Ignorar requisições para a API (sempre buscar da rede)
+  // Não cachear POST, PUT, DELETE, PATCH
   if (url.pathname.startsWith('/api/') || request.method !== 'GET') {
     event.respondWith(
-      fetch(request).catch(() => {
+      fetch(request).catch((error) => {
+        console.log('Fetch failed for API request:', error);
         return new Response(
           JSON.stringify({ error: 'Sem conexão com a internet' }),
-          { headers: { 'Content-Type': 'application/json' } }
+          { 
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          }
         );
       })
     );
