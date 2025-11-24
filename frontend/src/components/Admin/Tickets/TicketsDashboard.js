@@ -8,7 +8,7 @@ import Card from '../shared/Card';
 import Button from '../shared/Button';
 import StatCard from '../shared/StatCard';
 import { ticketAPI } from '../../../services/ticketAPI';
-import './TicketsDashboardNew.css';
+import './TicketsDashboard.css';
 
 const TicketsDashboard = () => {
   const [tickets, setTickets] = useState([]);
