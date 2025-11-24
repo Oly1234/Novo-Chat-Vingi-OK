@@ -1,0 +1,38 @@
+🚀 COMANDOS RÁPIDOS - VINGI TÊXTIL
+═══════════════════════════════════════════════════════════
+
+📦 BUILD FRONTEND
+─────────────────────────────────────────────────────────
+cd frontend
+yarn install
+yarn build
+cd ..
+
+☁️  DEPLOY BACKEND
+─────────────────────────────────────────────────────────
+cd backend
+gcloud run deploy vingi-backend --source . --platform managed --region us-central1 --allow-unauthenticated --set-env-vars ADMIN_PASSWORD=v1ng1t3x
+cd ..
+
+🔑 ADICIONAR OPENAI KEY
+─────────────────────────────────────────────────────────
+gcloud run services update vingi-backend --region us-central1 --update-env-vars OPENAI_API_KEY=sua-chave-aqui
+
+📝 VER URL DO BACKEND
+─────────────────────────────────────────────────────────
+gcloud run services describe vingi-backend --region us-central1 --format='value(status.url)'
+
+🌐 DEPLOY FRONTEND
+─────────────────────────────────────────────────────────
+firebase deploy --only hosting
+
+📊 VER LOGS
+─────────────────────────────────────────────────────────
+gcloud run logs read --service vingi-backend --region us-central1 --limit 50
+
+🔄 RE-DEPLOY APENAS FRONTEND
+─────────────────────────────────────────────────────────
+cd frontend && yarn build && cd .. && firebase deploy --only hosting
+
+═══════════════════════════════════════════════════════════
+💡 DICA: Use ./deploy.sh para deploy automático!

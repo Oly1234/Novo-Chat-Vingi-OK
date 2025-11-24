@@ -7,15 +7,16 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copiar requirements e instalar dependências
+# Copiar requirements e instalar
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar código do backend
+# Copiar código
 COPY . .
 
-# Expor porta 8080 (padrão Cloud Run)
+# Porta padrão Cloud Run
+ENV PORT=8080
 EXPOSE 8080
 
-# Comando para iniciar o servidor
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
+# Iniciar servidor
+CMD exec uvicorn server:app --host 0.0.0.0 --port ${PORT}
