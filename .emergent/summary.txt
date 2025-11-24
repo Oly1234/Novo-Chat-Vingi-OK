@@ -1,215 +1,178 @@
-<analysis>
-**original_problem_statement:**
-O usuário solicitou a construção de um sistema de atendimento online completo () com uma pilha React/FastAPI. Os requisitos evoluíram significativamente.
+<analysis>**original_problem_statement:**
+O usuário solicitou a construção de um sistema de atendimento online completo () com uma pilha React/FastAPI. Os requisitos evoluíram para incluir um painel de administração com design premium (inspirado em SULTS/Movidesk), um sistema de gerenciamento de chamados (tickets), base de conhecimento, histórico de sessões, análises e integração com IA da OpenAI.
 
 **PRODUCT REQUIREMENTS:**
-1.  **Core Chat Functionality:**
-    *   Chat iniciado por IA (OpenAI) para triagem, com base em uma base de conhecimento fornecida.
-    *   Fluxo de VAGAS para coletar dados de candidatos (nome, WhatsApp, email) e armazená-los.
-    *   Botão para pular a IA e falar com um atendente.
-    *   Integração com WhatsApp.
-    *   Funcionalidade de entrada de voz para texto no chat.
-
-2.  **Admin Panel & Ticket System:**
-    *   Refatoração completa da área de administração para se assemelhar a sistemas premium como SULTS e Movidesk, com um design moderno (estilo Windows 10 evoluído), profissional, espaçado e intuitivo.
-    *   Implementação de um sistema de gerenciamento de Chamados (Tickets) inspirado no SULTS, incluindo dashboard, criação, visualização e gerenciamento de tickets.
-    *   Outras seções: Knowledge Base, Histórico de Sessões, Configurações do WhatsApp, Analytics.
-
-3.  **Technical & UX Requirements:**
-    *   **Database:** Uso mandatório e exclusivo do **Firebase/Firestore** para toda a persistência de dados.
-    *   **Persistência Real:** Todas as informações inseridas em todas as abas do painel de administração devem ser salvas de forma persistente no Firebase, com salvamento automático (a cada 2 minutos) e os dados devem ser recarregados ao voltar para uma aba ou recarregar a página.
-    *   **Layout Responsivo:** O sistema deve ser 100% funcional e visualmente adaptado para desktop e mobile. A versão mobile deve parecer um aplicativo nativo, sem barras de rolagem horizontais ou elementos quebrados.
-    *   **Produção:** O agente deve fornecer todos os arquivos e comandos necessários para o deploy em produção.
+1.  **Core Functionality:** Chat com IA, fluxo de coleta de dados de candidatos, e um painel de administração completo.
+2.  **Admin Panel:** Uma reformulação completa da UI/UX para um design profissional, moderno e intuitivo, com múltiplas seções (Dashboard, Chamados, Clientes, Base de Conhecimento, Análises, Configurações).
+3.  **Advanced Features:** Sistema de notificações, CRM de clientes, upload de arquivos, busca avançada, paginação, PWA, e um sistema de IA com múltiplos agentes inteligentes.
+4.  **Technical Stack:** React no frontend, FastAPI no backend e uso **mandatório e exclusivo do Firebase/Firestore** para o banco de dados.
+5.  **Key Requirements:** Persistência de dados real e automática em todas as abas do admin, layout 100% responsivo (desktop e mobile), e fornecimento de um guia de deploy para produção.
 
 **User's preferred language**: Portuguese (Brazil)
 
 **what currently exists?**
-Um aplicativo full-stack (React/FastAPI) que passou por uma migração crítica de MongoDB para **Firebase**, conforme a exigência do usuário. O backend foi amplamente refatorado para usar o  SDK, e a maioria dos endpoints de CRUD está funcional. Um sistema básico de tickets foi adicionado, e a base de conhecimento da IA foi populada. No entanto, o sistema sofre de graves problemas de UI/UX no painel de administração, que o usuário considera totalmente inaceitável, desorganizado e não profissional. A responsividade para dispositivos móveis é praticamente inexistente.
+Um aplicativo full-stack (React/FastAPI) que utiliza Firebase/Firestore como banco de dados. O painel de administração passou por uma massiva reformulação visual para um design premium. Foram adicionados, em nível de scaffolding e código inicial, uma vasta gama de novos recursos, incluindo um CRM de clientes, um centro de notificações, um dashboard avançado com gráficos, uma busca global, um painel de configurações e um serviço de IA multi-agente no backend. No entanto, o sistema está atualmente em um estado **não funcional** devido a uma série de erros críticos de tempo de execução que impedem o carregamento de dados na maioria das seções do painel de administração.
 
 **Last working item**:
-*   **Last item agent was working**: O agente estava iniciando uma reformulação completa da UI/UX do painel de administração em resposta à forte insatisfação do usuário, que forneceu um screenshot do layout quebrado e referências (SULTS, Movidesk). O agente criou novos arquivos de layout (, ) para substituir o design atual.
-*   **Status**: IN PROGRESS
-*   **Agent Testing Done**: N
-*   **Which testing method agent to use?**: Frontend testing agent, para validar a nova UI/UX, e a ferramenta de screenshot para verificar a responsividade em diferentes tamanhos de tela (desktop e mobile).
-*   **User Testing Done**: Y (O usuário testou e rejeitou categoricamente o design atual do admin panel).
+*   **Last item agent was working**: O agente estava respondendo a uma longa lista de erros críticos de console relatados pelo usuário. A causa raiz principal parecia ser um problema de roteamento da API, onde as chamadas do frontend recebiam uma página HTML em vez de JSON. O agente tentou corrigir prefixos de rota duplicados () e um caminho de importação incorreto no componente . Após uma correção, o agente tirou uma captura de tela da página principal do admin (que carregou visualmente) e declarou prematuramente que o sistema estava 100% funcional antes de responder a uma pergunta do usuário sobre a configuração da IA.
+*   **Status**: BLOCKED
+*   **Agent Testing Done**: N (O agente realizou testes de API isolados com  que passaram, mas não replicou as ações do usuário que acionaram os erros, como navegar para a aba Chamados.)
+*   **Which testing method agent to use?**: Frontend testing agent. A tarefa é navegar para **cada aba** do painel de administração () e verificar se os dados carregam corretamente, reproduzindo os erros que o usuário relatou.
+*   **User Testing Done**: Y (O usuário testou e encontrou múltiplos erros críticos que quebram a aplicação.)
 
 **All Pending/In progress Issue list**:
-*   **Issue 1**: (P0) Reformular completamente a UI/UX do painel de administração.
-*   **Issue 2**: (P1) Garantir persistência de dados real e robusta em TODAS as abas do admin.
-*   **Issue 3**: (P2) Corrigir a funcionalidade de entrada de voz (Voice Input).
-*   **Issue 4**: (P3) Corrigir o erro do Service Worker que impede o cache de requisições POST.
-*   **Issue 5**: (P4) Melhorar o fluxo de VAGAS para coletar e salvar dados do candidato.
+*   **Issue 1**: (P0) Corrigir erros críticos que impedem o funcionamento do painel de administração.
+*   **Issue 2**: (P1) Garantir a persistência de dados no Firebase para todos os novos módulos.
+*   **Issue 3**: (P2) Refinar o visual da aba Histórico.
+*   **Issue 4**: (P3) Corrigir o erro recorrente do Service Worker.
+*   **Issue 5**: (P4) Implementar a funcionalidade de entrada de voz.
 
 **Issues Detail:**
-*   **Issue 1: Reformular completamente a UI/UX do painel de administração**
-    *   **Attempted fixes**: O agente criou novos arquivos de layout (, ) após o usuário rejeitar o design anterior. A implementação ainda não começou.
+*   **Issue 1: Corrigir erros críticos que impedem o funcionamento do painel de administração**
+    *   **Attempted fixes**: O agente corrigiu um prefixo de API duplicado em , adicionou funções genéricas de CRUD ao  e corrigiu um caminho de importação em . Essas correções foram insuficientes.
     *   **Next debug checklist**:
-        1.  Integrar  como o contêiner principal para a rota .
-        2.  Implementar um layout moderno com uma barra lateral de navegação interativa e uma área de conteúdo principal, usando CSS Flexbox ou Grid para garantir espaçamento e alinhamento adequados.
-        3.  Refatorar cada componente do admin (, , , etc.) para se adequar ao novo layout.
-        4.  Implementar um tema claro/escuro funcional que persista a escolha do usuário.
-        5.  Garantir que todo o layout seja 100% responsivo, com uma experiência de aplicativo em dispositivos móveis.
-        6.  Utilizar a ferramenta de screenshot para validar o design em visualizações de desktop e mobile antes de apresentar ao usuário.
-    *   **Why fix this issue and what will be achieved with the fix?**: Esta é a principal e mais crítica demanda do usuário no momento. O sucesso do projeto depende da entrega de um painel de administração com aparência profissional e premium.
+        1.  **Corrigir a Causa Raiz da API**: O erro  é a prioridade máxima. Isso acontece porque o servidor FastAPI está retornando a  do React em vez de dados JSON, provavelmente devido a um erro 404 não tratado. Verifique sistematicamente **todos** os arquivos em  para garantir que nenhum  tenha o prefixo . Em seguida, revise  para confirmar que todos os roteadores estão sendo incluídos corretamente no  principal.
+        2.  **Corrigir o Dashboard de Tickets**: O erro  em  é uma consequência do erro da API. O componente recebe uma resposta de erro (não um array) e tenta chamar . Adicione tratamento de estado de carregamento e erro ao componente para que ele não quebre enquanto a API estiver sendo consertada.
+        3.  **Corrigir Erro do Manifest**: O erro  indica um problema no arquivo . Verifique se o caminho para o ícone está correto e se o arquivo  existe em .
+    *   **Why fix this issue and what will be achieved with the fix?**: A aplicação está inutilizável. Corrigir isso restaurará a funcionalidade básica do painel de administração.
     *   **Status**: IN PROGRESS
-    *   **Is recurring issue?** Y
-    *   **Should Test frontend/backend/both after fix?**: frontend
+    *   **Is recurring issue?**: Y
+    *   **Should Test frontend/backend/both after fix?**: both
     *   **Blocked on other issue**: N/A
 
-*   **Issue 2: Garantir persistência de dados real e robusta em TODAS as abas do admin**
-    *   **Attempted fixes**: Um hook  foi criado e um teste de persistência no backend foi executado com sucesso. No entanto, a implementação no frontend não foi aplicada a todos os componentes, e o usuário ainda se queixa de que os dados não são salvos.
+*   **Issue 2: Garantir a persistência de dados no Firebase para todos os novos módulos**
+    *   **Attempted fixes**: O SDK do Firebase foi adicionado ao frontend.
     *   **Next debug checklist**:
-        1.  Revisar e aplicar o hook  (ou uma lógica similar) a todos os componentes de administração que possuem estado (formulários, editores de texto, etc.).
-        2.  Garantir que cada componente busque (fetch) seus dados do Firestore ao ser montado ().
-        3.  Verificar se o salvamento automático está funcionando a cada 2 minutos, conforme solicitado.
-        4.  Testar rigorosamente o fluxo: inserir dados, trocar de aba, voltar e verificar se os dados permanecem; recarregar a página e garantir que os dados são carregados do Firebase.
-    *   **Why fix this issue and what will be achieved with the fix?**: É um requisito funcional central para que o painel de administração seja útil.
+        1.  Para cada novo módulo (, , ), implemente a lógica para buscar dados do Firestore quando o componente for montado ().
+        2.  Implemente a funcionalidade de salvar dados (via botão Salvar ou salvamento automático) para persistir as alterações de volta no Firestore.
+    *   **Why fix this issue and what will be achieved with the fix?**: É um requisito central do produto.
+    *   **Status**: NOT STARTED
+    *   **Is recurring issue?**: Y
+    *   **Should Test frontend/backend/both after fix?**: frontend
+    *   **Blocked on other issue**: Issue 1
+
+*   **Issue 3: Refinar o visual da aba Histórico**
+    *   **Attempted fixes**: O agente criou novos arquivos ( e CSS) e substituiu os antigos.
+    *   **Next debug checklist**:
+        1.  Acessar a aba Histórico e tirar uma captura de tela para avaliar o layout atual.
+        2.  Aplicar o mesmo estilo visual (cards, espaçamento, fontes) dos outros painéis (ex: Dashboard, Chamados) para garantir consistência.
+    *   **Why fix this issue and what will be achieved with the fix?**: Atende à demanda do usuário por um design premium e consistente em todo o sistema.
     *   **Status**: IN PROGRESS
-    *   **Is recurring issue?** Y
+    *   **Is recurring issue?**: Y
     *   **Should Test frontend/backend/both after fix?**: frontend
-    *   **Blocked on other issue**: N/A
-
-*   **Issue 3: Corrigir a funcionalidade de entrada de voz (Voice Input)**
-    *   **Attempted fixes**: O agente visualizou o arquivo  mas adiou a correção.
-    *   **Next debug checklist**:
-        1.  Modificar  para fornecer feedback visual ao usuário quando o microfone está ouvindo.
-        2.  Implementar a lógica para parar a gravação após um período de silêncio e, em seguida, processar o áudio.
-        3.  Corrigir o erro que faz o ícone desaparecer ou a funcionalidade falhar ao ser clicada.
-    *   **Why fix this issue and what will be achieved with the fix?**: Atende a um requisito explícito do usuário para uma experiência de chat mais ágil.
-    *   **Status**: NOT STARTED
-    *   **Is recurring issue?** Y
-    *   **Should Test frontend/backend/both after fix?**: frontend
-    *   **Blocked on other issue**: N/A
-
-*   **Issue 4: Corrigir o erro do Service Worker**
-    *   **Attempted fixes**: O agente identificou o erro  mas não conseguiu localizar  para editá-lo, pois é gerado no momento do build.
-    *   **Next debug checklist**:
-        1.  Localizar a configuração do  ou  dentro dos scripts de build do React (pode estar em  ou em arquivos de configuração do ).
-        2.  Modificar a configuração para que o service worker ignore as requisições de API (especialmente as de método ), roteando-as sempre para a rede () e fazendo cache apenas de assets estáticos (JS, CSS, imagens).
-    *   **Why fix this issue and what will be achieved with the fix?**: Remove um erro persistente do console e garante o funcionamento correto do PWA.
-    *   **Status**: NOT STARTED
-    *   **Is recurring issue?** Y
-    *   **Should Test frontend/backend/both after fix?**: frontend
-    *   **Blocked on other issue**: N/A
+    *   **Blocked on other issue**: Issue 1
 
 **In progress Task List**:
-*   **Task 1: Implementação do Layout Premium do Admin**
-    *   **Where to resume**: . O agente deve começar a construir o novo layout responsivo e integrá-lo ao  e ao .
-    *   **What will be achieved with this?**: Um painel de administração visualmente atraente, profissional e totalmente responsivo que atenda às altas expectativas do usuário.
+*   **Task 1: Estabilização e Finalização de Funcionalidades**
+    *   **Where to resume**: Após a correção dos bugs críticos (Issue 1), o agente deve revisar cada nova funcionalidade adicionada (CRM, Notificações, Busca, etc.). O código atual é principalmente um esqueleto que precisa ser conectado, testado e finalizado.
+    *   **What will be achieved with this?**: Um sistema estável e funcional com todos os recursos solicitados pelo usuário prontos para produção.
     *   **Status**: IN PROGRESS
-    *   **Should Test frontend/backend/both after fix?**: frontend
-    *   **Blocked on something**: N/A
+    *   **Should Test frontend/backend/both after fix?**: both
+    *   **Blocked on something**: **Issue 1**. Nenhuma funcionalidade pode ser validada até que a comunicação com a API seja restaurada.
 
 **Upcoming and Future Tasks**
-*   **P0**: Treinar a IA com o ROTEIRO OFICIAL fornecido pelo usuário para tornar a conversa mais fluida e precisa.
-*   **P1**: Implementar uma lógica de fila de espera (mesmo que fictícia) no chat para gerenciar a ansiedade do usuário.
-*   **P2**: Criar um documento final com todos os comandos e arquivos necessários para o deploy da aplicação em um ambiente de produção real.
-*   **P3**: Expandir o sistema de tickets com recursos avançados (status, prioridades, atribuição a departamentos).
+*   **Upcoming Tasks:**
+    *   **P0**: Implementar a lógica de backend para **Upload de Arquivos** e conectar ao componente de frontend.
+    *   **P1**: Implementar as APIs de **Busca e Paginação** e conectá-las aos componentes de frontend correspondentes.
+    *   **P2**: Integrar o novo serviço de **IA Multi-Agente** () ao fluxo principal do chat, substituindo a lógica anterior.
+*   **Future Tasks:**
+    *   **P0**: Implementar a **Integração com o WhatsApp**.
+    *   **P1**: Corrigir a funcionalidade de **Entrada de Voz** ().
 
 **Completed work in this session**
-- **Migração Completa para Firebase**: O backend foi totalmente migrado de MongoDB para Firebase, resolvendo o bloqueador mais crítico. Todos os serviços e rotas foram refatorados.
-- **Implementação do Sistema de Tickets (Base)**: Foi criada a estrutura backend (modelos, serviços, rotas) e frontend (componentes, API) para um sistema de gerenciamento de tickets.
-- **Correção de Bugs Críticos no Chat**: Resolvido um bug de closure em JavaScript no  que impedia as opções do chat de funcionarem.
-- **População da Base de Conhecimento**: Um script foi executado com sucesso para popular a coleção  no Firestore com o conteúdo fornecido pelo usuário.
-- **Correção de Erros de Build e Ambiente**: Corrigido um erro de  no  e um erro de  no frontend.
+- **Reformulação Massiva da UI do Admin**: O layout geral do painel de administração foi completamente redesenhado para um estilo moderno e profissional.
+- **Scaffolding de Recursos Avançados**: Foram criados os arquivos e a estrutura básica para um grande número de novas funcionalidades:
+    - CRM de Clientes (, )
+    - Sistema de Notificações (, )
+    - Dashboard Avançado com gráficos (, )
+    - Busca Global, Configurações, PWA (, )
+    - Serviço de IA Multi-Agente ()
+- **Guias de Documentação**: Foram criados documentos Markdown com guias de deploy () e resumos das funcionalidades.
+- **Correção de Bug de Build**: Resolvido um erro de compilação causado por um caminho de importação incorreto em .
 
 **Earlier issues found/mentioned but not fixed**
-*   **Issue 1: Service Worker  error**: Este erro () foi identificado várias vezes, mas nunca foi resolvido porque o agente não conseguiu encontrar a configuração do service worker gerado pelo build.
-*   **Issue 2: Funcionalidade de Áudio Quebrada**: O usuário reportou que a entrada de voz não funciona. O agente reconheceu o problema, mas adiou a correção para focar em outras tarefas.
+*   **Issue 1: Service Worker  error**: Este erro persiste e evoluiu. Agora, o erro é . A lógica de cache do  precisa ser reescrita para ignorar requisições que não sejam  e, potencialmente, todas as requisições de API .
+*   **Issue 2: Funcionalidade de Entrada de Voz Quebrada**: O componente  existe, mas nunca foi corrigido e continua não funcional.
 
 **Known issue recurrence from previous fork**
-*   **Recurrence**: A principal recorrência é a falha em atender aos **padrões de qualidade de UI/UX** do usuário. Inicialmente, o problema era o banco de dados errado; agora, é o design e a responsividade. Isso indica uma lacuna na compreensão das prioridades não funcionais do usuário. O erro do Service Worker também é um problema técnico recorrente.
+*   **Recurrence**: A instabilidade da API e os erros de fluxo de dados são um problema recorrente. O sistema passa de funcional, mas feio para bonito, mas quebrado, indicando uma falta de testes de integração robustos durante o desenvolvimento. O erro do Service Worker também é um problema crônico.
 *   **Recurrence count**: 3+
-*   **Status**: IN PROGRESS (para a questão da UI), NOT STARTED (para o Service Worker).
+*   **Status**: IN PROGRESS
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-*   **Frontend**: React, TailwindCSS
+*   **Frontend**: React, TailwindCSS, Recharts
 *   **Backend**: FastAPI (Python)
-*   **Database**: **Firebase/Firestore**
+*   **Database**: Firebase/Firestore
 *   **AI**: OpenAI API
 
 **key DB schema**
-*   : { sessionId, messages: [...], startTime, ... }
-*   : { name, email, phone, resume_url, ... }
+*   : { subject, description, status, priority, ... }
+*   : { customerId, name, email, phone, ... }
+*   : { notificationId, message, read, timestamp, ... }
 *   : { topic, content, keywords }
-*   : { subject, description, status, priority, created_at, updated_at, ... }
-*   : { number, message, ... }
-*   : { sessionId, rating, comment, ... }
+*   : { sessionId, messages: [...] }
 
 **changes in tech stack**
-*   A migração completa de **MongoDB para Firebase/Firestore** foi realizada.
+*   **Frontend**: Adicionadas as bibliotecas , , e .
 
 **All files**
-*   **Criados nesta sessão**:
-    *   : Modelo Pydantic para tickets.
-    *   : Lógica de negócio para tickets no Firebase.
-    *   : Endpoints da API para tickets.
-    *   : Funções de API no frontend para tickets.
-    *   : Hook para persistência automática.
-    *    e : UI para o dashboard de tickets.
-    *    e : Novos arquivos para o layout premium do admin.
-*   **Significativamente Modificados**:
-    *   Todos os arquivos em  para usar .
-    *   : Para inicializar o Firebase e incluir novas rotas.
-    *   : Adicionados todos os métodos de CRUD.
-    *   : Corrigido bug crítico de inicialização de sessão.
-    *   : Modificado para incluir a aba de tickets.
+*   **Criados/Modificados significativamente**:
+    *   **Backend**: Quase todos os arquivos em  e  foram criados ou modificados para adicionar as novas funcionalidades (CRM, Dashboard, IA, etc.).  foi atualizado para incluir todas as novas rotas.
+    *   **Frontend**: A estrutura do diretório  foi expandida com dezenas de novos arquivos para os novos módulos (ex: , , , ).  e  foram fortemente modificados para integrar as novas abas e componentes.
+    *   **PWA**: Foram criados  e  em .
 
 **Areas that need refactoring**:
-*   Toda a pasta  precisa ser refatorada para usar o novo  e para se adequar ao novo padrão de design premium e responsivo. O CSS atual é inadequado e deve ser reescrito.
+*   **Error Handling no Frontend**: Todos os componentes que fazem chamadas de API (praticamente todo o painel de admin) precisam de tratamento de erros robusto e estados de carregamento para evitar que a UI quebre quando a API falha.
+*   **Backend Routing**: A configuração de roteamento em  e em todos os arquivos de rotas individuais precisa ser auditada para garantir que não haja prefixos duplicados ou rotas não registradas.
 
 **key api endpoints**
-*   : CRUD para tickets.
-*   : Endpoints para gerenciamento do painel de admin (KB, sessões, etc.).
-*   : Endpoints para o fluxo de chat.
+*   
+*   
+*   
+*   
+*   
+*   
+*   
 
 **Critical Info for New Agent**
-*   **A Qualidade da UI/UX é a Prioridade Máxima**: O usuário está extremamente insatisfeito com a aparência e a usabilidade do painel de administração. Ele espera um design premium, inspirado em SULTS e Movidesk. Não considere a tarefa concluída até que o painel esteja visualmente polido e 100% responsivo (desktop e mobile). Use a ferramenta de screenshot extensivamente.
-*   **Persistência é Mandatória**: O usuário insiste na persistência de dados em *todas* as abas do admin. Verifique e implemente a busca de dados no carregamento e o salvamento automático para cada componente de forma robusta.
-*   **Não Adie Correções**: Problemas como a entrada de voz quebrada e o erro do Service Worker foram adiados, aumentando a frustração do usuário. Resolva os problemas relatados de forma decisiva.
-*   **Produção**: O usuário solicitou um guia de deploy. No final, forneça um documento Markdown com todos os comandos necessários (yarn install v1.22.22
-[1/4] Resolving packages...
-[2/4] Fetching packages...
-[3/4] Linking dependencies...
-[4/4] Building fresh packages...
-success Saved lockfile.
-Done in 0.03s., yarn run v1.22.22
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command., e comandos de deploy do Firebase Hosting) e explique como configurar as variáveis de ambiente (OpenAI Key).
+*   **PRIORIDADE MÁXIMA: O SISTEMA ESTÁ QUEBRADO.** Ignore a declaração anterior de 100% funcional. Seu primeiro e único objetivo inicial é corrigir os erros críticos relatados pelo usuário. A aplicação é inutilizável em seu estado atual.
+*   **A CAUSA RAIZ É A API**: O erro  é o sintoma mais importante. Ele indica que as chamadas de API do frontend estão recebendo a  do React em vez de JSON. Investigue a fundo a configuração de roteamento no backend (prefixos de rota e registro em ).
+*   **ESTABILIDADE ANTES DE FUNCIONALIDADES**: O agente anterior adicionou recursos em um ritmo insustentável sem testes adequados. Não adicione nenhuma nova funcionalidade até que o sistema existente esteja estável e todos os erros da lista de pendências tenham sido resolvidos e testados.
+*   **TESTE CADA PASSO**: Após cada correção, teste manualmente (ou com o agente de teste) o fluxo exato que o usuário relatou estar quebrado (ex: clicar na aba Chamados) para confirmar que o problema foi resolvido.
 
 **documents created in this job**
 *   
 *   
 *   
 *   
-*   
 
 **Last 5 User Messages and any pending user messages**
-1.  **Usuário (após a entrega final)**: Reporta que o chat não funciona ao clicar nas opções, o modal de avaliação está transparente e ilegível, e a área de admin está completamente desorganizada. Exige uma nova UI inspirada no SULTS e Movidesk, com tema claro/escuro e visual de Windows 10 atual. Pede para avançar com força, pois temos créditos. (IN PROGRESS)
-2.  **Usuário (após outra entrega final)**: Reclama que o chat ainda não funciona (Desculpe, houve um problema ao iniciar a conversa), o modal de avaliação continua transparente e a UI do admin continua desorganizada. Pede para o agente usar agentes de teste para validar tudo. (IN PROGRESS)
-3.  **Usuário**: Insiste que o agente finalize todos os problemas pendentes, verifique a persistência real no Firebase e forneça os próximos passos. (IN PROGRESS)
-4.  **Usuário (após mais uma entrega final)**: Reitera a necessidade de um layout **totalmente novo** e premium para a área de admin, com menu interativo, bom espaçamento e fontes legíveis. Exige persistência real em cada aba e menu. Pede todos os comandos de terminal para produção. Enfatiza a necessidade de um layout mobile perfeito (visual de aplicativo) e um layout de desktop profissional. (IN PROGRESS)
-5.  **Última Mensagem**: Fornece um screenshot mostrando o layout quebrado do painel de administração, servindo como prova da baixa qualidade visual e reforçando a necessidade da reformulação completa. (IN PROGRESS)
+1.  **User (message 155)**: Pede para continuar com as FASES 2, 3, 4 e 5, para ter um sistema 100% pronto para produção. (Em andamento, mas bloqueado)
+2.  **User (message 198)**: Pergunta sobre os comandos de deploy, se deve usar  ou . (Respondido)
+3.  **User (message 200)**: **MENSAGEM CRÍTICA** - Fornece uma longa lista de erros de console, incluindo  na aba Chamados, múltiplos erros , um erro do Service Worker, um problema com o ícone do manifest, e informa que a aba Histórico está com um visual ruim. (Pendente)
+4.  **User (message 247)**: Pede para o agente continuar com foco 100% em funcionalidade de produção, persistência de dados e melhorias visuais. (Pendente)
+5.  **User (message 275)**: Pergunta se algum comando de terminal é necessário para a IA funcionar. (Respondido)
 
 **Project Health Check:**
-*   **Broken**: A UI/UX do Admin Panel está funcionalmente quebrada do ponto de vista do usuário devido à má qualidade visual e à falta de responsividade. A funcionalidade de Voice Input está quebrada.
+*   **Broken**: Sim. O painel de administração está em grande parte não funcional. Múltiplas seções principais (Chamados, Clientes, Dashboard, etc.) falham ao carregar dados devido a erros de API.
 *   **Mocked**: N/A
 
 **Testing status**
-*   **Testing agent used after significant changes**: YES, mas os testes falharam em capturar a insatisfação do usuário com a UI/UX e perderam bugs críticos de regressão (como o chat não abrir).
-*   **Troubleshoot agent used after agent stuck in loop**: YES, o que ajudou a identificar um problema crítico de configuração de ambiente () e a causa raiz do bug do chat.
-*   **Test files created**: 
-*   **Known regressions**: O chat parou de funcionar temporariamente devido a refatorações no . O layout do admin piorou em usabilidade após a adição de novos componentes sem um design coeso.
+*   **Testing agent used after significant changes**: YES, no entanto, o relatório do agente de teste foi impreciso e não detectou os erros críticos de tempo de execução.
+*   **Troubleshoot agent used after agent stuck in loop**: YES, identificou corretamente a provável causa raiz (problema de prefixo de rota), mas a correção do agente principal foi incompleta.
+*   **Test files created**: N/A
+*   **Known regressions**: A funcionalidade do painel de administração regrediu severamente. Antes, era funcional, mas com uma UI ruim. Agora, a UI foi melhorada, mas a funcionalidade está quebrada.
 
 **Credentials to test flow:**
-*   **Admin Password**:  (definido no ).
-*   **Firebase Credentials**: O arquivo da conta de serviço está em .
+*   **Admin Password**:  (para APIs que possam exigir)
+*   **Firebase Credentials**: Localizadas em 
+*   **OpenAI API Key**: Presente no arquivo 
 
 **What agent forgot to execute**
-*   **Priorizar a Qualidade Visual**: O agente consistentemente subestimou a importância do design e da experiência do usuário para este cliente, resultando em múltiplas refatorações e frustração.
-*   **Implementar a Responsividade**: Apesar dos pedidos, a adaptação para dispositivos móveis foi negligenciada.
-*   **Resolver Erros Recorrentes**: O erro do Service Worker e o problema da entrada de voz foram adiados repetidamente.
-*   **Fornecer Comandos de Deploy**: O agente não forneceu um guia claro e completo com os comandos para colocar o sistema em produção, apesar de ser solicitado. Preciso de um layout e disposiçào visual totalmente novo na area admin. Menu interativo e bem feito, visual bem espaçado e digno de sistema premium. Abas bem acabas e elaboradas, com espaçamento, arquitetura, visual e fontes bem legiveis e dinamicas. Intuição garantida para quem operar em todos os detalhes. Quero real persistencia em firebase, aba a aba, menu a menu. Ao final, me de todos os comenado para terminal necessários para o total funcionamento em * produção* do sistema. Deixe ele totalmente pronto para produção, e se não tiver, crie todos os arquivos reais em suas pastas corretas para roda produção. Faça um layout totalmente adaptado para telas de celulares mobiles, com botões, janelas, modais etc, totalmente adaptados ao visual mobile, sem andar a tela na lateral para visualizar algo, sem botões e informações saindo do seu layout, preciso de um visual de aplicativo em mobile. E em desktop, preciso conforme soliictado, um visual de sistema totalmente feito para desktop, com proporções reais, botões, chat, modais, janelas etc etc, tudo em ordem e funcional. Analise todos os pontos.
-</analysis>
+*   O agente esqueceu de realizar testes de integração básicos após implementar uma quantidade massiva de novas rotas e componentes, levando a uma falha sistêmica.
+*   O agente não validou completamente a correção sugerida pelo , resultando na persistência do problema de roteamento da API.
+*   O agente declarou o sucesso prematuramente com base em uma única captura de tela, ignorando a lista detalhada de erros fornecida pelo usuário.
+*   As tarefas de longo prazo, como corrigir a entrada de voz e a integração com o WhatsApp, foram mais uma vez adiadas.</analysis>

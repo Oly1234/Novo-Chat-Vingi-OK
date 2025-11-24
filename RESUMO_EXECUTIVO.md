@@ -189,8 +189,8 @@
 ## 🎯 Credenciais e Acessos
 
 ### Produção (Preview)
-- **URL Frontend**: https://atendeonline.preview.emergentagent.com
-- **URL Admin**: https://atendeonline.preview.emergentagent.com/admin
+- **URL Frontend**: https://aihelphub.preview.emergentagent.com
+- **URL Admin**: https://aihelphub.preview.emergentagent.com/admin
 - **Senha Admin**: `v1ng1t3x`
 
 ### Firebase
@@ -223,10 +223,10 @@ uvicorn server:app --host 0.0.0.0 --port 8001
 ### Verificar Serviços
 ```bash
 # Backend
-curl https://atendeonline.preview.emergentagent.com/api/health
+curl https://aihelphub.preview.emergentagent.com/api/health
 
 # Frontend
-curl https://atendeonline.preview.emergentagent.com/
+curl https://aihelphub.preview.emergentagent.com/
 ```
 
 ---
@@ -319,8 +319,8 @@ curl https://atendeonline.preview.emergentagent.com/
 ## 🎉 Sistema Pronto para Uso!
 
 **Acesse agora:**
-- 🌐 **Chat**: https://atendeonline.preview.emergentagent.com
-- 🔐 **Admin**: https://atendeonline.preview.emergentagent.com/admin
+- 🌐 **Chat**: https://aihelphub.preview.emergentagent.com
+- 🔐 **Admin**: https://aihelphub.preview.emergentagent.com/admin
 - 🔑 **Senha**: `v1ng1t3x`
 
 **Para deploy em produção:**

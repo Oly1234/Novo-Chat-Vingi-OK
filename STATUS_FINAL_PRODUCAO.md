@@ -319,8 +319,8 @@ uvicorn server:app --host 0.0.0.0 --port 8001
 
 ## 📞 **ACESSO AO SISTEMA**
 
-**URL:** https://atendeonline.preview.emergentagent.com  
-**Admin:** https://atendeonline.preview.emergentagent.com/admin  
+**URL:** https://aihelphub.preview.emergentagent.com  
+**Admin:** https://aihelphub.preview.emergentagent.com/admin  
 **Senha:** `v1ng1t3x`  
 **Atalhos:** Ctrl+K (busca global)
 
