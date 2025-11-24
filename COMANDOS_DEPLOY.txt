@@ -1,0 +1,116 @@
+# ═══════════════════════════════════════════════════════════
+# 🚀 DEPLOY RÁPIDO - CLOUD RUN + FIREBASE
+# ═══════════════════════════════════════════════════════════
+
+# ────────────────────────────────────────────────────────────
+# ✅ CORREÇÕES IMPLEMENTADAS:
+# ────────────────────────────────────────────────────────────
+#   ✅ Health check endpoint (/health)
+#   ✅ Porta dinâmica (Cloud Run)
+#   ✅ CORS corrigido
+#   ✅ Firebase com Application Default Credentials
+#   ✅ Servidor testado localmente
+# ────────────────────────────────────────────────────────────
+
+# ═══════════════════════════════════════════════════════════
+# OPÇÃO 1: DEPLOY AUTOMÁTICO (RECOMENDADO)
+# ═══════════════════════════════════════════════════════════
+
+cd /app
+./deploy-cloud-run.sh
+
+# O script fará:
+#   1. Verificar autenticação
+#   2. Build da imagem
+#   3. Deploy no Cloud Run
+#   4. Testar automaticamente
+#   5. Mostrar próximos passos
+
+# ═══════════════════════════════════════════════════════════
+# OPÇÃO 2: DEPLOY MANUAL
+# ═══════════════════════════════════════════════════════════
+
+# 1️⃣ Autenticar (se necessário)
+gcloud auth login
+gcloud config set project agenda-44f53
+
+# 2️⃣ Deploy do Backend
+cd /app/backend
+
+gcloud run deploy vingi-backend \
+  --source . \
+  --region=us-central1 \
+  --platform=managed \
+  --allow-unauthenticated \
+  --memory=512Mi \
+  --timeout=300 \
+  --set-env-vars="OPENAI_API_KEY=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,CORS_ORIGINS=*,ADMIN_PASSWORD=v1ng1t3x,GOOGLE_CLOUD_PROJECT=agenda-44f53,FIREBASE_PROJECT_ID=agenda-44f53,FIREBASE_STORAGE_BUCKET=agenda-44f53.firebasestorage.app"
+
+# 3️⃣ Testar Backend
+# Você receberá uma URL tipo: https://vingi-backend-xxxxx-uc.a.run.app
+
+curl https://SUA-URL-AQUI/health
+# Esperado: {"status":"ok"}
+
+curl https://SUA-URL-AQUI/api/
+# Esperado: {"message":"Hello World"}
+
+# 4️⃣ Atualizar Frontend
+cd /app/frontend
+
+# Editar .env.production:
+# REACT_APP_BACKEND_URL=https://vingi-backend-xxxxx-uc.a.run.app
+
+# Build e deploy:
+yarn build
+firebase deploy --only hosting
+
+# ═══════════════════════════════════════════════════════════
+# 📊 VERIFICAR LOGS
+# ═══════════════════════════════════════════════════════════
+
+# Logs em tempo real
+gcloud run logs tail vingi-backend --region=us-central1
+
+# Últimos 50 logs
+gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=vingi-backend" --limit=50
+
+# ═══════════════════════════════════════════════════════════
+# ⚠️ TROUBLESHOOTING
+# ═══════════════════════════════════════════════════════════
+
+# Problema: "Permission denied"
+# Solução: gcloud auth login
+
+# Problema: "Service account does not have permission"
+# Solução: O Cloud Run usa Application Default Credentials
+#          automaticamente. Não precisa de firebase-credentials.json!
+
+# Problema: "Container failed to start"
+# Solução: Verificar logs com comando acima
+
+# ═══════════════════════════════════════════════════════════
+# 🎯 APÓS O DEPLOY
+# ═══════════════════════════════════════════════════════════
+
+# Sua aplicação estará disponível em:
+# Backend:  https://vingi-backend-xxxxx-uc.a.run.app
+# Frontend: https://agenda-44f53.web.app
+
+# ═══════════════════════════════════════════════════════════
+# 📝 OBSERVAÇÕES IMPORTANTES
+# ═══════════════════════════════════════════════════════════
+
+# 1. O Cloud Run usa Application Default Credentials (ADC)
+#    Você NÃO precisa configurar firebase-credentials.json!
+
+# 2. O servidor está configurado para usar porta dinâmica
+#    Não precisa se preocupar com portas
+
+# 3. O health check está funcionando corretamente
+#    Cloud Run verificará /health automaticamente
+
+# 4. CORS está configurado para aceitar todas as origens
+#    Você pode restringir depois se quiser
+
+# ═══════════════════════════════════════════════════════════
