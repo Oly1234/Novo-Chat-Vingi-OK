@@ -87,7 +87,13 @@ const AdvancedDashboard = () => {
     ]
   };
 
-  const displayData = data || mockData;
+  const displayData = {
+    kpis: data?.kpis || mockData.kpis,
+    sessionsOverTime: data?.sessionsOverTime || mockData.sessionsOverTime,
+    departmentDistribution: data?.departmentDistribution || mockData.departmentDistribution,
+    agentPerformance: data?.agentPerformance || mockData.agentPerformance,
+    hourlyActivity: data?.hourlyActivity || mockData.hourlyActivity
+  };
 
   if (loading && !data) {
     return (
