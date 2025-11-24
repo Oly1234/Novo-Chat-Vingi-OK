@@ -59,8 +59,8 @@ const TicketModal = ({ isOpen, onClose, onSubmit, ticket }) => {
       <div className="ticket-modal" onClick={(e) => e.stopPropagation()}>
         <div className="ticket-modal-header">
           <div>
-            <h2>Novo Chamado</h2>
-            <p>Criar uma nova solicitação de suporte</p>
+            <h2>{ticket ? 'Editar Chamado' : 'Novo Chamado'}</h2>
+            <p>{ticket ? 'Atualizar informações do chamado' : 'Criar uma nova solicitação de suporte'}</p>
           </div>
           <button className="close-btn" onClick={onClose}>
             <X size={24} />
