@@ -246,13 +246,25 @@ const TicketsDashboard = ({ adminUser }) => {
                       </td>
                       <td className="text-right">
                         <div className="action-buttons">
-                          <button className="action-btn" title="Visualizar">
+                          <button 
+                            className="action-btn" 
+                            title="Visualizar"
+                            onClick={() => handleViewTicket(ticket)}
+                          >
                             <Eye size={16} />
                           </button>
-                          <button className="action-btn" title="Editar">
+                          <button 
+                            className="action-btn" 
+                            title="Editar"
+                            onClick={() => handleEditTicket(ticket)}
+                          >
                             <Edit size={16} />
                           </button>
-                          <button className="action-btn action-btn--danger" title="Excluir">
+                          <button 
+                            className="action-btn action-btn--danger" 
+                            title="Excluir"
+                            onClick={() => handleDeleteTicket(ticket.id)}
+                          >
                             <Trash size={16} />
                           </button>
                         </div>
