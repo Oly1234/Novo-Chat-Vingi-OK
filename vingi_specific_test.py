@@ -178,7 +178,6 @@ class VingiSpecificTester:
                 
                 if create_response.status_code == 200:
                     data = create_response.json()
-                    print(f"DEBUG: Client creation response: {data}")  # Debug line
                     if 'id' in data:
                         self.client_id = data['id']
                         self.log_test("Create Client", True, 
