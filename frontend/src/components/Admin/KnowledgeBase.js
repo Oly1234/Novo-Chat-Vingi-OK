@@ -37,8 +37,8 @@ export const KnowledgeBase = () => {
     try {
       const password = localStorage.getItem('adminPassword');
       const url = editingId
-        ? `${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge/${editingId}`
-        : `${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge`;
+        ? `${process.env.REACT_APP_BACKEND_URL}/api/knowledge/${editingId}`
+        : `${process.env.REACT_APP_BACKEND_URL}/api/knowledge`;
       
       const response = await fetch(url, {
         method: editingId ? 'PUT' : 'POST',
