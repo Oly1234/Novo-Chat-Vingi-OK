@@ -1,168 +1,198 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Save, Trash2, Edit2, Check, X, Database } from 'lucide-react';
-import { Button } from '../UI/Button';
-import { Input, TextArea } from '../UI/Input';
-import { Card, CardHeader, CardBody } from '../UI/Card';
+import { Database, Plus, Search, Edit, Trash, Save } from 'lucide-react';
+import Card from './shared/Card';
+import Button from './shared/Button';
 import './KnowledgeBase.css';
 
 export const KnowledgeBase = () => {
-  const [items, setItems] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
   const [editingId, setEditingId] = useState(null);
-  const [newItem, setNewItem] = useState({ category: '', title: '', content: '' });
-  const [isAdding, setIsAdding] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState({ topic: '', content: '', keywords: '' });
 
   useEffect(() => {
-    fetchKnowledgeBase();
+    fetchArticles();
   }, []);
 
-  const fetchKnowledgeBase = async () => {
+  const fetchArticles = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge-base`, {
-        headers: { 'X-Admin-Password': localStorage.getItem('adminPassword') }
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch');
-      }
-      const data = await response.json();
-      setItems(data.items || []);
-    } catch (error) {
-      console.error('Failed to fetch knowledge base:', error);
-      setItems([]);
-    }
-  };
-
-  const saveKnowledgeBase = async () => {
-    setIsSaving(true);
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge-base`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Password': localStorage.getItem('adminPassword')
-        },
-        body: JSON.stringify({ items })
+      const password = localStorage.getItem('adminPassword');
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge`, {
+        headers: { 'X-Admin-Password': password }
       });
       if (response.ok) {
-        alert('✅ Base de conhecimento atualizada!');
-      } else {
-        alert('❌ Erro ao salvar');
+        const data = await response.json();
+        setArticles(data);
       }
     } catch (error) {
-      console.error('Error saving KB:', error);
-      alert('❌ Erro ao salvar');
+      console.error('Failed to fetch articles:', error);
     } finally {
-      setIsSaving(false);
+      setLoading(false);
     }
   };
 
-  const addItem = () => {
-    if (!newItem.title || !newItem.content) return;
-    setItems([...items, { ...newItem, id: Date.now() }]);
-    setNewItem({ category: '', title: '', content: '' });
-    setIsAdding(false);
-  };
+  const handleSave = async () => {
+    try {
+      const password = localStorage.getItem('adminPassword');
+      const url = editingId
+        ? `${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge/${editingId}`
+        : `${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge`;
+      
+      const response = await fetch(url, {
+        method: editingId ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': password
+        },
+        body: JSON.stringify(formData)
+      });
 
-  const deleteItem = (id) => {
-    if (confirm('Deletar este item?')) {
-      setItems(items.filter(item => item.id !== id));
+      if (response.ok) {
+        await fetchArticles();
+        setFormData({ topic: '', content: '', keywords: '' });
+        setEditingId(null);
+      }
+    } catch (error) {
+      console.error('Failed to save article:', error);
     }
   };
 
-  const categories = ['Site', 'Preços', 'Produtos', 'Contatos', 'Políticas', 'Outros'];
+  const handleDelete = async (id) => {
+    if (!confirm('Deseja realmente excluir este artigo?')) return;
+    
+    try {
+      const password = localStorage.getItem('adminPassword');
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge/${id}`, {
+        method: 'DELETE',
+        headers: { 'X-Admin-Password': password }
+      });
+      if (response.ok) {
+        await fetchArticles();
+      }
+    } catch (error) {
+      console.error('Failed to delete article:', error);
+    }
+  };
+
+  const filteredArticles = articles.filter(article =>
+    article.topic?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    article.content?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="knowledge-base">
-      <div className="kb-header">
-        <div>
-          <h2 className="kb-title">Base de Conhecimento</h2>
-          <p className="kb-subtitle">Informações que a IA pode usar nas respostas</p>
-        </div>
-        <div className="kb-actions">
-          <Button
-            variant="secondary"
-            icon={<Plus size={18} />}
-            onClick={() => setIsAdding(!isAdding)}
-          >
-            Adicionar Item
-          </Button>
-          <Button
-            variant="primary"
-            icon={<Save size={18} />}
-            onClick={saveKnowledgeBase}
-            disabled={isSaving}
-          >
-            {isSaving ? 'Salvando...' : 'Salvar Tudo'}
-          </Button>
+    <div className="kb-page">
+      <div className="page-header">
+        <div className="page-header-content">
+          <h1 className="page-title">Base de Conhecimento</h1>
+          <p className="page-subtitle">Gerencie o conteúdo da IA</p>
         </div>
       </div>
 
-      {isAdding && (
-        <Card className="kb-add-form">
-          <CardBody>
-            <div className="kb-form">
-              <select
-                className="kb-select"
-                value={newItem.category}
-                onChange={(e) => setNewItem({...newItem, category: e.target.value})}
-              >
-                <option value="">Selecione Categoria</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-              <Input
-                placeholder="Título"
-                value={newItem.title}
-                onChange={(e) => setNewItem({...newItem, title: e.target.value})}
-              />
-              <TextArea
-                placeholder="Conteúdo (informações que a IA pode usar)"
-                value={newItem.content}
-                onChange={(e) => setNewItem({...newItem, content: e.target.value})}
-                rows={4}
-              />
-              <div className="kb-form-actions">
-                <Button variant="success" icon={<Check size={18} />} onClick={addItem}>
-                  Adicionar
-                </Button>
-                <Button variant="ghost" icon={<X size={18} />} onClick={() => setIsAdding(false)}>
-                  Cancelar
-                </Button>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      )}
+      <Card title="Adicionar/Editar Artigo">
+        <div className="kb-form">
+          <input
+            type="text"
+            placeholder="Tópico"
+            value={formData.topic}
+            onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
+            className="form-input"
+          />
+          <textarea
+            placeholder="Conteúdo"
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            className="form-textarea"
+            rows={6}
+          />
+          <input
+            type="text"
+            placeholder="Palavras-chave (separadas por vírgula)"
+            value={formData.keywords}
+            onChange={(e) => setFormData({ ...formData, keywords: e.target.value })}
+            className="form-input"
+          />
+          <div className="form-actions">
+            <Button icon={<Save size={18} />} onClick={handleSave}>
+              {editingId ? 'Atualizar' : 'Adicionar'}
+            </Button>
+            {editingId && (
+              <Button variant="secondary" onClick={() => {
+                setEditingId(null);
+                setFormData({ topic: '', content: '', keywords: '' });
+              }}>
+                Cancelar
+              </Button>
+            )}
+          </div>
+        </div>
+      </Card>
 
-      <div className="kb-grid">
-        {items.map(item => (
-          <Card key={item.id} className="kb-item" hover>
-            <CardHeader>
-              <div className="kb-item-header">
-                <span className="kb-item-category">{item.category}</span>
+      <Card title="Artigos" subtitle={`${filteredArticles.length} artigo(s)`} padding="none">
+        <div className="kb-toolbar">
+          <div className="search-wrapper">
+            <Search size={20} />
+            <input
+              type="text"
+              placeholder="Buscar artigos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+        </div>
+        
+        {loading ? (
+          <div className="kb-loading">
+            <div className="loading-spinner" />
+          </div>
+        ) : filteredArticles.length === 0 ? (
+          <div className="empty-state">
+            <Database size={48} />
+            <h3>Nenhum artigo encontrado</h3>
+            <p>Adicione artigos para alimentar a base de conhecimento da IA</p>
+          </div>
+        ) : (
+          <div className="kb-list">
+            {filteredArticles.map(article => (
+              <div key={article.id} className="kb-item">
+                <div className="kb-item-content">
+                  <h3 className="kb-item-title">{article.topic}</h3>
+                  <p className="kb-item-text">{article.content}</p>
+                  {article.keywords && (
+                    <div className="kb-item-keywords">
+                      {article.keywords.split(',').map((keyword, i) => (
+                        <span key={i} className="keyword-tag">{keyword.trim()}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <div className="kb-item-actions">
-                  <button className="kb-item-action" onClick={() => deleteItem(item.id)}>
-                    <Trash2 size={16} />
+                  <button
+                    className="action-btn"
+                    onClick={() => {
+                      setEditingId(article.id);
+                      setFormData({
+                        topic: article.topic,
+                        content: article.content,
+                        keywords: article.keywords || ''
+                      });
+                    }}
+                  >
+                    <Edit size={16} />
+                  </button>
+                  <button
+                    className="action-btn action-btn--danger"
+                    onClick={() => handleDelete(article.id)}
+                  >
+                    <Trash size={16} />
                   </button>
                 </div>
               </div>
-            </CardHeader>
-            <CardBody>
-              <h3 className="kb-item-title">{item.title}</h3>
-              <p className="kb-item-content">{item.content}</p>
-            </CardBody>
-          </Card>
-        ))}
-      </div>
-
-      {items.length === 0 && !isAdding && (
-        <div className="kb-empty">
-          <Database size={48} />
-          <h3>Nenhum item ainda</h3>
-          <p>Adicione informações para a IA usar nas respostas</p>
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </Card>
     </div>
   );
 };
