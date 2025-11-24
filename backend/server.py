@@ -147,6 +147,13 @@ try:
 except:
     HAS_SETTINGS = False
 
+# Try to import knowledge router
+try:
+    from routes.knowledge import router as knowledge_router
+    HAS_KNOWLEDGE = True
+except:
+    HAS_KNOWLEDGE = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
