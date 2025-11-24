@@ -106,35 +106,47 @@ export const WhatsAppConfig = () => {
                 </button>
               </div>
               <div className="wac-form">
-                <Input
-                  label="Nome (ID)"
-                  placeholder="AMOSTRAS"
-                  value={dept.name}
-                  onChange={(e) => updateDepartment(index, 'name', e.target.value)}
-                />
-                <Input
-                  label="Nome de Exibição"
-                  placeholder="Amostras e Orçamentos"
-                  value={dept.displayName}
-                  onChange={(e) => updateDepartment(index, 'displayName', e.target.value)}
-                />
-                <Input
-                  label="Telefone WhatsApp (formato internacional)"
-                  placeholder="5511999999999 (código país + DDD + número)"
-                  value={dept.phone}
-                  onChange={(e) => updateDepartment(index, 'phone', e.target.value)}
-                />
-                {dept.phone && (
-                  <div style={{marginTop: '4px', fontSize: '12px', color: '#10b981'}}>
-                    ✓ Link: wa.me/{dept.phone}
-                  </div>
-                )}
-                <Input
-                  label="Mensagem Padrão"
-                  placeholder="Olá! Vim do chat..."
-                  value={dept.message}
-                  onChange={(e) => updateDepartment(index, 'message', e.target.value)}
-                />
+                <div className="wac-form-group">
+                  <label>Nome (ID)</label>
+                  <input
+                    type="text"
+                    placeholder="AMOSTRAS"
+                    value={dept.name || ''}
+                    onChange={(e) => updateDepartment(index, 'name', e.target.value)}
+                  />
+                </div>
+                <div className="wac-form-group">
+                  <label>Nome de Exibição</label>
+                  <input
+                    type="text"
+                    placeholder="Amostras e Orçamentos"
+                    value={dept.displayName || ''}
+                    onChange={(e) => updateDepartment(index, 'displayName', e.target.value)}
+                  />
+                </div>
+                <div className="wac-form-group">
+                  <label>Telefone WhatsApp (formato internacional)</label>
+                  <input
+                    type="text"
+                    placeholder="5511999999999 (código país + DDD + número)"
+                    value={dept.phone || ''}
+                    onChange={(e) => updateDepartment(index, 'phone', e.target.value)}
+                  />
+                  {dept.phone && (
+                    <div style={{marginTop: '4px', fontSize: '12px', color: '#10b981'}}>
+                      ✓ Link: wa.me/{dept.phone}
+                    </div>
+                  )}
+                </div>
+                <div className="wac-form-group">
+                  <label>Mensagem Padrão</label>
+                  <input
+                    type="text"
+                    placeholder="Olá! Vim do chat online..."
+                    value={dept.message || ''}
+                    onChange={(e) => updateDepartment(index, 'message', e.target.value)}
+                  />
+                </div>
               </div>
             </CardBody>
           </Card>
