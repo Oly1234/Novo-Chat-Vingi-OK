@@ -4,6 +4,7 @@ import {
   Users, Settings, LogOut, Menu, X, Sun, Moon, ChevronRight,
   Search, ChevronDown
 } from 'lucide-react';
+import { useNotifications } from '../../contexts/NotificationContext';
 import './AdminLayout.css';
 
 const AdminLayout = ({ children, activeTab, onTabChange }) => {
