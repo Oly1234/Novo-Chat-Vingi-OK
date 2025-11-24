@@ -9,11 +9,14 @@ import AdvancedDashboard from './AdvancedDashboard';
 import SettingsPanel from './Settings/SettingsPanel';
 import NotificationCenter from './NotificationCenter';
 import GlobalSearch from './GlobalSearch';
+import { WhatsAppConfig } from './WhatsAppConfig';
+import AdminAuthModal from './modals/AdminAuthModal';
 import { NotificationProvider } from '../../contexts/NotificationContext';
 
 export const AdminDashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showSearch, setShowSearch] = useState(false);
+  const [adminUser, setAdminUser] = useState(null);
 
   // Atalho Ctrl+K para busca
   useEffect(() => {
