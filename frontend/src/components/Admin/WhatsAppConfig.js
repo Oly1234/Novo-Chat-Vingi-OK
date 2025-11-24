@@ -44,7 +44,9 @@ export const WhatsAppConfig = () => {
   };
 
   const removeDepartment = (index) => {
-    setDepartments(departments.filter((_, i) => i !== index));
+    if (confirm('Deseja realmente remover este departamento?')) {
+      setDepartments(departments.filter((_, i) => i !== index));
+    }
   };
 
   const saveConfig = async () => {
