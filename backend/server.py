@@ -194,6 +194,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# CRITICAL: Health check endpoint for Cloud Run
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -204,3 +209,9 @@ logger = logging.getLogger(__name__)
 @app.on_event("shutdown")
 async def shutdown_app():
     print("Aplicação encerrada")
+
+# For local development only (Cloud Run ignores this)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    import uvicorn
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=True)
