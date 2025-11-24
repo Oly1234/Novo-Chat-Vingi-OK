@@ -145,7 +145,7 @@ const TicketModal = ({ isOpen, onClose, onSubmit, ticket }) => {
               Cancelar
             </button>
             <button type="submit" className="btn-submit">
-              Criar Chamado
+              {ticket ? 'Atualizar' : 'Criar'} Chamado
             </button>
           </div>
         </form>
