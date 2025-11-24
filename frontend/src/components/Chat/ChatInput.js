@@ -112,22 +112,10 @@ export const ChatInput = () => {
       )}
 
       <div className="vingi-chat-input__container">
-        <button
-          className="vingi-chat-input__button"
-          onClick={() => fileInputRef.current?.click()}
-          title="Anexar arquivo"
-          data-testid="attach-file-button"
-        >
-          <Paperclip size={20} />
-        </button>
-        
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
-          onChange={handleFileSelect}
-          style={{ display: 'none' }}
-          multiple
+        <FileUploadButton
+          onFileSelect={handleFileSelect}
+          disabled={isLoading}
+          isUploading={isUploading}
         />
 
         <VoiceInput
