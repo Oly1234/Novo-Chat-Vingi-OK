@@ -156,7 +156,7 @@ class VingiSpecificTester:
             headers = {"X-Admin-Password": ADMIN_PASSWORD}
             
             # Try to get existing clients first
-            response = requests.get(f"{BASE_URL}/customers/list", headers=headers)
+            response = requests.get(f"{BASE_URL}/customers", headers=headers)
             
             if response.status_code == 404:
                 self.log_test("Create Client", True, 
