@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Header, HTTPException, Query
 from datetime import datetime, timedelta
 import os
-from services.firebase_service import get_documents
+from services.firebase_service import firebase_service
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'v1ng1t3x')
