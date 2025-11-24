@@ -17,37 +17,44 @@ class FirebaseService:
         self._initialized = False
     
     def _initialize(self):
-        """Initialize Firebase Admin SDK with service account"""
+        """Initialize Firebase Admin SDK with service account or ADC"""
         if self._initialized:
             return
         
         try:
-            # Path to service account key
-            cred_path = Path(__file__).parent.parent / 'firebase-credentials.json'
-            
-            if not cred_path.exists():
-                raise Exception(f'Firebase credentials not found at {cred_path}')
-            
             # Initialize Firebase Admin SDK
             if not firebase_admin._apps:
-                cred = credentials.Certificate(str(cred_path))
-                firebase_admin.initialize_app(cred, {
-                    'storageBucket': 'agenda-44f53.firebasestorage.app'
-                })
+                # Path to service account key
+                cred_path = Path(__file__).parent.parent / 'firebase-credentials.json'
+                
+                # Try to use service account file (local development)
+                if cred_path.exists():
+                    print(f'✅ Usando credenciais do arquivo: {cred_path}')
+                    cred = credentials.Certificate(str(cred_path))
+                    firebase_admin.initialize_app(cred, {
+                        'storageBucket': 'agenda-44f53.firebasestorage.app'
+                    })
+                else:
+                    # Use Application Default Credentials (Cloud Run, GCE, etc)
+                    print('✅ Usando Application Default Credentials (ADC)')
+                    firebase_admin.initialize_app(options={
+                        'storageBucket': 'agenda-44f53.firebasestorage.app',
+                        'projectId': 'agenda-44f53'
+                    })
             
             self._db = firestore.client()
             
             try:
                 self._bucket = storage.bucket()
             except Exception as e:
-                print(f'Storage bucket not available: {e}')
+                print(f'⚠️ Storage bucket não disponível: {e}')
                 self._bucket = None
             
             self._initialized = True
-            print('Firebase initialized successfully!')
+            print('✅ Firebase inicializado com sucesso!')
             
         except Exception as e:
-            print(f'Firebase initialization error: {e}')
+            print(f'❌ Erro ao inicializar Firebase: {e}')
             raise e
     
     @property
