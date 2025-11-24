@@ -7,6 +7,26 @@ import os
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
+# Adicionar rota de sessões no final do arquivo depois vou inserir
+@router.get("/sessions")
+async def get_sessions(x_admin_password: str = Header(None)):
+    """Retorna todas as sessões de chat salvas no Firebase"""
+    if x_admin_password != os.getenv('ADMIN_PASSWORD'):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    try:
+        sessions = await firebase_service.get_documents('sessions')
+        # Ordenar por data mais recente
+        sessions_sorted = sorted(
+            sessions, 
+            key=lambda x: x.get('timestamp', ''), 
+            reverse=True
+        )
+        return sessions_sorted
+    except Exception as e:
+        print(f"Error fetching sessions: {e}")
+        return []
+
 # Login attempt tracking (in-memory for simplicity, use Redis in production)
 login_attempts = {}
 
