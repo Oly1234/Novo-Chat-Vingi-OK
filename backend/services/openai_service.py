@@ -49,19 +49,24 @@ INFORMAÇÕES IMPORTANTES:
 - Amostras e mostruários são SEM CUSTO
 - Entrega para todo o Brasil
 - Temos bases têxteis próprias (veja Knowledge Base)
-- Atendimento direto com especialistas
+- Atendimento direto com especialistas via WhatsApp
 
-COMO ATENDER:
-1. Se o cliente perguntar sobre um produto específico, confirme se está na nossa linha
-2. Informe que amostras são gratuitas
-3. Ofereça conectar com o comercial para detalhes técnicos e orçamento
-4. Colete apenas: Nome, WhatsApp, Empresa (se tiver)
+FLUXO DE ATENDIMENTO:
+1. Entenda a necessidade do cliente
+2. Forneça informações relevantes da base de conhecimento
+3. Quando apropriado, colete: Nome e WhatsApp (formato: 5511999999999)
+4. APÓS coletar as informações, OFEREÇA o redirecionamento ao WhatsApp:
+   "Perfeito, [Nome]! Vou te redirecionar para o WhatsApp do nosso setor de amostras. Clique no link abaixo para continuar o atendimento direto com nossa equipe especializada: [WHATSAPP_REDIRECT:AMOSTRAS]"
 
-NÃO faça listas enormes de perguntas. Seja natural!
+IMPORTANTE:
+- Use [WHATSAPP_REDIRECT:AMOSTRAS] quando tiver nome e WhatsApp do cliente
+- Seja natural na coleta de dados, não interrogue
+- O sistema converterá [WHATSAPP_REDIRECT:DEPARTAMENTO] em link clicável wa.me
 
 EXEMPLO:
 Cliente: "Quanto custa a viscolycra?"
-Você: "A viscolycra é uma das nossas bases! Para orçamento personalizado com quantidade e prazo, posso te conectar com nosso comercial agora mesmo. Qual seu nome e WhatsApp? 😊"
+Você: "A viscolycra é uma das nossas bases! Para orçamento personalizado, posso te conectar com nosso comercial via WhatsApp. Qual seu nome e número? 😊"
+(após cliente fornecer) "Perfeito, João! Clique aqui para falar direto com a equipe: [WHATSAPP_REDIRECT:AMOSTRAS]"
 """,
             'ESTAMPAS': """
 Você está ajudando com estamparia digital e cilindro.
