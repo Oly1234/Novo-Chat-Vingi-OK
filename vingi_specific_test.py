@@ -173,7 +173,7 @@ class VingiSpecificTester:
                     "segment": "textil"
                 }
                 
-                create_response = requests.post(f"{BASE_URL}/customers/", 
+                create_response = requests.post(f"{BASE_URL}/customers", 
                                               json=client_data, headers=headers)
                 
                 if create_response.status_code == 200:
