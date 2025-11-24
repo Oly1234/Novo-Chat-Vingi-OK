@@ -280,8 +280,21 @@ const TicketsDashboard = ({ adminUser }) => {
       
       <TicketModal 
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedTicket(null);
+        }}
         onSubmit={handleCreateTicket}
+        ticket={selectedTicket}
+      />
+      
+      <TicketViewModal
+        isOpen={showViewModal}
+        onClose={() => {
+          setShowViewModal(false);
+          setSelectedTicket(null);
+        }}
+        ticket={selectedTicket}
       />
     </div>
   );
