@@ -7,9 +7,10 @@ import {
 import Card from '../shared/Card';
 import Button from '../shared/Button';
 import StatCard from '../shared/StatCard';
+import CustomerModal from '../modals/CustomerModal';
 import './CustomersManager.css';
 
-const CustomersManager = () => {
+const CustomersManager = ({ adminUser }) => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
