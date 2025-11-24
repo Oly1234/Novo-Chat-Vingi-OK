@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://aihelphub.preview.emergentagent.com/api"
+BASE_URL = "https://chatai-desk.preview.emergentagent.com/api"
 ADMIN_PASSWORD = "v1ng1t3x"
 
 class VingiSpecificTester:

@@ -162,7 +162,7 @@ IA: "A viscolycra é uma das nossas bases têxteis! Para orçamento personalizad
 
 1. **Acessar o Sistema**:
    ```
-   https://aihelphub.preview.emergentagent.com
+   https://chatai-desk.preview.emergentagent.com
    ```
 
 2. **Iniciar Chat**:
@@ -190,7 +190,7 @@ IA: "A viscolycra é uma das nossas bases têxteis! Para orçamento personalizad
 
 1. **Acessar Admin**:
    ```
-   URL: https://aihelphub.preview.emergentagent.com/admin
+   URL: https://chatai-desk.preview.emergentagent.com/admin
    Senha: v1ng1t3x
    ```
 
