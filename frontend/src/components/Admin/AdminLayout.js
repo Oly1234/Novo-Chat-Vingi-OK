@@ -11,6 +11,7 @@ const AdminLayout = ({ children, activeTab, onTabChange }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [theme, setTheme] = useState('light');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { unreadCount, setShowCenter } = useNotifications();
 
   useEffect(() => {
     // Carregar tema salvo
