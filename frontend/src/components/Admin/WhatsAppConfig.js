@@ -49,11 +49,21 @@ export const WhatsAppConfig = () => {
   const saveConfig = async () => {
     setIsSaving(true);
     try {
-      await configAPI.updateWhatsAppConfig(
-        departments,
-        localStorage.getItem('adminPassword')
-      );
-      alert('✅ Configuração salva!');
+      const password = localStorage.getItem('adminPassword');
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/config/whatsapp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': password
+        },
+        body: JSON.stringify({ departments })
+      });
+      
+      if (response.ok) {
+        alert('✅ Configuração salva!');
+      } else {
+        alert('❌ Erro ao salvar');
+      }
     } catch (error) {
       alert('❌ Erro ao salvar');
     } finally {
