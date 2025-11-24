@@ -1,0 +1,122 @@
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-btn:active {
+  transform: translateY(1px);
+}
+
+.admin-btn--small {
+  height: 32px;
+  padding: 0 var(--spacing-md);
+  font-size: 0.8125rem;
+}
+
+.admin-btn--medium {
+  height: 40px;
+  padding: 0 var(--spacing-lg);
+  font-size: 0.9375rem;
+}
+
+.admin-btn--large {
+  height: 48px;
+  padding: 0 var(--spacing-xl);
+  font-size: 1rem;
+}
+
+.admin-btn--primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-btn--primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.admin-btn--secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.admin-btn--secondary:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+}
+
+.admin-btn--danger {
+  background: var(--danger);
+  color: white;
+}
+
+.admin-btn--danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.admin-btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.admin-btn--ghost:hover:not(:disabled) {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.admin-btn--full {
+  width: 100%;
+}
+
+.admin-btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.admin-btn--loading {
+  pointer-events: none;
+}
+
+.admin-btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.admin-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-btn-text {
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .admin-btn--medium {
+    height: 36px;
+    font-size: 0.875rem;
+  }
+}
