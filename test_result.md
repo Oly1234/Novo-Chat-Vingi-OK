@@ -526,6 +526,18 @@ frontend:
         agent: "testing"
         comment: "✅ VALIDAÇÃO FINAL COMPLETA - Executei todos os 8 testes específicos solicitados: TESTE 1 (Admin Dashboard): Login com 'v1ng1t3x' + modal 'Pedro Teste' funciona perfeitamente, dashboard carrega SEM erros 'Cannot read properties of undefined', nome aparece no avatar. TESTE 2 (Upload): Botão clipe de papel visível e funcional. TESTE 3 (Voz): Botão microfone com tooltip 'Gravar áudio' operacional. TESTE 4 (Busca): Navegação admin funciona. TESTE 5 (Knowledge Base): Artigos carregam, edição disponível. TESTE 6 (WhatsApp Tab): Aba presente, configurações visíveis. TESTE 7 (Service Worker): Sem erros chrome-extension. TESTE 8 (Fluxo WhatsApp): IA responde a 'Quero orçamento de tecido', processa contato 'Carlos/11987654321', redirecionamento operacional (precisa configurar departamento AMOSTRAS). RESULTADO: 8/8 testes APROVADOS - Sistema 100% funcional para produção!"
 
+  - task: "Vingi Têxtil - Teste Botões Admin (Review Request)"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/Admin/AdminDashboard.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "⚠️ PARCIALMENTE FUNCIONAL - Executei teste específico dos 6 testes solicitados na review request: ✅ TESTE 1 (Aba Chamados): Botões Visualizar (olho), Editar (lápis), Excluir (lixeira) FUNCIONAM - 10 botões de cada tipo detectados e operacionais. ❌ TESTES 2-6: Navegação para abas WhatsApp, Clientes, Base de Conhecimento, Histórico FALHA devido a erros React runtime ('Objects are not valid as a React child'). ✅ FUNCIONALIDADES BÁSICAS: Login admin, autenticação 'Pedro Teste', dashboard com estatísticas (547 sessões, 89 tickets, 94% satisfação) funcionam perfeitamente. ❌ RESULTADO: 1/6 testes completados - necessário corrigir erros React para testar botões das outras abas."
+
 metadata:
   created_by: "testing_agent"
   version: "3.0"
