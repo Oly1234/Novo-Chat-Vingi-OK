@@ -56,6 +56,28 @@ const TicketsDashboard = ({ adminUser }) => {
     }
   };
 
+  const handleViewTicket = (ticket) => {
+    setSelectedTicket(ticket);
+    setShowViewModal(true);
+  };
+
+  const handleEditTicket = (ticket) => {
+    setSelectedTicket(ticket);
+    setShowModal(true);
+  };
+
+  const handleDeleteTicket = async (ticketId) => {
+    if (!confirm('Deseja realmente excluir este chamado?')) return;
+    
+    try {
+      await ticketAPI.deleteTicket(ticketId);
+      await loadData();
+    } catch (error) {
+      console.error('Erro ao excluir ticket:', error);
+      alert('Erro ao excluir chamado');
+    }
+  };
+
   const getStatusBadge = (status) => {
     const badges = {
       novo: { color: 'success', text: 'Novo' },
