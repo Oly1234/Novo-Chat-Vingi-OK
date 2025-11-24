@@ -24,8 +24,8 @@ async def get_advanced_dashboard(range: str = Query('7d'), x_admin_password: str
             start_date = now - timedelta(days=90)
         
         # Buscar dados
-        sessions = await get_documents('sessions')
-        tickets = await get_documents('tickets')
+        sessions = await firebase_service.get_documents('sessions')
+        tickets = await firebase_service.get_documents('tickets')
         
         # Filtrar por data
         filtered_sessions = [
