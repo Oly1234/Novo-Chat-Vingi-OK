@@ -6,9 +6,9 @@ import FileUploadButton from '../shared/FileUploadButton';
 import './ChatInput.css';
 
 export const ChatInput = () => {
-  const { sendMessage, uploadedFiles, addFile, removeFile, isLoading, chatMode, uploadFile } = useChat();
+  const { sendMessage, uploadedFiles, addFile, removeFile, isLoading, chatMode, uploadFile, sessionId } = useChat();
   const [inputValue, setInputValue] = useState('');
-  const fileInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleSend = async () => {
     if (!inputValue.trim() && uploadedFiles.length === 0) return;
