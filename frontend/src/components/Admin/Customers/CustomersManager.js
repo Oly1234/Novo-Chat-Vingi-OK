@@ -443,6 +443,16 @@ const CustomerModal = ({ customer, onClose, onSave }) => {
           </div>
         </form>
       </div>
+      
+      <CustomerModal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedCustomer(null);
+        }}
+        onSubmit={handleSubmitCustomer}
+        customer={selectedCustomer}
+      />
     </>
   );
 };
