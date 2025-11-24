@@ -12,8 +12,15 @@ const AdminLayout = ({ children, activeTab, onTabChange }) => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Carregar tema salvo
+    const savedTheme = localStorage.getItem('admin-theme') || 'light';
+    setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
     // Aplicar tema
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('admin-theme', theme);
     
     // Auto-fechar sidebar no mobile
     const handleResize = () => {
