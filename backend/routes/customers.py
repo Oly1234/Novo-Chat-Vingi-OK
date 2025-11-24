@@ -13,10 +13,13 @@ class CustomerModel(BaseModel):
     email: str
     phone: Optional[str] = None
     company: Optional[str] = None
+    address: Optional[str] = None
     city: Optional[str] = None
-    tags: List[str] = []
+    segment: Optional[str] = 'textil'
     notes: Optional[str] = None
-    status: str = 'active'
+    status: str = 'ativo'
+    addedBy: Optional[str] = 'Admin'
+    updatedBy: Optional[str] = 'Admin'
 
 @router.get("")
 async def get_customers(x_admin_password: str = Header(None)):
