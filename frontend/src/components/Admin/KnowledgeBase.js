@@ -18,15 +18,16 @@ export const KnowledgeBase = () => {
   const fetchArticles = async () => {
     try {
       const password = localStorage.getItem('adminPassword');
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/knowledge`, {
         headers: { 'X-Admin-Password': password }
       });
       if (response.ok) {
         const data = await response.json();
-        setArticles(data);
+        setArticles(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error('Failed to fetch articles:', error);
+      setArticles([]);
     } finally {
       setLoading(false);
     }
