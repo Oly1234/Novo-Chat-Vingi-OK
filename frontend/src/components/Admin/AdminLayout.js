@@ -48,8 +48,8 @@ const AdminLayout = ({ children, activeTab, onTabChange }) => {
   const navItems = [
     { id: 'tickets', label: 'Chamados', icon: Bell, badge: 3 },
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'customers', label: 'Clientes', icon: Users },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
-    { id: 'queue', label: 'Fila', icon: Users },
     { id: 'knowledge', label: 'Base de Conhecimento', icon: Database },
     { id: 'history', label: 'Histórico', icon: MessageSquare },
     { id: 'whatsapp', label: 'WhatsApp', icon: Settings }
