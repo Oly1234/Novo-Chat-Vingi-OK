@@ -119,27 +119,33 @@ backend:
 
   - task: "Chat Messages (Firebase)"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/routes/chat.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL - POST /api/chat/message fails with HTTP 500. Root cause: Firebase requires composite index for query filtering by sessionId and ordering by timestamp. Error: 'The query requires an index' - this is normal for Firebase migration but needs index creation."
+      - working: true
+        agent: "testing"
+        comment: "✅ FIXED - POST /api/chat/message now working perfectly. AI responds correctly to messages like 'Olá, preciso de informações sobre a empresa' and 'Quero orçamento de tecido'. Firebase composite indexes have been resolved and chat functionality is fully operational."
 
   - task: "Get Session (Firebase)"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/routes/chat.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL - GET /api/chat/session/{session_id} fails with HTTP 500. Same root cause as chat messages - requires Firebase composite index for sessionId + timestamp queries. Created firestore.indexes.json to define required indexes."
+      - working: true
+        agent: "testing"
+        comment: "✅ FIXED - GET /api/chat/session/{session_id} now working correctly. Session retrieval with messages is functional, Firebase composite index issues have been resolved."
 
   - task: "Admin Login (Firebase)"
     implemented: true
