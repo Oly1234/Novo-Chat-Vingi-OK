@@ -9,6 +9,7 @@ import Button from '../shared/Button';
 import StatCard from '../shared/StatCard';
 import { ticketAPI } from '../../../services/ticketAPI';
 import TicketModal from '../modals/TicketModal';
+import TicketViewModal from '../modals/TicketViewModal';
 import './TicketsDashboard.css';
 
 const TicketsDashboard = ({ adminUser }) => {
@@ -17,6 +18,8 @@ const TicketsDashboard = ({ adminUser }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
     loadData();
