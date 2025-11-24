@@ -27,10 +27,12 @@ const TicketsDashboard = () => {
         ticketAPI.listTickets({}),
         ticketAPI.getStats()
       ]);
-      setTickets(ticketsData);
-      setStats(statsData);
+      setTickets(Array.isArray(ticketsData) ? ticketsData : []);
+      setStats(statsData || {});
     } catch (error) {
       console.error('Erro ao carregar tickets:', error);
+      setTickets([]);
+      setStats({});
     } finally {
       setLoading(false);
     }
