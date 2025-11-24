@@ -119,6 +119,27 @@ try:
 except:
     HAS_NOTIFICATIONS = False
 
+# Try to import dashboard router
+try:
+    from routes.dashboard import router as dashboard_router
+    HAS_DASHBOARD = True
+except:
+    HAS_DASHBOARD = False
+
+# Try to import search router
+try:
+    from routes.search import router as search_router
+    HAS_SEARCH = True
+except:
+    HAS_SEARCH = False
+
+# Try to import ai_agents router
+try:
+    from routes.ai_agents import router as ai_agents_router
+    HAS_AI_AGENTS = True
+except:
+    HAS_AI_AGENTS = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
@@ -137,6 +158,12 @@ if HAS_CUSTOMERS:
     api_router.include_router(customers_router)
 if HAS_NOTIFICATIONS:
     api_router.include_router(notifications_router)
+if HAS_DASHBOARD:
+    api_router.include_router(dashboard_router)
+if HAS_SEARCH:
+    api_router.include_router(search_router)
+if HAS_AI_AGENTS:
+    api_router.include_router(ai_agents_router)
 
 # Include the main router in the app
 app.include_router(api_router)
