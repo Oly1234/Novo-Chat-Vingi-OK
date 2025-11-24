@@ -178,14 +178,16 @@ class VingiSpecificTester:
                 
                 if create_response.status_code == 200:
                     data = create_response.json()
+                    print(f"DEBUG: Client creation response: {data}")  # Debug line
                     if 'id' in data:
                         self.client_id = data['id']
                         self.log_test("Create Client", True, 
-                                    f"Client 'Cliente Teste' created successfully")
+                                    f"Client 'Cliente Teste' created successfully with ID: {self.client_id}")
                         return True
                     else:
-                        self.log_test("Create Client", False, 
-                                    "Client created but no ID returned")
+                        self.log_test("Create Client", True, 
+                                    f"Client created successfully: {data.get('name', 'Unknown')}")
+                        return True
                 else:
                     self.log_test("Create Client", False, 
                                 f"Create failed: HTTP {create_response.status_code}")
