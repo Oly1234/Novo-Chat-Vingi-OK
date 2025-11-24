@@ -40,6 +40,19 @@ const TicketsDashboard = ({ adminUser }) => {
     }
   };
 
+  const handleCreateTicket = async (formData) => {
+    try {
+      await ticketAPI.createTicket({
+        ...formData,
+        criadoPor: adminUser || 'Admin'
+      });
+      await loadData();
+    } catch (error) {
+      console.error('Erro ao criar ticket:', error);
+      alert('Erro ao criar chamado');
+    }
+  };
+
   const getStatusBadge = (status) => {
     const badges = {
       novo: { color: 'success', text: 'Novo' },
