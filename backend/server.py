@@ -140,6 +140,13 @@ try:
 except:
     HAS_AI_AGENTS = False
 
+# Try to import settings router
+try:
+    from routes.settings import router as settings_router
+    HAS_SETTINGS = True
+except:
+    HAS_SETTINGS = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
@@ -164,6 +171,8 @@ if HAS_SEARCH:
     api_router.include_router(search_router)
 if HAS_AI_AGENTS:
     api_router.include_router(ai_agents_router)
+if HAS_SETTINGS:
+    api_router.include_router(settings_router)
 
 # Include the main router in the app
 app.include_router(api_router)
