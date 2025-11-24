@@ -111,6 +111,37 @@ async def upload_attachment(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# UPDATE TICKET
+@router.put("/{ticket_id}")
+async def update_ticket(
+    ticket_id: str,
+    ticket_data: dict,
+    authorized: bool = Depends(verify_admin)
+):
+    """Atualiza um ticket existente"""
+    try:
+        success = await ticket_service.update_ticket(ticket_id, ticket_data)
+        if not success:
+            raise HTTPException(status_code=404, detail="Ticket não encontrado")
+        return {"success": True, "message": "Ticket atualizado"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# DELETE TICKET
+@router.delete("/{ticket_id}")
+async def delete_ticket(
+    ticket_id: str,
+    authorized: bool = Depends(verify_admin)
+):
+    """Exclui um ticket"""
+    try:
+        success = await ticket_service.delete_ticket(ticket_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Ticket não encontrado")
+        return {"success": True, "message": "Ticket excluído"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # RATING
 @router.post("/{ticket_id}/rating")
 async def add_rating(
