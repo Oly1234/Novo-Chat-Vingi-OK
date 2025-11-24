@@ -166,9 +166,11 @@ const AdminLayout = ({ children, activeTab, onTabChange }) => {
           </div>
 
           <div className="header-actions">
-            <button className="notification-btn">
+            <button className="notification-btn" onClick={() => setShowCenter(true)}>
               <Bell size={20} />
-              <span className="notification-badge">5</span>
+              {unreadCount > 0 && (
+                <span className="notification-badge">{unreadCount}</span>
+              )}
             </button>
           </div>
         </div>
