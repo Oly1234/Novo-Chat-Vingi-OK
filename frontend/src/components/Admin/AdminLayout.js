@@ -127,9 +127,9 @@ const AdminLayout = ({ children, activeTab, onTabChange, onSearchOpen, adminUser
                 className="user-menu-trigger"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
               >
-                <div className="user-avatar">A</div>
+                <div className="user-avatar">{adminUser ? adminUser.charAt(0).toUpperCase() : 'A'}</div>
                 <div className="user-info">
-                  <span className="user-name">Administrador</span>
+                  <span className="user-name">{adminUser || 'Administrador'}</span>
                   <span className="user-role">Super Admin</span>
                 </div>
                 <ChevronDown size={16} />
