@@ -107,10 +107,17 @@ export const ChatProvider = ({ children }) => {
       // Send to backend with confirmed sessionId
       const response = await chatAPI.sendMessage(currentSessionId, text, attachments);
 
+      // Processar redirecionamento WhatsApp se houver
+      let processedText = response.aiResponse.text;
+      if (processedText.includes('[WHATSAPP_REDIRECT:')) {
+        processedText = await processWhatsAppRedirect(processedText, currentSessionId);
+      }
+
       // Add AI response
       addMessage({
         sender: 'ai',
-        text: response.aiResponse.text,
+        text: processedText,
+        isHtml: processedText.includes('<a href='),
         timestamp: new Date()
       });
 
