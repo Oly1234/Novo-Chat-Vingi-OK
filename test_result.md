@@ -381,6 +381,18 @@ backend:
         agent: "testing"
         comment: "✅ PASSED - Customer management system working perfectly. POST /api/customers creates new clients with all required fields (name, email, phone, company, status, segment). GET /api/customers retrieves client list with statistics. Firebase persistence confirmed. Test client 'Cliente Teste' created successfully with ID and proper data structure."
 
+  - task: "React Runtime Errors - Admin Navigation"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/Admin"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL - React runtime errors detected: 'Objects are not valid as a React child (found: object with keys {nome, email, telefone, unidade})'. These errors prevent navigation between admin tabs (WhatsApp, Clientes, Base de Conhecimento, Histórico). Only Dashboard and Chamados tabs work properly. Root cause: Components trying to render objects directly instead of using arrays or proper React elements. This blocks complete testing of admin functionality."
+
 frontend:
   - task: "Voice-to-Text (Microfone)"
     implemented: true
