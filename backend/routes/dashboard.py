@@ -73,8 +73,8 @@ async def get_stats(x_admin_password: str = Header(None)):
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     try:
-        sessions = await get_documents('sessions')
-        tickets = await get_documents('tickets')
+        sessions = await firebase_service.get_documents('sessions')
+        tickets = await firebase_service.get_documents('tickets')
         
         return {
             'totalSessions': len(sessions),
