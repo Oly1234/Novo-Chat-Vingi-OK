@@ -76,7 +76,11 @@ export const WhatsAppConfig = () => {
       <div className="wac-header">
         <div>
           <h2 className="wac-title">Configuração WhatsApp</h2>
-          <p className="wac-subtitle">Configure números por departamento</p>
+          <p className="wac-subtitle">Configure números por departamento para redirecionamento automático</p>
+          <div style={{marginTop: '8px', padding: '12px', background: '#f0f9ff', borderRadius: '8px', fontSize: '13px'}}>
+            💡 <strong>Formato do telefone:</strong> Use código do país + DDD + número (ex: 5511999999999)<br/>
+            🔗 O sistema gerará links wa.me automaticamente para redirecionar clientes
+          </div>
         </div>
         <div className="wac-actions">
           <Button variant="secondary" icon={<Plus size={18} />} onClick={addDepartment}>
