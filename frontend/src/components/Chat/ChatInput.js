@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Send, Paperclip, X, FileText, Image as ImageIcon } from 'lucide-react';
+import { Send, X, FileText, Image as ImageIcon } from 'lucide-react';
 import { useChat } from '../../contexts/ChatContext';
-import { VoiceInput } from './VoiceInput';
+import VoiceInput from '../shared/VoiceInput';
+import FileUploadButton from '../shared/FileUploadButton';
 import './ChatInput.css';
 
 export const ChatInput = () => {
