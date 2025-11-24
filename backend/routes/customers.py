@@ -80,7 +80,7 @@ async def delete_customer(customer_id: str, x_admin_password: str = Header(None)
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     try:
-        await delete_document('customers', customer_id)
+        await firebase_service.delete_document('customers', customer_id)
         return {"message": "Customer deleted"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
