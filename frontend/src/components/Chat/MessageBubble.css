@@ -157,8 +157,38 @@
   white-space: nowrap;
 }
 
+/* WhatsApp Redirect Link Styles */
+.vingi-message__text--html .whatsapp-redirect-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 12px 20px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: white !important;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.vingi-message__text--html .whatsapp-redirect-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.vingi-message__text--html .whatsapp-redirect-link:active {
+  transform: translateY(0);
+}
+
 @media (max-width: 768px) {
   .vingi-message__content {
     max-width: 85%;
+  }
+  
+  .vingi-message__text--html .whatsapp-redirect-link {
+    width: 100%;
+    justify-content: center;
   }
 }
