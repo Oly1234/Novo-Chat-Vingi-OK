@@ -16,10 +16,14 @@ export const WhatsAppConfig = () => {
 
   const fetchConfig = async () => {
     try {
-      const data = await configAPI.getWhatsAppConfig();
-      setDepartments(data.departments || []);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/config/whatsapp`);
+      if (response.ok) {
+        const data = await response.json();
+        setDepartments(data.departments || []);
+      }
     } catch (error) {
       console.error('Failed to fetch config:', error);
+      setDepartments([]);
     }
   };
 
