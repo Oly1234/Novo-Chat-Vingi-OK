@@ -509,16 +509,10 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Create Ticket"
-    - "List Tickets (Admin)"
-    - "Get Ticket Details"
-    - "Update Ticket Status"
-    - "Add Comment to Ticket"
-    - "Ticket Statistics"
+  current_focus: []
   stuck_tasks: []
-  test_all: true
-  test_priority: "high_first"
+  test_all: false
+  test_priority: "completed"
 
 agent_communication:
   - agent: "testing"
