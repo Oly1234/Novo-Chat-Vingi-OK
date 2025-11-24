@@ -162,7 +162,7 @@ IA: "A viscolycra é uma das nossas bases têxteis! Para orçamento personalizad
 
 1. **Acessar o Sistema**:
    ```
-   https://chatservice-hub.preview.emergentagent.com
+   https://atendeonline.preview.emergentagent.com
    ```
 
 2. **Iniciar Chat**:
@@ -190,7 +190,7 @@ IA: "A viscolycra é uma das nossas bases têxteis! Para orçamento personalizad
 
 1. **Acessar Admin**:
    ```
-   URL: https://chatservice-hub.preview.emergentagent.com/admin
+   URL: https://atendeonline.preview.emergentagent.com/admin
    Senha: v1ng1t3x
    ```
 

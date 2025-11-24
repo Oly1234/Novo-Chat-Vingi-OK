@@ -4,7 +4,7 @@
 
 ### Opção 1: URL Direta (RECOMENDADO)
 ```
-https://chatservice-hub.preview.emergentagent.com/admin
+https://atendeonline.preview.emergentagent.com/admin
 ```
 **Simplesmente digite /admin na URL**
 
@@ -143,7 +143,7 @@ CORS_ORIGINS=*              # ← Em produção: seu domínio
 
 ```bash
 # Backend URL (Deploy)
-REACT_APP_BACKEND_URL=https://chatservice-hub.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://atendeonline.preview.emergentagent.com
 
 # Em produção, trocar para seu domínio:
 # REACT_APP_BACKEND_URL=https://api.seudominio.com
