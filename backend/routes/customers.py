@@ -67,8 +67,10 @@ async def update_customer(customer_id: str, customer: CustomerModel, x_admin_pas
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     try:
-        await update_document('customers', customer_id, customer.dict())
-        return {"id": customer_id, **customer.dict()}
+        customer_data = customer.dict()
+        customer_data['updatedAt'] = datetime.utcnow().isoformat()
+        await firebase_service.update_document('customers', customer_id, customer_data)
+        return {"id": customer_id, **customer_data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
