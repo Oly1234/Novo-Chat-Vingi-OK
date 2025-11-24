@@ -54,9 +54,9 @@ async def create_customer(customer: CustomerModel, x_admin_password: str = Heade
     try:
         customer_data = customer.dict()
         customer_data['createdAt'] = datetime.utcnow().isoformat()
-        customer_data['ticketsCount'] = 0
+        customer_data['updatedAt'] = datetime.utcnow().isoformat()
         
-        customer_id = await create_document('customers', customer_data)
+        customer_id = await firebase_service.create_document('customers', customer_data)
         return {"id": customer_id, **customer_data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
