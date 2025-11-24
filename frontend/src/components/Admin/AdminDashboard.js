@@ -56,10 +56,12 @@ export const AdminDashboard = ({ onLogout }) => {
 
   return (
     <NotificationProvider>
+      <AdminAuthModal onAuthenticated={setAdminUser} />
       <AdminLayout 
         activeTab={activeTab} 
         onTabChange={setActiveTab}
         onSearchOpen={() => setShowSearch(true)}
+        adminUser={adminUser}
       >
         {renderContent()}
       </AdminLayout>
