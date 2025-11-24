@@ -295,17 +295,18 @@ const CustomersManager = ({ adminUser }) => {
       </div>
 
       {/* Modal de Edição/Criação */}
-      {showModal && (
-        <CustomerModal
-          customer={selectedCustomer}
-          onClose={() => setShowModal(false)}
-          onSave={() => {
-            setShowModal(false);
-            loadCustomers();
-          }}
-        />
-      )}
+      <CustomerModal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedCustomer(null);
+        }}
+        onSubmit={handleSubmitCustomer}
+        customer={selectedCustomer}
+      />
     </div>
   );
 };
+
+export default CustomersManager;
 
