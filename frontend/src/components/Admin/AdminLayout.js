@@ -7,7 +7,7 @@ import {
 import { useNotifications } from '../../contexts/NotificationContext';
 import './AdminLayout.css';
 
-const AdminLayout = ({ children, activeTab, onTabChange }) => {
+const AdminLayout = ({ children, activeTab, onTabChange, onSearchOpen }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [theme, setTheme] = useState('light');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
