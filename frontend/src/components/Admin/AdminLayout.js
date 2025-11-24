@@ -51,6 +51,7 @@ const AdminLayout = ({ children, activeTab, onTabChange, onSearchOpen }) => {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'tickets', label: 'Chamados', icon: Bell, badge: 3 },
     { id: 'customers', label: 'Clientes', icon: Users },
+    { id: 'whatsapp', label: 'WhatsApp', icon: MessageSquare },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
     { id: 'knowledge', label: 'Base de Conhecimento', icon: Database },
     { id: 'history', label: 'Histórico', icon: MessageSquare },
