@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, AlertCircle } from 'lucide-react';
 import './TicketModal.css';
 
-const TicketModal = ({ isOpen, onClose, onSubmit }) => {
+const TicketModal = ({ isOpen, onClose, onSubmit, ticket }) => {
   const [formData, setFormData] = useState({
     titulo: '',
     descricao: '',
@@ -11,6 +11,28 @@ const TicketModal = ({ isOpen, onClose, onSubmit }) => {
     solicitante: '',
     email: ''
   });
+
+  useEffect(() => {
+    if (ticket) {
+      setFormData({
+        titulo: ticket.titulo || '',
+        descricao: ticket.descricao || '',
+        prioridade: ticket.prioridade || 'normal',
+        categoria: ticket.categoria || 'suporte',
+        solicitante: ticket.solicitante || '',
+        email: ticket.email || ''
+      });
+    } else {
+      setFormData({
+        titulo: '',
+        descricao: '',
+        prioridade: 'normal',
+        categoria: 'suporte',
+        solicitante: '',
+        email: ''
+      });
+    }
+  }, [ticket, isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
