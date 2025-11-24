@@ -59,7 +59,14 @@ export const MessageBubble = ({ message }) => {
       <div className="vingi-message__content">
         <div className="vingi-message__bubble">
           {message.text && (
-            <p className="vingi-message__text">{message.text}</p>
+            message.isHtml ? (
+              <div 
+                className="vingi-message__text vingi-message__text--html" 
+                dangerouslySetInnerHTML={{ __html: message.text }}
+              />
+            ) : (
+              <p className="vingi-message__text">{message.text}</p>
+            )
           )}
           
           {message.attachments && message.attachments.length > 0 && (
