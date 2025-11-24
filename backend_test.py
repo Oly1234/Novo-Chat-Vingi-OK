@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Configuration
-BASE_URL = "http://localhost:8001/api"
+BASE_URL = "https://aihelphub.preview.emergentagent.com/api"
 ADMIN_PASSWORD = "v1ng1t3x"
 
 class BackendTester:
