@@ -1,5 +1,5 @@
-// Firebase client-side configuration
-// This file is for future real-time features using Firebase SDK
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyASzNgH9ryGsnX8wX3iQGHFSGPAZV82F_Y",
@@ -10,4 +10,16 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:275665244985:web:df6890622859f6c57ecee8"
 };
 
-export default firebaseConfig;
+let app;
+let db;
+
+try {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  console.log('✓ Firebase inicializado com sucesso no frontend');
+} catch (error) {
+  console.error('✗ Erro ao inicializar Firebase:', error);
+}
+
+export { db, firebaseConfig };
+export default app;
