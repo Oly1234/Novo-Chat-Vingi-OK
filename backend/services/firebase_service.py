@@ -363,6 +363,73 @@ class FirebaseService:
         except Exception as e:
             print(f'Upload error: {e}')
             return None
+    
+    # Generic CRUD operations for any collection
+    async def create_document(self, collection: str, data: Dict, doc_id: str = None) -> str:
+        """Create a document in any collection"""
+        try:
+            if doc_id:
+                self.db.collection(collection).document(doc_id).set(data)
+                return doc_id
+            else:
+                doc_ref = self.db.collection(collection).add(data)
+                return doc_ref[1].id
+        except Exception as e:
+            print(f'Error creating document: {e}')
+            raise e
+    
+    async def get_document(self, collection: str, doc_id: str) -> Optional[Dict]:
+        """Get a single document from any collection"""
+        try:
+            doc = self.db.collection(collection).document(doc_id).get()
+            if doc.exists:
+                data = doc.to_dict()
+                data['id'] = doc.id
+                return data
+            return None
+        except Exception as e:
+            print(f'Error getting document: {e}')
+            return None
+    
+    async def get_documents(self, collection: str, filters: Dict = None, limit: int = 1000) -> List[Dict]:
+        """Get all documents from a collection with optional filters"""
+        try:
+            query = self.db.collection(collection)
+            
+            if filters:
+                for field, value in filters.items():
+                    query = query.where(field, '==', value)
+            
+            docs = query.limit(limit).stream()
+            
+            results = []
+            for doc in docs:
+                data = doc.to_dict()
+                data['id'] = doc.id
+                results.append(data)
+            
+            return results
+        except Exception as e:
+            print(f'Error getting documents: {e}')
+            return []
+    
+    async def update_document(self, collection: str, doc_id: str, data: Dict) -> bool:
+        """Update a document in any collection"""
+        try:
+            self.db.collection(collection).document(doc_id).update(data)
+            return True
+        except Exception as e:
+            print(f'Error updating document: {e}')
+            return False
+    
+    async def delete_document(self, collection: str, doc_id: str) -> bool:
+        """Delete a document from any collection"""
+        try:
+            self.db.collection(collection).document(doc_id).delete()
+            return True
+        except Exception as e:
+            print(f'Error deleting document: {e}')
+            return False
 
 # Singleton instance
 firebase_service = FirebaseService()
