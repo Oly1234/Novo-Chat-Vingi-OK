@@ -34,21 +34,23 @@ export const AdminDashboard = ({ onLogout }) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <AdvancedDashboard />;
+        return <AdvancedDashboard adminUser={adminUser} />;
       case 'tickets':
-        return <TicketsDashboard />;
+        return <TicketsDashboard adminUser={adminUser} />;
       case 'customers':
-        return <CustomersManager />;
+        return <CustomersManager adminUser={adminUser} />;
+      case 'whatsapp':
+        return <WhatsAppConfig adminUser={adminUser} />;
       case 'analytics':
         return <Analytics />;
       case 'knowledge':
-        return <KnowledgeBase />;
+        return <KnowledgeBase adminUser={adminUser} />;
       case 'history':
         return <SessionHistory />;
       case 'settings':
         return <SettingsPanel />;
       default:
-        return <AdvancedDashboard />;
+        return <AdvancedDashboard adminUser={adminUser} />;
     }
   };
 
