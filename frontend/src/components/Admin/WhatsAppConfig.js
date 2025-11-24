@@ -28,12 +28,13 @@ export const WhatsAppConfig = () => {
   };
 
   const addDepartment = () => {
-    setDepartments([...departments, {
-      name: '',
-      displayName: '',
-      phone: '',
-      message: ''
-    }]);
+    const newDept = { 
+      name: '', 
+      displayName: '', 
+      phone: '', 
+      message: 'Olá! Vim do chat online da Vingi Têxtil.' 
+    };
+    setDepartments([...departments, newDept]);
   };
 
   const updateDepartment = (index, field, value) => {
