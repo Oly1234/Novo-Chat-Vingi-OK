@@ -75,6 +75,38 @@ const CustomersManager = ({ adminUser }) => {
     }
   };
 
+  const handleSubmitCustomer = async (formData) => {
+    try {
+      const password = localStorage.getItem('adminPassword');
+      const url = selectedCustomer
+        ? `${process.env.REACT_APP_BACKEND_URL}/api/customers/${selectedCustomer.id}`
+        : `${process.env.REACT_APP_BACKEND_URL}/api/customers`;
+      
+      const response = await fetch(url, {
+        method: selectedCustomer ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': password
+        },
+        body: JSON.stringify({
+          ...formData,
+          addedBy: adminUser || 'Admin',
+          updatedBy: adminUser || 'Admin'
+        })
+      });
+
+      if (response.ok) {
+        await loadCustomers();
+        setShowModal(false);
+      } else {
+        alert('Erro ao salvar cliente');
+      }
+    } catch (error) {
+      console.error('Failed to save customer:', error);
+      alert('Erro ao salvar cliente');
+    }
+  };
+
   const filteredCustomers = customers.filter(customer => {
     const matchesSearch = 
       customer.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
