@@ -31,11 +31,16 @@ const CustomersManager = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setCustomers(data.customers || []);
+        setCustomers(Array.isArray(data.customers) ? data.customers : []);
         setStats(data.stats || { total: 0, active: 0, inactive: 0, vip: 0 });
+      } else {
+        setCustomers([]);
+        setStats({ total: 0, active: 0, inactive: 0, vip: 0 });
       }
     } catch (error) {
       console.error('Failed to load customers:', error);
+      setCustomers([]);
+      setStats({ total: 0, active: 0, inactive: 0, vip: 0 });
     } finally {
       setLoading(false);
     }
