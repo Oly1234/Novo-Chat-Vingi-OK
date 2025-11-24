@@ -105,6 +105,20 @@ try:
 except:
     HAS_TAGS = False
 
+# Try to import customers router
+try:
+    from routes.customers import router as customers_router
+    HAS_CUSTOMERS = True
+except:
+    HAS_CUSTOMERS = False
+
+# Try to import notifications router
+try:
+    from routes.notifications import router as notifications_router
+    HAS_NOTIFICATIONS = True
+except:
+    HAS_NOTIFICATIONS = False
+
 # Include routers
 api_router.include_router(chat_router)
 api_router.include_router(config_router)
@@ -119,6 +133,10 @@ if HAS_ANALYTICS:
     api_router.include_router(analytics_router)
 if HAS_TAGS:
     api_router.include_router(tags_router)
+if HAS_CUSTOMERS:
+    api_router.include_router(customers_router)
+if HAS_NOTIFICATIONS:
+    api_router.include_router(notifications_router)
 
 # Include the main router in the app
 app.include_router(api_router)
