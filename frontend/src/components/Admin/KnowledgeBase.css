@@ -1,3 +1,132 @@
+.kb-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kb-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-primary);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.kb-toolbar {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.kb-loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+}
+
+.kb-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.kb-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.kb-item:hover {
+  background: var(--bg-secondary);
+}
+
+.kb-item:last-child {
+  border-bottom: none;
+}
+
+.kb-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.kb-item-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.4;
+}
+
+.kb-item-text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: 1.6;
+}
+
+.kb-item-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.keyword-tag {
+  padding: 4px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.kb-item-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .kb-item {
+    flex-direction: column;
+  }
+  
+  .kb-item-actions {
+    align-self: flex-end;
+  }
+}
+
 .knowledge-base {
   max-width: 1400px;
   margin: 0 auto;
