@@ -35,35 +35,23 @@ export const ChatInput = () => {
     }
   };
 
-  const handleFileSelect = async (e) => {
-    const files = Array.from(e.target.files);
+  const handleFileSelect = async (file) => {
+    setIsUploading(true);
     
-    for (const file of files) {
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        alert(`Arquivo ${file.name} é muito grande. Máximo: 5MB`);
-        continue;
-      }
+    try {
+      // Upload para o backend
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('sessionId', sessionId);
 
-      // Validate file type
-      const validTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'image/png',
-        'image/jpeg',
-        'image/jpg'
-      ];
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/chat/upload`, {
+        method: 'POST',
+        body: formData
+      });
 
-      if (!validTypes.includes(file.type)) {
-        alert(`Tipo de arquivo ${file.name} não suportado`);
-        continue;
-      }
-
-      // Upload file
-      const uploadedFile = await uploadFile(file);
-      
-      if (uploadedFile) {
+      if (response.ok) {
+        const uploadedFile = await response.json();
+        
         addFile({
           id: Date.now() + Math.random(),
           file,
@@ -75,9 +63,12 @@ export const ChatInput = () => {
       } else {
         alert(`Falha ao fazer upload de ${file.name}`);
       }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Erro ao fazer upload do arquivo');
+    } finally {
+      setIsUploading(false);
     }
-
-    e.target.value = null;
   };
 
   const getFileIcon = (type) => {
