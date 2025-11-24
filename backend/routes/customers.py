@@ -27,13 +27,13 @@ async def get_customers(x_admin_password: str = Header(None)):
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     try:
-        customers = await get_documents('customers')
+        customers = await firebase_service.get_documents('customers')
         
         # Calculate stats
         total = len(customers)
-        active = len([c for c in customers if c.get('status') == 'active'])
-        inactive = len([c for c in customers if c.get('status') == 'inactive'])
-        vip = len([c for c in customers if 'VIP' in c.get('tags', [])])
+        active = len([c for c in customers if c.get('status') == 'ativo'])
+        inactive = len([c for c in customers if c.get('status') == 'inativo'])
+        vip = len([c for c in customers if c.get('status') == 'vip'])
         
         return {
             "customers": customers,
