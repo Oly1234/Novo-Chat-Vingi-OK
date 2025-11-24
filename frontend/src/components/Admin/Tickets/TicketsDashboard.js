@@ -57,11 +57,11 @@ const TicketsDashboard = () => {
     return badges[prioridade] || badges.normal;
   };
 
-  const filteredTickets = tickets.filter(ticket =>
+  const filteredTickets = Array.isArray(tickets) ? tickets.filter(ticket =>
     ticket.titulo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ticket.descricao?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ticket.numero?.toString().includes(searchTerm)
-  );
+  ) : [];
 
   if (loading && !stats) {
     return (
