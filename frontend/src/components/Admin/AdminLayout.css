@@ -416,6 +416,7 @@ body {
   gap: var(--spacing-md);
 }
 
+.search-btn,
 .notification-btn {
   position: relative;
   width: 44px;
@@ -431,6 +432,7 @@ body {
   transition: all 0.2s;
 }
 
+.search-btn:hover,
 .notification-btn:hover {
   background: var(--bg-tertiary);
   color: var(--text-primary);
