@@ -180,6 +180,8 @@ if HAS_AI_AGENTS:
     api_router.include_router(ai_agents_router)
 if HAS_SETTINGS:
     api_router.include_router(settings_router)
+if HAS_KNOWLEDGE:
+    api_router.include_router(knowledge_router)
 
 # Include the main router in the app
 app.include_router(api_router)
