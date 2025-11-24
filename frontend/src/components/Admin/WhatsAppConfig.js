@@ -116,11 +116,16 @@ export const WhatsAppConfig = () => {
                   onChange={(e) => updateDepartment(index, 'displayName', e.target.value)}
                 />
                 <Input
-                  label="Telefone (com DDD)"
-                  placeholder="5511999999999"
+                  label="Telefone WhatsApp (formato internacional)"
+                  placeholder="5511999999999 (código país + DDD + número)"
                   value={dept.phone}
                   onChange={(e) => updateDepartment(index, 'phone', e.target.value)}
                 />
+                {dept.phone && (
+                  <div style={{marginTop: '4px', fontSize: '12px', color: '#10b981'}}>
+                    ✓ Link: wa.me/{dept.phone}
+                  </div>
+                )}
                 <Input
                   label="Mensagem Padrão"
                   placeholder="Olá! Vim do chat..."
