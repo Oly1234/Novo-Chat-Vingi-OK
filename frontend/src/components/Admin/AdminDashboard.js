@@ -1,65 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './AdminLayout';
 import { KnowledgeBase } from './KnowledgeBase';
-import { QueueManagement } from './QueueManagement';
-import { Statistics } from './Statistics';
-import { WhatsAppConfig } from './WhatsAppConfig';
 import { SessionHistory } from './SessionHistory';
 import { Analytics } from './Analytics';
 import TicketsDashboard from './Tickets/TicketsDashboard';
 import CustomersManager from './Customers/CustomersManager';
+import AdvancedDashboard from './AdvancedDashboard';
+import SettingsPanel from './Settings/SettingsPanel';
 import NotificationCenter from './NotificationCenter';
+import GlobalSearch from './GlobalSearch';
 import { NotificationProvider } from '../../contexts/NotificationContext';
 
 export const AdminDashboard = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState('tickets');
-  const [stats, setStats] = useState(null);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [showSearch, setShowSearch] = useState(false);
 
+  // Atalho Ctrl+K para busca
   useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const fetchStats = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/stats`, {
-        headers: { 'X-Admin-Password': localStorage.getItem('adminPassword') }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setStats(data);
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowSearch(true);
       }
-    } catch (error) {
-      console.error('Failed to fetch stats:', error);
-    }
-  };
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'dashboard':
+        return <AdvancedDashboard />;
       case 'tickets':
         return <TicketsDashboard />;
-      case 'analytics':
-        return <Analytics />;
-      case 'dashboard':
-        return <Statistics stats={stats} />;
       case 'customers':
         return <CustomersManager />;
+      case 'analytics':
+        return <Analytics />;
       case 'knowledge':
         return <KnowledgeBase />;
       case 'history':
         return <SessionHistory />;
-      case 'whatsapp':
-        return <WhatsAppConfig />;
+      case 'settings':
+        return <SettingsPanel />;
       default:
-        return <TicketsDashboard />;
+        return <AdvancedDashboard />;
     }
   };
 
   return (
     <NotificationProvider>
-      <AdminLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      <AdminLayout 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab}
+        onSearchOpen={() => setShowSearch(true)}
+      >
         {renderContent()}
       </AdminLayout>
       <NotificationCenter />
+      <GlobalSearch isOpen={showSearch} onClose={() => setShowSearch(false)} />
     </NotificationProvider>
   );
 };
