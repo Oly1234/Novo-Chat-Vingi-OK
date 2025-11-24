@@ -24,8 +24,16 @@ export const ticketAPI = {
 
   // Update
   async updateTicket(ticketId, updateData, usuario = 'Admin') {
-    const response = await api.patch(`/tickets/${ticketId}`, updateData, {
+    const response = await api.put(`/tickets/${ticketId}`, updateData, {
       params: { usuario },
+      headers: { 'x-admin-password': localStorage.getItem('adminPassword') || '' }
+    });
+    return response.data;
+  },
+
+  // Delete
+  async deleteTicket(ticketId) {
+    const response = await api.delete(`/tickets/${ticketId}`, {
       headers: { 'x-admin-password': localStorage.getItem('adminPassword') || '' }
     });
     return response.data;
