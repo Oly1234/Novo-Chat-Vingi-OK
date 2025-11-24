@@ -7,6 +7,9 @@ import { WhatsAppConfig } from './WhatsAppConfig';
 import { SessionHistory } from './SessionHistory';
 import { Analytics } from './Analytics';
 import TicketsDashboard from './Tickets/TicketsDashboard';
+import CustomersManager from './Customers/CustomersManager';
+import NotificationCenter from './NotificationCenter';
+import { NotificationProvider } from '../../contexts/NotificationContext';
 
 export const AdminDashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('tickets');
@@ -38,8 +41,8 @@ export const AdminDashboard = ({ onLogout }) => {
         return <Analytics />;
       case 'dashboard':
         return <Statistics stats={stats} />;
-      case 'queue':
-        return <QueueManagement />;
+      case 'customers':
+        return <CustomersManager />;
       case 'knowledge':
         return <KnowledgeBase />;
       case 'history':
@@ -52,8 +55,11 @@ export const AdminDashboard = ({ onLogout }) => {
   };
 
   return (
-    <AdminLayout activeTab={activeTab} onTabChange={setActiveTab}>
-      {renderContent()}
-    </AdminLayout>
+    <NotificationProvider>
+      <AdminLayout activeTab={activeTab} onTabChange={setActiveTab}>
+        {renderContent()}
+      </AdminLayout>
+      <NotificationCenter />
+    </NotificationProvider>
   );
 };
