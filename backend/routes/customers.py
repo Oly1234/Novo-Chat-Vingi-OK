@@ -3,10 +3,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 import os
-from services.firebase_service import (
-    create_document, get_documents, get_document, 
-    update_document, delete_document
-)
+from services.firebase_service import firebase_service
 
 router = APIRouter(prefix="/customers", tags=["customers"])
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'v1ng1t3x')
