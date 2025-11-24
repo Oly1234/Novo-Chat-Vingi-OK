@@ -45,14 +45,23 @@ const TicketsDashboard = ({ adminUser }) => {
 
   const handleCreateTicket = async (formData) => {
     try {
-      await ticketAPI.createTicket({
-        ...formData,
-        criadoPor: adminUser || 'Admin'
-      });
+      if (selectedTicket) {
+        // Editar ticket existente
+        await ticketAPI.updateTicket(selectedTicket.id, {
+          ...formData,
+          atualizadoPor: adminUser || 'Admin'
+        });
+      } else {
+        // Criar novo ticket
+        await ticketAPI.createTicket({
+          ...formData,
+          criadoPor: adminUser || 'Admin'
+        });
+      }
       await loadData();
     } catch (error) {
-      console.error('Erro ao criar ticket:', error);
-      alert('Erro ao criar chamado');
+      console.error('Erro ao salvar ticket:', error);
+      alert('Erro ao salvar chamado');
     }
   };
 
