@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback, useRef } from 'react';
 import { chatAPI } from '../services/api';
+import { processWhatsAppRedirect } from '../utils/whatsappRedirect';
 
 const ChatContext = createContext();
 
