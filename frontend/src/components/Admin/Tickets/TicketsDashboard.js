@@ -97,7 +97,7 @@ const TicketsDashboard = ({ adminUser }) => {
           <h1 className="page-title">Chamados</h1>
           <p className="page-subtitle">Gerencie todas as solicitações de suporte</p>
         </div>
-        <Button icon={<Plus size={20} />} onClick={() => {}}>
+        <Button icon={<Plus size={20} />} onClick={() => setShowModal(true)}>
           Novo Chamado
         </Button>
       </div>
