@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from services.ai_agent_service import agent_router
 
-router = APIRouter(prefix="/api/ai-agents", tags=["ai-agents"])
+router = APIRouter(prefix="/ai-agents", tags=["ai-agents"])
 
 class AgentMessage(BaseModel):
     sessionId: str
