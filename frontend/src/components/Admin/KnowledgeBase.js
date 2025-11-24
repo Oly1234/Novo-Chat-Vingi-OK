@@ -62,9 +62,9 @@ export const KnowledgeBase = () => {
   const handleDelete = async (id) => {
     if (!confirm('Deseja realmente excluir este artigo?')) return;
     
-    try {
+    try:
       const password = localStorage.getItem('adminPassword');
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/admin/knowledge/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/knowledge/${id}`, {
         method: 'DELETE',
         headers: { 'X-Admin-Password': password }
       });
