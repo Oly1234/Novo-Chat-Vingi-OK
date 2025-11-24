@@ -166,6 +166,9 @@ const AdminLayout = ({ children, activeTab, onTabChange }) => {
           </div>
 
           <div className="header-actions">
+            <button className="search-btn" onClick={onSearchOpen} title="Buscar (Ctrl+K)">
+              <Search size={20} />
+            </button>
             <button className="notification-btn" onClick={() => setShowCenter(true)}>
               <Bell size={20} />
               {unreadCount > 0 && (
